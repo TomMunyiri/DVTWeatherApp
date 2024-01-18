@@ -22,9 +22,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        /*ksp {
-            arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
-        }*/
+        ksp {
+            //arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
+        }
     }
 
     buildTypes {
@@ -43,7 +43,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
         dataBinding = true
     }
@@ -63,8 +63,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     //hilt
     implementation(libs.hilt.android)
-    ksp(libs.androidx.hilt.compiler)
     ksp(libs.hilt.android.compiler)
+    ksp(libs.androidx.hilt.compiler)
     //work manager
     implementation(libs.work.runtime.ktx)
     // Optional testing dependency
@@ -83,6 +83,15 @@ dependencies {
     //room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    implementation(libs.room.compiler)
     ksp(libs.room.compiler)
+}
+
+class RoomSchemaArgProvider(
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val schemaDir: File
+) : CommandLineArgumentProvider {
+    override fun asArguments(): Iterable<String> {
+        return listOf("room.schemaLocation=${schemaDir.path}")
+    }
 }
