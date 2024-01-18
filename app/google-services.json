@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "26052467437",
+    "project_id": "dvt-weather-app-5a492",
+    "storage_bucket": "dvt-weather-app-5a492.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26052467437:android:ed7c5826c421f415c5cae4",
+        "android_client_info": {
+          "package_name": "com.tommunyiri.dvtweatherapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoNGr0frtCzmaW66xSA3kfraJIKgn9nTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

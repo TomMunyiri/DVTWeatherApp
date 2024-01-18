@@ -1,0 +1,12 @@
+package com.tommunyiri.dvtweatherapp.data.model
+
+/**
+ * Created by Tom Munyiri on 18/01/2024.
+ * Company: Eclectics International Ltd
+ * Email: munyiri.thomas@eclectics.io
+ */
+
+data class LocationModel(
+    val longitude: Double,
+    val latitude: Double
+)
