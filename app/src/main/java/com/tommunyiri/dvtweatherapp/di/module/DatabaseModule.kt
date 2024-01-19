@@ -25,7 +25,7 @@ class DatabaseModule {
         return Room.databaseBuilder(
             context,
             WeatherDatabase::class.java, "DVTWeather.db"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Singleton

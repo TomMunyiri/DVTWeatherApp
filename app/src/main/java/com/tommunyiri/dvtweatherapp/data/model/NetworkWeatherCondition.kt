@@ -1,6 +1,7 @@
 package com.tommunyiri.dvtweatherapp.data.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -13,5 +14,9 @@ import kotlinx.android.parcel.Parcelize
 data class NetworkWeatherCondition(
     var temp: Double,
     val pressure: Double,
-    val humidity: Double
+    val humidity: Double,
+    @SerializedName("temp_min")
+    var tempMin: Double,
+    @SerializedName("temp_max")
+    var tempMax: Double
 ) : Parcelable

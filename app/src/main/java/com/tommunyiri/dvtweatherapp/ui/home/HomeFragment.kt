@@ -18,6 +18,8 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
 import com.tommunyiri.dvtweatherapp.R
+import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherCondition
+import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
 import com.tommunyiri.dvtweatherapp.databinding.FragmentHomeBinding
 import com.tommunyiri.dvtweatherapp.ui.BaseFragment
 import com.tommunyiri.dvtweatherapp.ui.MainActivity
@@ -30,6 +32,7 @@ import com.tommunyiri.dvtweatherapp.utils.makeVisible
 import com.tommunyiri.dvtweatherapp.utils.observeOnce
 import com.tommunyiri.dvtweatherapp.worker.UpdateWeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -51,6 +54,11 @@ class HomeFragment : BaseFragment() {
                 this@HomeFragment.isGPSEnabled = isGPSEnabled
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        invokeLocationAction()
     }
 
     override fun onCreateView(
@@ -76,6 +84,41 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun adaptUIWithCurrentWeather(condition: String?) {
+        if (condition != null) {
+            when {
+                condition.contains("cloud", true) -> {
+                    binding.apply {
+                        swipeRefreshId.setBackgroundColor(
+                            ContextCompat.getColor(requireContext(), R.color.cloudy)
+                        )
+                        ivCurrentWeather.setImageResource(R.drawable.forest_cloudy)
+                    }
+                }
+
+                condition.contains("rain", true)
+                        || condition.contains("snow", true)
+                        || condition.contains("mist", true)-> {
+                    binding.apply {
+                        swipeRefreshId.setBackgroundColor(
+                            ContextCompat.getColor(requireContext(), R.color.rainy)
+                        )
+                        ivCurrentWeather.setImageResource(R.drawable.forest_rainy)
+                    }
+                }
+
+                else -> {
+                    binding.apply {
+                        swipeRefreshId.setBackgroundColor(
+                            ContextCompat.getColor(requireContext(), R.color.sunny)
+                        )
+                        ivCurrentWeather.setImageResource(R.drawable.forest_sunny)
+                    }
+                }
+            }
+        }
+    }
+
     private fun observeViewModels() {
         with(viewModel) {
             weather.observe(viewLifecycleOwner) { weather ->
@@ -88,6 +131,7 @@ class HomeFragment : BaseFragment() {
 
                     binding.weather = it
                     binding.networkWeatherDescription = it.networkWeatherDescription.first()
+                    adaptUIWithCurrentWeather(it.networkWeatherDescription.first().main)
                 }
             }
 
@@ -190,10 +234,8 @@ class HomeFragment : BaseFragment() {
                 viewModel.fetchLocationLiveData().observeOnce(
                     viewLifecycleOwner
                 ) { location ->
-                    if (location != null) {
-                        viewModel.getWeather(location)
-                        setupWorkManager()
-                    }
+                    viewModel.getWeather(location)
+                    setupWorkManager()
                 }
             }
 
@@ -225,7 +267,7 @@ class HomeFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).apply {
-            //hideToolBar()
+            hideToolBar()
         }
     }
 

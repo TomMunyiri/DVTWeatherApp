@@ -14,7 +14,7 @@ import com.tommunyiri.dvtweatherapp.utils.typeconverters.ListNetworkWeatherDescr
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-@Database(entities = [DBWeather::class, DBWeatherForecast::class], version = 1, exportSchema = true)
+@Database(entities = [DBWeather::class, DBWeatherForecast::class], version = 2, exportSchema = true)
 @TypeConverters(
     ListNetworkWeatherDescriptionConverter::class
 )

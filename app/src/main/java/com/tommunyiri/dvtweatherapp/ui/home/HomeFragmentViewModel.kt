@@ -97,6 +97,10 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
                         val weather = result.data.apply {
                             this.networkWeatherCondition.temp =
                                 convertKelvinToCelsius(this.networkWeatherCondition.temp)
+                            this.networkWeatherCondition.tempMax =
+                                convertKelvinToCelsius(this.networkWeatherCondition.tempMax)
+                            this.networkWeatherCondition.tempMin =
+                                convertKelvinToCelsius(this.networkWeatherCondition.tempMin)
                         }
                         _dataFetchState.value = true
                         _weather.value = weather

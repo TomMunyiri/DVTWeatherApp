@@ -72,7 +72,6 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/weather_image_content_description"
                     android:scaleType="fitXY"
-                    android:src="@drawable/forest_sunny"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -121,6 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@{networkWeatherDescription.main}"
+                    android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -132,12 +132,14 @@
                     android:id="@+id/tvMinTemp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:padding="10dp"
-                    android:text="19\u2103\nmin"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivCurrentWeather" />
+                    app:layout_constraintTop_toBottomOf="@+id/ivCurrentWeather"
+                    app:setMinTemperature="@{weather.networkWeatherCondition.tempMin}"
+                    tools:text="19\u2103\nmin" />
 
                 <TextView
                     android:id="@+id/tvCurrentTemp"
@@ -145,23 +147,26 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:padding="10dp"
-                    android:text="25\u2103\nCurrent"
                     android:textColor="@color/white"
                     android:textSize="22sp"
                     app:layout_constraintEnd_toStartOf="@+id/tvMaxTemp"
                     app:layout_constraintStart_toEndOf="@+id/tvMinTemp"
-                    app:layout_constraintTop_toBottomOf="@+id/ivCurrentWeather" />
+                    app:layout_constraintTop_toBottomOf="@+id/ivCurrentWeather"
+                    app:setCurrentTemperature="@{weather.networkWeatherCondition.temp}"
+                    tools:text="25\u2103\ncurrent" />
 
                 <TextView
                     android:id="@+id/tvMaxTemp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:padding="10dp"
-                    android:text="27\u2103\nmax"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivCurrentWeather" />
+                    app:layout_constraintTop_toBottomOf="@+id/ivCurrentWeather"
+                    app:setMaxTemperature="@{weather.networkWeatherCondition.tempMax}"
+                    tools:text="27\u2103\nmax" />
 
                 <View
                     android:id="@+id/separator"

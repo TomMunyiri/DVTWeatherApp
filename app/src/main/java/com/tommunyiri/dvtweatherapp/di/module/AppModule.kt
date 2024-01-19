@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
+import com.readystatesoftware.chuck.ChuckInterceptor
 import com.tommunyiri.dvtweatherapp.BuildConfig
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper

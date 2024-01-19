@@ -28,3 +28,48 @@ fun TextView.setTemperature(double: Double) {
     else
         this.text = double.toString() + context.resources.getString(R.string.temp_symbol_celsius)
 }
+
+@BindingAdapter("setMinTemperature")
+fun TextView.setMinTemperature(double: Double) {
+    val context = this.context
+    if (SharedPreferenceHelper.getInstance(context)
+            .getSelectedTemperatureUnit() == context.getString(
+            R.string.temp_unit_fahrenheit
+        )
+    )
+        this.text =
+            "${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\nmin"
+    else
+        this.text =
+            "${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\nmin"
+}
+
+@BindingAdapter("setMaxTemperature")
+fun TextView.setMaxTemperature(double: Double) {
+    val context = this.context
+    if (SharedPreferenceHelper.getInstance(context)
+            .getSelectedTemperatureUnit() == context.getString(
+            R.string.temp_unit_fahrenheit
+        )
+    )
+        this.text =
+            "${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\nmax"
+    else
+        this.text =
+            "${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\nmax"
+}
+
+@BindingAdapter("setCurrentTemperature")
+fun TextView.setCurrentTemperature(double: Double) {
+    val context = this.context
+    if (SharedPreferenceHelper.getInstance(context)
+            .getSelectedTemperatureUnit() == context.getString(
+            R.string.temp_unit_fahrenheit
+        )
+    )
+        this.text =
+            "${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\ncurrent"
+    else
+        this.text =
+            "${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\ncurrent"
+}

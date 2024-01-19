@@ -33,7 +33,7 @@ class NotificationHelper(private val message: String, private val context: Conte
         }
 
         val pendingIntent =
-            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.getActivity(context, 0, intent, 0)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.mipmap.new_ic_launcher)
