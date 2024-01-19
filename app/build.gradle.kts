@@ -34,7 +34,11 @@ android {
 
         buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
         buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
-        buildConfigField("String", "ALGOLIA_INDEX_NAME", properties.getProperty("ALGOLIA_INDEX_NAME"))
+        buildConfigField(
+            "String",
+            "ALGOLIA_INDEX_NAME",
+            properties.getProperty("ALGOLIA_INDEX_NAME")
+        )
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
 
     }
@@ -58,7 +62,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
-        buildConfig  = true
+        buildConfig = true
     }
 }
 
@@ -103,6 +107,9 @@ dependencies {
     implementation(libs.gms.play.location)
     //timber
     implementation(libs.timber)
+    // Navigation Components
+    implementation(libs.navigation.ui.ktx)
+    implementation(libs.navigation.fragment.ktx)
 }
 
 class RoomSchemaArgProvider(
