@@ -1,9 +1,10 @@
 package com.tommunyiri.dvtweatherapp.di.module
 
+//import com.readystatesoftware.chuck.ChuckInterceptor
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
-import com.readystatesoftware.chuck.ChuckInterceptor
 import com.tommunyiri.dvtweatherapp.BuildConfig
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
@@ -97,7 +98,7 @@ class AppModule {
                     .addQueryParameter("appid", BuildConfig.API_KEY)
                     .build()
 
-                Timber.d("Started making network call")
+                Timber.d( "Started making network call")
 
                 val requestBuilder = original.newBuilder()
                     .url(url)
@@ -107,7 +108,11 @@ class AppModule {
             }
             .readTimeout(60, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG) {
-            okHttpClientBuilder.addInterceptor(ChuckInterceptor(context))
+            val loggingInterceptor = HttpLoggingInterceptor()
+            // set your desired log level
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            //okHttpClientBuilder.addInterceptor(ChuckInterceptor(context))
+            okHttpClientBuilder.addInterceptor(loggingInterceptor)
         }
         return retrofitBuilder.client(okHttpClientBuilder.build()).build()
     }

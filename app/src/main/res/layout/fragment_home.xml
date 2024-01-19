@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/sunny"
-    tools:context=".ui.home.HomeFragment">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="weather"
+            type="com.tommunyiri.dvtweatherapp.data.model.Weather" />
+
+        <variable
+            name="viewModel"
+            type="com.tommunyiri.dvtweatherapp.ui.home.HomeFragmentViewModel" />
+
+        <variable
+            name="networkWeatherDescription"
+            type="com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription" />
+    </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_id"
@@ -70,48 +81,52 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="Nairobi"
+                    android:text="@{weather.name}"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Nairobi" />
 
                 <TextView
                     android:id="@+id/tvDateText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="SUNDAY 6:00 AM"
+                    android:text="@{viewModel.time}"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvWeatherInText" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvWeatherInText"
+                    tools:text="SUNDAY 6:00 AM" />
 
                 <TextView
                     android:id="@+id/tvWeatherTemperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="25\u2103"
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDateText" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDateText"
+                    app:setTemperature="@{weather.networkWeatherCondition.temp}"
+                    tools:text="25\u2103" />
 
                 <TextView
                     android:id="@+id/tvWeatherMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="SUNNY"
+                    android:text="@{networkWeatherDescription.main}"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvWeatherTemperature" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvWeatherTemperature"
+                    tools:text="SUNNY" />
 
                 <TextView
                     android:id="@+id/tvMinTemp"
@@ -149,6 +164,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/ivCurrentWeather" />
 
                 <View
+                    android:id="@+id/separator"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/white"
@@ -157,4 +173,4 @@
         </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

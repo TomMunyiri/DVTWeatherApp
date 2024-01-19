@@ -1,0 +1,30 @@
+package com.tommunyiri.dvtweatherapp.utils
+
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
+import com.tommunyiri.dvtweatherapp.R
+
+
+/**
+ * Created by Tom Munyiri on 19/01/2024.
+ * Company: Eclectics International Ltd
+ * Email: munyiri.thomas@eclectics.io
+ */
+/*@BindingAdapter("setIcon")
+fun WeatherIconView.showIcon(condition: String?) {
+    val context = this.context
+    WeatherIconGenerator.getIconResources(context, this, condition)
+}*/
+
+@BindingAdapter("setTemperature")
+fun TextView.setTemperature(double: Double) {
+    val context = this.context
+    if (SharedPreferenceHelper.getInstance(context)
+            .getSelectedTemperatureUnit() == context.getString(
+            R.string.temp_unit_fahrenheit
+        )
+    )
+        this.text = double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)
+    else
+        this.text = double.toString() + context.resources.getString(R.string.temp_symbol_celsius)
+}
