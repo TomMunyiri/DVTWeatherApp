@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.databinding.FragmentHomeBinding
 import com.tommunyiri.dvtweatherapp.ui.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {

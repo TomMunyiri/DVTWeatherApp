@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
+    implementation(libs.androidx.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -110,6 +111,8 @@ dependencies {
     // Navigation Components
     implementation(libs.navigation.ui.ktx)
     implementation(libs.navigation.fragment.ktx)
+    //lifecycle livedata ktx
+    implementation(libs.lifecycle.livedata.ktx)
 }
 
 class RoomSchemaArgProvider(
