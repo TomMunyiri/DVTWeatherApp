@@ -6,6 +6,10 @@ import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.source.local.WeatherLocalDataSource
 import com.tommunyiri.dvtweatherapp.data.source.remote.WeatherRemoteDataSource
 import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
+import com.tommunyiri.dvtweatherapp.mapper.WeatherForecastMapperLocal
+import com.tommunyiri.dvtweatherapp.mapper.WeatherForecastMapperRemote
+import com.tommunyiri.dvtweatherapp.mapper.WeatherMapperLocal
+import com.tommunyiri.dvtweatherapp.mapper.WeatherMapperRemote
 import com.tommunyiri.dvtweatherapp.utils.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
