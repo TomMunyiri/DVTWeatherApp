@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -25,6 +28,15 @@ android {
         ksp {
             //arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
         }
+
+        val properties = Properties()
+        properties.load(rootProject.file("local.properties").inputStream())
+
+        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+        buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
+        buildConfigField("String", "ALGOLIA_INDEX_NAME", properties.getProperty("ALGOLIA_INDEX_NAME"))
+        buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+
     }
 
     buildTypes {
@@ -46,6 +58,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig  = true
     }
 }
 
@@ -84,6 +97,12 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
+    //preferences
+    implementation(libs.androidx.preference)
+    //gms location services
+    implementation(libs.gms.play.location)
+    //timber
+    implementation(libs.timber)
 }
 
 class RoomSchemaArgProvider(

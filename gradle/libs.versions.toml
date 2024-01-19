@@ -28,6 +28,12 @@ gson = "2.10.1"
 #room
 room = "2.6.1"
 coroutines = "1.7.1"
+#preferences
+preferences = "1.2.1"
+#google play gms location services
+google-play-location-services = "21.0.1"
+#timber
+timber = "4.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -65,6 +71,12 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+#preferences
+androidx-preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferences" }
+#gms play location services
+gms-play-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "google-play-location-services" }
+#timber
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
