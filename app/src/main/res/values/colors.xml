@@ -5,4 +5,12 @@
     <color name="sunny">#47AB2F</color>
     <color name="cloudy">#54717A</color>
     <color name="rainy">#57575D</color>
+
+    <color name="primaryColor">#1976D2</color>
+    <color name="primaryLightColor">#63A4FF</color>
+    <color name="primaryDarkColor">#004ba0</color>
+    <color name="primaryTextColor">#FFFFFF</color>
+    <color name="accentColor">#E1E2E1</color>
+
+    <color name="colorBottomSheetDialog">#1976d2</color>
 </resources>

@@ -34,6 +34,7 @@ android {
 
         buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
         buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
+        buildConfigField("String", "ALGOLIA_API_KEY", properties.getProperty("ALGOLIA_API_KEY"))
         buildConfigField(
             "String",
             "ALGOLIA_INDEX_NAME",
