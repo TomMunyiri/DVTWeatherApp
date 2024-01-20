@@ -113,6 +113,10 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     //lifecycle livedata ktx
     implementation(libs.lifecycle.livedata.ktx)
+    //algolia search
+    implementation(libs.algolia)
+    //paging
+    implementation(libs.androidx.paging)
 }
 
 class RoomSchemaArgProvider(
