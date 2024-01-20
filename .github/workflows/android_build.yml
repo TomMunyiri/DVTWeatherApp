@@ -16,11 +16,11 @@ jobs:
       - uses: actions/checkout@v4.1.0
       - name: Create Properties File
         env:
-          BASE_URL: ${{ DVT_WEATHER_SECRETS.BASE_URL }}
-          API_KEY: ${{ DVT_WEATHER_SECRETS.APIKEY }}
-          ALGOLIA_API_KEY: ${{ DVT_WEATHER_SECRETS.ALGOLIAAPIKEY }}
-          ALGOLIA_APP_ID: ${{ DVT_WEATHER_SECRETS.ALGOLIAAPPID }}
-          ALGOLIA_INDEX_NAME: ${{ DVT_WEATHER_SECRETS.ALGOLIA_INDEX_NAME }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_KEY: ${{ secrets.APIKEY }}
+          ALGOLIA_API_KEY: ${{ secrets.ALGOLIAAPIKEY }}
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIAAPPID }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
         run: |
           touch local.properties
           echo "BASE_URL=$BASE_URL" >> local.properties
