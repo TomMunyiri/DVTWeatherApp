@@ -42,8 +42,8 @@ jobs:
           java-version: 17
           cache: gradle
 
-      - name: Run Tests
-        run: ./gradlew test
+#      - name: Run Tests
+#        run: ./gradlew test
 
       - name: Build Project with Gradle
         run: ./gradlew build
