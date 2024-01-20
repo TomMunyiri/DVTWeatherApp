@@ -16,7 +16,7 @@ plugins {
 
 android {
     val properties = Properties()
-    properties.load(rootProject.file("local.properties").inputStream())
+    properties.load(rootProject.file("./local.properties").inputStream())
     namespace = "com.tommunyiri.dvtweatherapp"
     compileSdk = 34
 
