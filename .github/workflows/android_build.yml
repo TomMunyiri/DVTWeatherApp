@@ -23,11 +23,11 @@ jobs:
           ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
         run: |
           touch local.properties
-          echo "BASE_URL=$BASE_URL" > local.properties
-          echo "API_KEY=$API_KEY" > local.properties
-          echo "ALGOLIA_API_KEY=$ALGOLIA_API_KEY" > local.properties
-          echo "ALGOLIA_APP_ID=$ALGOLIA_APP_ID" > local.properties
-          echo "ALGOLIA_INDEX_NAME=$ALGOLIA_INDEX_NAME" > local.properties
+          echo "BASE_URL=$BASE_URL" >> local.properties
+          echo "API_KEY=$API_KEY" >> local.properties
+          echo "ALGOLIA_API_KEY=$ALGOLIA_API_KEY" >> local.properties
+          echo "ALGOLIA_APP_ID=$ALGOLIA_APP_ID" >> local.properties
+          echo "ALGOLIA_INDEX_NAME=$ALGOLIA_INDEX_NAME" >> local.properties
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4.0.0
