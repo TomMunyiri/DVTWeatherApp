@@ -32,6 +32,8 @@ interface WeatherApiService {
     // This function gets the weather forecast information for the user's location.
     @GET("data/2.5/forecast")
     suspend fun getWeatherForecast(
-        @Query("id") cityId: Int
+        //@Query("id") cityId: Int
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double
     ): Response<NetworkWeatherForecastResponse>
 }

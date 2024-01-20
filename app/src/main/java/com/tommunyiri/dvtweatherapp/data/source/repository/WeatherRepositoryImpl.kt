@@ -20,7 +20,7 @@ import javax.inject.Inject
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-class WeatherRepositoryImpl@Inject constructor(
+class WeatherRepositoryImpl @Inject constructor(
     private val remoteDataSource: WeatherRemoteDataSource,
     private val localDataSource: WeatherLocalDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
@@ -55,13 +55,14 @@ class WeatherRepositoryImpl@Inject constructor(
             }
         }
 
+    //override suspend fun getForecastWeather(cityId: Int, refresh: Boolean): Result<List<WeatherForecast>?> = withContext(ioDispatcher) {
     override suspend fun getForecastWeather(
-        cityId: Int,
+        location: LocationModel,
         refresh: Boolean
     ): Result<List<WeatherForecast>?> = withContext(ioDispatcher) {
         if (refresh) {
             val mapper = WeatherForecastMapperRemote()
-            when (val response = remoteDataSource.getWeatherForecast(cityId)) {
+            when (val response = remoteDataSource.getWeatherForecast(location)) {
                 is Result.Success -> {
                     if (response.data != null) {
                         Result.Success(mapper.transformToDomain(response.data))
@@ -113,9 +114,11 @@ class WeatherRepositoryImpl@Inject constructor(
                         Result.Success(null)
                     }
                 }
+
                 is Result.Error -> {
                     Result.Error(response.exception)
                 }
+
                 else -> {
                     Result.Loading
                 }

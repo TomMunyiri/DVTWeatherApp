@@ -14,7 +14,8 @@ import com.tommunyiri.dvtweatherapp.utils.Result
 interface WeatherRemoteDataSource {
     suspend fun getWeather(location: LocationModel): Result<NetworkWeather>
 
-    suspend fun getWeatherForecast(cityId: Int): Result<List<NetworkWeatherForecast>>
+    //suspend fun getWeatherForecast(cityId: Int): Result<List<NetworkWeatherForecast>>
+    suspend fun getWeatherForecast(location: LocationModel): Result<List<NetworkWeatherForecast>>
 
     suspend fun getSearchWeather(query: String): Result<NetworkWeather>
 }

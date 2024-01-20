@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -17,6 +18,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherCondition
 import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
@@ -76,11 +78,54 @@ class HomeFragment : BaseFragment() {
         hideAllViews(true)
         observeViewModels()
         binding.swipeRefreshId.setOnRefreshListener {
-            binding.errorText.visibility = View.GONE
-            binding.progressBar.visibility = View.VISIBLE
+            binding.errorText.makeGone()
+            binding.progressBar.makeVisible()
             hideViews()
             initiateRefresh()
             binding.swipeRefreshId.isRefreshing = false
+        }
+    }
+
+    private fun getWeatherForecast() {
+        //viewModel.getWeatherForecast(prefs.getCityId())
+        binding.rvForecast.makeGone()
+        binding.pbForecast.makeVisible()
+        viewModel.fetchLocationLiveData().observeOnce(
+            viewLifecycleOwner
+        ) { location ->
+            viewModel.getWeatherForecast(location)
+            observeMoreViewModels()
+        }
+    }
+
+    private fun observeMoreViewModels() {
+        with(viewModel) {
+            forecast.observe(viewLifecycleOwner) { weatherForecast ->
+                weatherForecast?.let { list ->
+                    weatherForecast.forEach {
+                        if (prefs.getSelectedTemperatureUnit() == requireActivity().resources.getString(
+                                R.string.temp_unit_fahrenheit
+                            )
+                        )
+                            it.networkWeatherCondition.temp =
+                                convertCelsiusToFahrenheit(it.networkWeatherCondition.temp)
+                    }
+                    Timber.d("Forecast: ${Gson().toJson(list)}")
+                    //weatherForecastAdapter.submitList(list)
+                }
+            }
+
+            dataFetchStateForecast.observe(viewLifecycleOwner) { state ->
+                binding.apply {
+                    rvForecast.isVisible = state
+                    forecastErrorText.isVisible = !state
+                }
+            }
+
+            isForecastLoading.observe(viewLifecycleOwner) { state ->
+                binding.pbForecast.isVisible = state
+            }
+
         }
     }
 
@@ -98,7 +143,7 @@ class HomeFragment : BaseFragment() {
 
                 condition.contains("rain", true)
                         || condition.contains("snow", true)
-                        || condition.contains("mist", true)-> {
+                        || condition.contains("mist", true) -> {
                     binding.apply {
                         swipeRefreshId.setBackgroundColor(
                             ContextCompat.getColor(requireContext(), R.color.rainy)
@@ -132,6 +177,7 @@ class HomeFragment : BaseFragment() {
                     binding.weather = it
                     binding.networkWeatherDescription = it.networkWeatherDescription.first()
                     adaptUIWithCurrentWeather(it.networkWeatherDescription.first().main)
+                    getWeatherForecast()
                 }
             }
 
@@ -193,6 +239,8 @@ class HomeFragment : BaseFragment() {
             tvMinTemp.makeGone()
             tvCurrentTemp.makeGone()
             ivCurrentWeather.makeGone()
+            rvForecast.makeGone()
+            pbForecast.makeGone()
         }
     }
 
@@ -224,6 +272,8 @@ class HomeFragment : BaseFragment() {
                 tvMinTemp.makeGone()
                 tvCurrentTemp.makeGone()
                 ivCurrentWeather.makeGone()
+                rvForecast.makeGone()
+                pbForecast.makeGone()
             }
         }
     }
@@ -327,7 +377,7 @@ class HomeFragment : BaseFragment() {
             .build()
 
         val weatherUpdateRequest =
-            PeriodicWorkRequestBuilder<UpdateWeatherWorker>(6, TimeUnit.HOURS)
+            PeriodicWorkRequestBuilder<UpdateWeatherWorker>(5, TimeUnit.MINUTES)
                 .setConstraints(constraint)
                 .setInitialDelay(6, TimeUnit.HOURS)
                 .build()

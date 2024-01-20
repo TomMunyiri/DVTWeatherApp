@@ -36,10 +36,11 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
             }
         }
 
-    override suspend fun getWeatherForecast(cityId: Int): Result<List<NetworkWeatherForecast>> =
+    //override suspend fun getWeatherForecast(cityId: Int): Result<List<NetworkWeatherForecast>> =
+    override suspend fun getWeatherForecast(location: LocationModel): Result<List<NetworkWeatherForecast>> =
         withContext(ioDispatcher) {
             return@withContext try {
-                val result = apiService.getWeatherForecast(cityId)
+                val result = apiService.getWeatherForecast(location.latitude, location.longitude)
                 if (result.isSuccessful) {
                     val networkWeatherForecast = result.body()?.weathers
                     Result.Success(networkWeatherForecast)

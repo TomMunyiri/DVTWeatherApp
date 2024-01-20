@@ -24,7 +24,8 @@ class UpdateWeatherWorker(context: Context, params: WorkerParameters, private va
                 if (result.data != null) {
                     when (
                         val foreResult =
-                            repository.getForecastWeather(result.data.cityId, true)
+                            //repository.getForecastWeather(result.data.cityId, true)
+                            repository.getForecastWeather(location, true)
                     ) {
                         is Success -> {
                             if (foreResult.data != null) {

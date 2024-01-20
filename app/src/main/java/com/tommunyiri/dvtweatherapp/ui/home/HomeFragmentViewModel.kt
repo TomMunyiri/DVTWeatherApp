@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tommunyiri.dvtweatherapp.data.model.LocationModel
 import com.tommunyiri.dvtweatherapp.data.model.Weather
+import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.source.repository.WeatherRepository
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
 import kotlinx.coroutines.launch
@@ -15,6 +16,8 @@ import javax.inject.Inject
 import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
+import com.tommunyiri.dvtweatherapp.utils.formatDate
+import timber.log.Timber
 
 
 /**
@@ -44,6 +47,81 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
     val time = currentSystemTime()
 
     fun fetchLocationLiveData() = locationLiveData
+
+    private val _forecast = MutableLiveData<List<WeatherForecast>?>()
+    val forecast = _forecast.asLiveData()
+
+    private val _isForecastLoading = MutableLiveData<Boolean>()
+    val isForecastLoading = _isForecastLoading.asLiveData()
+
+    private val _dataFetchStateForecast = MutableLiveData<Boolean>()
+    val dataFetchStateForecast = _dataFetchStateForecast.asLiveData()
+
+    /**
+     *This attempts to get the [WeatherForecast] from the local data source,
+     * if the result is null, it gets from the remote source.
+     * @see refreshForecastData
+     */
+    //fun getWeatherForecast(cityId: Int?) {
+    fun getWeatherForecast(location: LocationModel ) {
+        _isForecastLoading.value = true
+        viewModelScope.launch {
+            when (val result = repository.getForecastWeather(location, false)) {
+                is Result.Success -> {
+                    Timber.d("VMForecast: ${result.data}")
+                    _isForecastLoading.postValue(false)
+                    if (!result.data.isNullOrEmpty()) {
+                        val forecasts = result.data
+                        _dataFetchStateForecast.value = true
+                        _forecast.value = forecasts
+                    } else {
+                        refreshForecastData(location)
+                        //refreshForecastData(cityId)
+                    }
+                }
+
+                is Result.Loading -> {
+                    _isForecastLoading.postValue(true)
+                    Timber.d("VMForecast: $result")
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    //fun refreshForecastData(cityId: Int?) {
+    fun refreshForecastData(location: LocationModel) {
+        _isForecastLoading.value = true
+        viewModelScope.launch {
+            when (val result = repository.getForecastWeather(location, true)) {
+                is Result.Success -> {
+                    _isForecastLoading.postValue(false)
+                    if (result.data != null) {
+                        val forecast = result.data.onEach { forecast ->
+                            forecast.networkWeatherCondition.temp =
+                                convertKelvinToCelsius(forecast.networkWeatherCondition.temp)
+                            forecast.date = forecast.date.formatDate()
+                        }
+                        _forecast.postValue(forecast)
+                        _dataFetchStateForecast.postValue(true)
+                        repository.deleteForecastData()
+                        repository.storeForecastData(forecast)
+                    } else {
+                        _dataFetchStateForecast.postValue(false)
+                        _forecast.postValue(null)
+                    }
+                }
+
+                is Result.Error -> {
+                    _dataFetchStateForecast.value = false
+                    _isForecastLoading.value = false
+                }
+
+                is Result.Loading -> _isForecastLoading.postValue(true)
+            }
+        }
+    }
 
     /**
      *This attempts to get the [Weather] from the local data source,
