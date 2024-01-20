@@ -29,8 +29,8 @@ jobs:
           echo "ALGOLIA_APP_ID=$ALGOLIA_APP_ID" >> local.properties
           echo "ALGOLIA_INDEX_NAME=$ALGOLIA_INDEX_NAME" >> local.properties
 
-      - name: Print local.properties
-        run: cat local.properties
+#      - name: Print local.properties
+#        run: cat local.properties
 
 #      - name: Clean Gradle Build Cache
 #        run: ./gradlew cleanBuildCache

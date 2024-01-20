@@ -18,7 +18,7 @@ import javax.inject.Inject
  * Email: munyiri.thomas@eclectics.io
  */
 @HiltAndroidApp
-class DVTWeatherApplication : Application(), Configuration.Provider {
+class DVTWeatherApplication() : Application(), Configuration.Provider {
     @Inject
     lateinit var weatherRepository: WeatherRepository
     override fun onCreate() {
@@ -38,14 +38,9 @@ class DVTWeatherApplication : Application(), Configuration.Provider {
         }
     }
 
-    override fun getWorkManagerConfiguration(): Configuration {
-        val myWorkerFactory = DelegatingWorkerFactory()
-        myWorkerFactory.addFactory(MyWorkerFactory(weatherRepository))
-        // Add here other factories that you may need in this application
-
-        return Configuration.Builder()
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
             .setMinimumLoggingLevel(Log.INFO)
-            .setWorkerFactory(myWorkerFactory)
+            .setWorkerFactory(MyWorkerFactory(weatherRepository))
             .build()
-    }
 }
