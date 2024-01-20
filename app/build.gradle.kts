@@ -15,6 +15,8 @@ plugins {
 }
 
 android {
+    val properties = Properties()
+    properties.load(rootProject.file("local.properties").inputStream())
     namespace = "com.tommunyiri.dvtweatherapp"
     compileSdk = 34
 
@@ -31,9 +33,6 @@ android {
             //arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
             arg("room.schemaLocation", "$projectDir/schemas")
         }
-
-        val properties = Properties()
-        properties.load(rootProject.file("local.properties").inputStream())
 
         buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
         buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
@@ -53,6 +52,26 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+            buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
+            buildConfigField("String", "ALGOLIA_API_KEY", properties.getProperty("ALGOLIA_API_KEY"))
+            buildConfigField(
+                "String",
+                "ALGOLIA_INDEX_NAME",
+                properties.getProperty("ALGOLIA_INDEX_NAME")
+            )
+            buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+        }
+        debug {
+            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+            buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
+            buildConfigField("String", "ALGOLIA_API_KEY", properties.getProperty("ALGOLIA_API_KEY"))
+            buildConfigField(
+                "String",
+                "ALGOLIA_INDEX_NAME",
+                properties.getProperty("ALGOLIA_INDEX_NAME")
+            )
+            buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
         }
     }
     compileOptions {
