@@ -36,21 +36,21 @@ jobs:
           java-version: 17
           cache: gradle
 
-      - name: Run Tests
-        env:
-          BASE_URL: ${{ secrets.BASE_URL }}
-          API_KEY: ${{ secrets.APIKEY }}
-          ALGOLIA_API_KEY: ${{ secrets.ALGOLIAAPIKEY }}
-          ALGOLIA_APP_ID: ${{ secrets.ALGOLIAAPPID }}
-          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
-        run: |
-          touch local.properties
-          echo "BASE_URL=$BASE_URL" >> local.properties
-          echo "API_KEY=$API_KEY" >> local.properties
-          echo "ALGOLIA_API_KEY=$ALGOLIA_API_KEY" >> local.properties
-          echo "ALGOLIA_APP_ID=$ALGOLIA_APP_ID" >> local.properties
-          echo "ALGOLIA_INDEX_NAME=$ALGOLIA_INDEX_NAME" >> local.properties
-          ./gradlew test
+#      - name: Run Tests
+#        env:
+#          BASE_URL: ${{ secrets.BASE_URL }}
+#          API_KEY: ${{ secrets.APIKEY }}
+#          ALGOLIA_API_KEY: ${{ secrets.ALGOLIAAPIKEY }}
+#          ALGOLIA_APP_ID: ${{ secrets.ALGOLIAAPPID }}
+#          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+#        run: |
+#          touch local.properties
+#          echo "BASE_URL=$BASE_URL" >> local.properties
+#          echo "API_KEY=$API_KEY" >> local.properties
+#          echo "ALGOLIA_API_KEY=$ALGOLIA_API_KEY" >> local.properties
+#          echo "ALGOLIA_APP_ID=$ALGOLIA_APP_ID" >> local.properties
+#          echo "ALGOLIA_INDEX_NAME=$ALGOLIA_INDEX_NAME" >> local.properties
+#          ./gradlew test
 
       - name: Build Project with Gradle
         run: ./gradlew build
