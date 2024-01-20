@@ -1,6 +1,11 @@
 name: Android Build
 
-on: [push, pull_request]
+on :
+    pull_request :
+       branches : [main,develop]
+
+    push:
+      branches: [main,develop]
 
 jobs:
   build:
@@ -8,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4.1.0
       - name: Create Properties File
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
@@ -25,14 +30,33 @@ jobs:
           echo "ALGOLIA_INDEX_NAME=$ALGOLIA_INDEX_NAME" >> local.properties
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4.0.0
         with:
           distribution: temurin
           java-version: 17
           cache: gradle
 
       - name: Run Tests
-        run: ./gradlew test
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_KEY: ${{ secrets.APIKEY }}
+          ALGOLIA_API_KEY: ${{ secrets.ALGOLIAAPIKEY }}
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIAAPPID }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+        run: |
+          touch local.properties
+          echo "BASE_URL=$BASE_URL" >> local.properties
+          echo "API_KEY=$API_KEY" >> local.properties
+          echo "ALGOLIA_API_KEY=$ALGOLIA_API_KEY" >> local.properties
+          echo "ALGOLIA_APP_ID=$ALGOLIA_APP_ID" >> local.properties
+          echo "ALGOLIA_INDEX_NAME=$ALGOLIA_INDEX_NAME" >> local.properties
+          ./gradlew test
 
-      - name: Build Project
-        run: ./gradlew assemble
+      - name: Build Project with Gradle
+        run: ./gradlew build
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.2.0
+        with:
+          name: DVT_Weather.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
