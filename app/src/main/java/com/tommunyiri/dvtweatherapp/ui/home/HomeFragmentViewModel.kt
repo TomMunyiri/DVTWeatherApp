@@ -19,7 +19,6 @@ import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
 import timber.log.Timber
 
-
 /**
  * Created by Tom Munyiri on 19/01/2024.
  * Company: Eclectics International Ltd

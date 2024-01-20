@@ -1,6 +1,8 @@
 package com.tommunyiri.dvtweatherapp.ui
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -63,5 +65,20 @@ class MainActivity : AppCompatActivity() {
 
     fun showToolBar() {
         binding.toolbar.makeVisible()
+    }
+
+    fun setTransparentStatusBar() {
+        window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+        window.statusBarColor = Color.TRANSPARENT
+        val windowInsetController = ViewCompat.getWindowInsetsController(window.decorView)
+        windowInsetController?.isAppearanceLightStatusBars = false
+    }
+
+    fun resetTransparentStatusBar() {
+        window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+        //window.statusBarColor = Color.GRAY
+        val windowInsetController = ViewCompat.getWindowInsetsController(window.decorView)
+        windowInsetController?.isAppearanceLightStatusBars = true
     }
 }
