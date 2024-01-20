@@ -18,7 +18,7 @@ class WeatherIconGenerator {
          * @param iconView the [WeatherIconView] whose icon is to be set
          * @param condition the weather condition
          */
-        fun getIconResources(context: Context, iconView: ImageView, condition: String?) {
+        fun getIconResources( iconView: ImageView, condition: String?) {
             if (condition != null) {
                 when {
                     condition.contains("rain", ignoreCase = true)

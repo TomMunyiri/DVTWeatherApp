@@ -1,4 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.fir.expressions.FirEmptyArgumentList.arguments
+import org.jetbrains.kotlin.fir.resolve.calls.ResolvedCallArgument.DefaultArgument.arguments
 import java.util.Properties
 
 plugins {
@@ -27,6 +29,7 @@ android {
 
         ksp {
             //arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
+            arg("room.schemaLocation", "$projectDir/schemas")
         }
 
         val properties = Properties()
@@ -35,9 +38,12 @@ android {
         buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
         buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
         buildConfigField("String", "ALGOLIA_API_KEY", properties.getProperty("ALGOLIA_API_KEY"))
-        buildConfigField("String", "ALGOLIA_INDEX_NAME", properties.getProperty("ALGOLIA_INDEX_NAME"))
+        buildConfigField(
+            "String",
+            "ALGOLIA_INDEX_NAME",
+            properties.getProperty("ALGOLIA_INDEX_NAME")
+        )
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
-
     }
 
     buildTypes {

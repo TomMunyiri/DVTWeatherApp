@@ -118,7 +118,6 @@ class HomeFragment : BaseFragment() {
                             it.networkWeatherCondition.temp =
                                 convertCelsiusToFahrenheit(it.networkWeatherCondition.temp)
                     }
-                    Timber.d("Forecast: ${Gson().toJson(list)}")
                     weatherForecastAdapter.submitList(list)
                 }
             }
@@ -151,7 +150,8 @@ class HomeFragment : BaseFragment() {
 
                 condition.contains("rain", true)
                         || condition.contains("snow", true)
-                        || condition.contains("mist", true) -> {
+                        || condition.contains("mist", true)
+                        || condition.contains("haze", true) -> {
                     binding.apply {
                         swipeRefreshId.setBackgroundColor(
                             ContextCompat.getColor(requireContext(), R.color.rainy)

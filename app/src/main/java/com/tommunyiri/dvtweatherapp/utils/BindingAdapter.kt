@@ -13,8 +13,7 @@ import com.tommunyiri.dvtweatherapp.R
  */
 @BindingAdapter("setIcon")
 fun ImageView.showIcon(condition: String?) {
-    val context = this.context
-    WeatherIconGenerator.getIconResources(context, this, condition)
+    WeatherIconGenerator.getIconResources(this, condition)
 }
 
 @BindingAdapter("setTemperature")
