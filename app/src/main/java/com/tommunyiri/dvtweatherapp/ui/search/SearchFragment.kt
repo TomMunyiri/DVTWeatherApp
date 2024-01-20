@@ -1,10 +1,12 @@
 package com.tommunyiri.dvtweatherapp.ui.search
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,7 @@ import com.algolia.instantsearch.helper.stats.StatsPresenterImpl
 import com.algolia.instantsearch.helper.stats.connectView
 import com.google.android.material.snackbar.Snackbar
 import com.tommunyiri.dvtweatherapp.R
+import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
 import com.tommunyiri.dvtweatherapp.data.model.SearchResult
 import com.tommunyiri.dvtweatherapp.data.model.Weather
 import com.tommunyiri.dvtweatherapp.databinding.FragmentSearchBinding
@@ -68,7 +71,7 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
 
         searchBoxView.onQuerySubmitted = {
             binding.zeroHits.visibility = View.GONE
-            if (it != null && it.isNotEmpty()) {
+            if (!it.isNullOrEmpty()) {
                 viewModel.getSearchWeather(it)
             }
         }
@@ -120,12 +123,50 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
             weatherCondition = result.networkWeatherDescription.first()
             location.text = result.name
             weather = result
+            val condition = weatherCondition as NetworkWeatherDescription
+            adaptUIWithCurrentWeather(condition.main)
         }
 
         with(bottomSheetDialog) {
             setCancelable(true)
             setContentView(searchDetailBinding.root)
             show()
+        }
+    }
+
+    private fun adaptUIWithCurrentWeather(condition: String?) {
+        if (condition != null) {
+            when {
+                condition.contains("cloud", true) -> {
+                    searchDetailBinding.cardView.background.setColorFilter(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.cloudy
+                        ), PorterDuff.Mode.SRC_ATOP
+                    );
+
+                }
+
+                condition.contains("rain", true)
+                        || condition.contains("snow", true)
+                        || condition.contains("mist", true) -> {
+                    searchDetailBinding.cardView.background.setColorFilter(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.rainy
+                        ), PorterDuff.Mode.SRC_ATOP
+                    )
+                }
+
+                else -> {
+                    searchDetailBinding.cardView.background.setColorFilter(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.sunny
+                        ), PorterDuff.Mode.SRC_ATOP
+                    )
+                }
+            }
         }
     }
 

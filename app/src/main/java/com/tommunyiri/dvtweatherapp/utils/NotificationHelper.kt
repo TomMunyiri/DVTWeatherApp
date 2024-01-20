@@ -36,7 +36,7 @@ class NotificationHelper(private val message: String, private val context: Conte
             PendingIntent.getActivity(context, 0, intent, 0)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.new_ic_launcher)
+            .setSmallIcon(R.drawable.ic_dvt_weather_notification)
             .setContentTitle(message)
             .setContentText("Check out the latest weather information in your location!")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

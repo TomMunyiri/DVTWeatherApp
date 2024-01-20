@@ -326,6 +326,14 @@ class HomeFragment : BaseFragment() {
         super.onResume()
         (activity as MainActivity).apply {
             hideToolBar()
+            setTransparentStatusBar()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as MainActivity).apply {
+            resetTransparentStatusBar()
         }
     }
 
