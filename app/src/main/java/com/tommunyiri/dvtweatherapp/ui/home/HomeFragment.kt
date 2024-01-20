@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +43,8 @@ import javax.inject.Inject
 class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
     private var isGPSEnabled = false
+    private val weatherForecastAdapter by lazy { WeatherForecastAdapter() }
+    private var isRefresh = false
 
     @Inject
     lateinit var prefs: SharedPreferenceHelper
@@ -78,9 +81,11 @@ class HomeFragment : BaseFragment() {
         hideAllViews(true)
         observeViewModels()
         binding.swipeRefreshId.setOnRefreshListener {
+            isRefresh = true
             binding.errorText.makeGone()
             binding.progressBar.makeVisible()
             hideViews()
+            binding.swipeRefreshId.setBackgroundColor(Color.TRANSPARENT)
             initiateRefresh()
             binding.swipeRefreshId.isRefreshing = false
         }
@@ -88,12 +93,15 @@ class HomeFragment : BaseFragment() {
 
     private fun getWeatherForecast() {
         //viewModel.getWeatherForecast(prefs.getCityId())
-        binding.rvForecast.makeGone()
-        binding.pbForecast.makeVisible()
+        binding.rvForecast.adapter = weatherForecastAdapter
         viewModel.fetchLocationLiveData().observeOnce(
             viewLifecycleOwner
         ) { location ->
-            viewModel.getWeatherForecast(location)
+            if (isRefresh) {
+                viewModel.refreshForecastData(location)
+            } else {
+                viewModel.getWeatherForecast(location)
+            }
             observeMoreViewModels()
         }
     }
@@ -111,7 +119,7 @@ class HomeFragment : BaseFragment() {
                                 convertCelsiusToFahrenheit(it.networkWeatherCondition.temp)
                     }
                     Timber.d("Forecast: ${Gson().toJson(list)}")
-                    //weatherForecastAdapter.submitList(list)
+                    weatherForecastAdapter.submitList(list)
                 }
             }
 

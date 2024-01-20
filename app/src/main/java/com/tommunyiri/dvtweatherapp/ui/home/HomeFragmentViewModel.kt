@@ -119,6 +119,9 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
                 }
 
                 is Result.Loading -> _isForecastLoading.postValue(true)
+                is Result.Error -> TODO()
+                Result.Loading -> TODO()
+                is Result.Success -> TODO()
             }
         }
     }

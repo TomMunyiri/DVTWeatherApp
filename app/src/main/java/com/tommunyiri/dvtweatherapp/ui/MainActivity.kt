@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.databinding.ActivityMainBinding
 import com.tommunyiri.dvtweatherapp.utils.makeGone
@@ -26,7 +27,9 @@ class MainActivity : AppCompatActivity() {
 
         /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            //v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            WindowInsetsCompat.CONSUMED
+            v.setPadding(systemBars.left, 0, systemBars.right,systemBars.bottom)
             insets
         }*/
 
@@ -49,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         val navController = findNavController(R.id.mainNavFragment)
         setupActionBarWithNavController(navController)
+        binding.bottomNavBar.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.mainNavFragment).navigateUp()

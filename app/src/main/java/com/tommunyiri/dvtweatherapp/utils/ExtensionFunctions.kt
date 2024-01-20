@@ -34,6 +34,7 @@ fun Context.hideKeyboard(view: View) {
 
 fun String.formatDate(): String {
     val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val formatter = SimpleDateFormat("d MMM y, h:mma")
+    //val formatter = SimpleDateFormat("d MMM y, h:mma")
+    val formatter = SimpleDateFormat("EEE MMM d, HH:mma")
     return formatter.format(parser.parse(this))
 }

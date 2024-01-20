@@ -10,4 +10,8 @@
         android:name="com.tommunyiri.dvtweatherapp.ui.home.HomeFragment"
         android:label="@string/home_dashboard"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.tommunyiri.dvtweatherapp.ui.settings.SettingsFragment"
+        android:label="@string/settings"/>
 </navigation>

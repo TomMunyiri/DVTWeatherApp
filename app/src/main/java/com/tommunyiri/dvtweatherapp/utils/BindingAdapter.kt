@@ -1,5 +1,6 @@
 package com.tommunyiri.dvtweatherapp.utils
 
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.tommunyiri.dvtweatherapp.R
@@ -10,11 +11,11 @@ import com.tommunyiri.dvtweatherapp.R
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-/*@BindingAdapter("setIcon")
-fun WeatherIconView.showIcon(condition: String?) {
+@BindingAdapter("setIcon")
+fun ImageView.showIcon(condition: String?) {
     val context = this.context
     WeatherIconGenerator.getIconResources(context, this, condition)
-}*/
+}
 
 @BindingAdapter("setTemperature")
 fun TextView.setTemperature(double: Double) {

@@ -174,20 +174,27 @@
                     android:layout_height="1dp"
                     android:background="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/tvMinTemp" />
+
                 <androidx.recyclerview.widget.RecyclerView
-                    app:layout_constraintTop_toBottomOf="@+id/separator"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="70dp"
                     android:id="@+id/rvForecast"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"/>
+                    android:layout_height="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/separator"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/weather_forecast_item" />
+
                 <ProgressBar
-                    app:layout_constraintTop_toTopOf="@+id/rvForecast"
-                    app:layout_constraintBottom_toBottomOf="@+id/rvForecast"
-                    app:layout_constraintStart_toStartOf="@+id/rvForecast"
-                    app:layout_constraintEnd_toEndOf="@+id/rvForecast"
                     android:id="@+id/pbForecast"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/rvForecast"
+                    app:layout_constraintEnd_toEndOf="@+id/rvForecast"
+                    app:layout_constraintStart_toStartOf="@+id/rvForecast"
+                    app:layout_constraintTop_toTopOf="@+id/rvForecast" />
+
                 <TextView
                     android:id="@+id/forecast_error_text"
                     android:layout_width="wrap_content"
@@ -195,10 +202,10 @@
                     android:text="@string/error_occurred"
                     android:textAlignment="center"
                     android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="@+id/rvForecast"
                     app:layout_constraintBottom_toBottomOf="@+id/rvForecast"
+                    app:layout_constraintEnd_toEndOf="@+id/rvForecast"
                     app:layout_constraintStart_toStartOf="@+id/rvForecast"
-                    app:layout_constraintEnd_toEndOf="@+id/rvForecast" />
+                    app:layout_constraintTop_toTopOf="@+id/rvForecast" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
