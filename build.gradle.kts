@@ -14,6 +14,9 @@ plugins {
     alias(libs.plugins.kotlinKapt) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.ktlint) apply false
 }
 
-true // Needed to make the Suppress annotation work for the plugins block
+tasks.register("clean").configure {
+    delete("build")
+}
