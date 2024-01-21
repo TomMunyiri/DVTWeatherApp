@@ -98,7 +98,7 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
                         val forecast = result.data.onEach { forecast ->
                             forecast.networkWeatherCondition.temp =
                                 convertKelvinToCelsius(forecast.networkWeatherCondition.temp)
-                            forecast.date = forecast.date.formatDate()
+                            forecast.date = forecast.date.formatDate().toString()
                         }
                         _forecast.postValue(forecast)
                         _dataFetchStateForecast.postValue(true)

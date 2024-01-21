@@ -6,6 +6,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 /**
@@ -32,9 +33,10 @@ fun Context.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun String.formatDate(): String {
-    val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+fun String.formatDate(): String? {
+    val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
     //val formatter = SimpleDateFormat("d MMM y, h:mma")
-    val formatter = SimpleDateFormat("EEE MMM d, HH:mma")
-    return formatter.format(parser.parse(this))
+    //val formatter = SimpleDateFormat("EEE MMM d, HH:mma",Locale.ENGLISH)
+    val formatter = SimpleDateFormat("EEE, HH:mma", Locale.ENGLISH)
+    return parser.parse(this)?.let { formatter.format(it) }
 }

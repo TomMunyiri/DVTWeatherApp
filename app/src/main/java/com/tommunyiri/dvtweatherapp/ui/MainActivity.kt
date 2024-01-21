@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
@@ -84,7 +85,11 @@ class MainActivity : AppCompatActivity() {
         when (ThemeManager.getTheme(applicationContext)) {
             "Light" -> windowInsetController?.isAppearanceLightStatusBars = true
             "Dark" -> windowInsetController?.isAppearanceLightStatusBars = false
-            //TODO Handle system and auto-battery cases
+            "System", "Auto-battery" -> {
+                val defaultNightMode = AppCompatDelegate.getDefaultNightMode()
+                windowInsetController?.isAppearanceLightStatusBars =
+                    defaultNightMode != AppCompatDelegate.MODE_NIGHT_YES
+            }
         }
     }
 }

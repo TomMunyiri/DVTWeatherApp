@@ -29,6 +29,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         (activity as MainActivity).apply {
             showToolBar()
+            resetTransparentStatusBar()
         }
     }
 

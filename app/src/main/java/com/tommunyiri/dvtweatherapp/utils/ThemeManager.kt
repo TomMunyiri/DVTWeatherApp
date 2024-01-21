@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.tommunyiri.dvtweatherapp.DVTWeatherApplication
+import timber.log.Timber
 
 
 /**
@@ -19,6 +20,7 @@ object ThemeManager {
 
     fun getTheme(context: Context): String? {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        Timber.d("Set theme: ${preferences.getString("theme_key","")}")
         return preferences.getString("theme_key", "")
     }
 
