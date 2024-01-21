@@ -1,7 +1,6 @@
 package com.tommunyiri.dvtweatherapp.mapper
 
 import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
-import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 
 

@@ -3,7 +3,6 @@ package com.tommunyiri.dvtweatherapp.utils
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
-import com.tommunyiri.dvtweatherapp.DVTWeatherApplication
 import timber.log.Timber
 
 
@@ -17,12 +16,6 @@ object ThemeManager {
     private const val DARK_MODE = "Dark"
     private const val AUTO_BATTERY_MODE = "Auto-battery"
     private const val FOLLOW_SYSTEM_MODE = "System"
-
-    fun getTheme(context: Context): String? {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        Timber.d("Set theme: ${preferences.getString("theme_key","")}")
-        return preferences.getString("theme_key", "")
-    }
 
     /**
      * This function helps persist the theme set by the user by getting the [themePreference] on initial startup

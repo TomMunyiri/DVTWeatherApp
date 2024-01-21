@@ -20,12 +20,12 @@ import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.model.SearchResult
 import com.tommunyiri.dvtweatherapp.data.model.Weather
 import com.tommunyiri.dvtweatherapp.data.source.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.utils.Result
+import com.tommunyiri.dvtweatherapp.utils.asLiveData
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.jsonPrimitive
 import timber.log.Timber
 import javax.inject.Inject
-import com.tommunyiri.dvtweatherapp.utils.Result
-import com.tommunyiri.dvtweatherapp.utils.asLiveData
 
 
 /**

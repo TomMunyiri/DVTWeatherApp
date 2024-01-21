@@ -2,7 +2,6 @@ package com.tommunyiri.dvtweatherapp.ui.favorite
 
 import android.graphics.PorterDuff
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +19,7 @@ import com.tommunyiri.dvtweatherapp.databinding.FragmentSearchDetailBinding
 import com.tommunyiri.dvtweatherapp.ui.BaseBottomSheetDialog
 import com.tommunyiri.dvtweatherapp.ui.BaseFragment
 import com.tommunyiri.dvtweatherapp.ui.MainActivity
-import com.tommunyiri.dvtweatherapp.ui.home.HomeFragmentViewModel
-import com.tommunyiri.dvtweatherapp.ui.home.WeatherForecastAdapter
 import com.tommunyiri.dvtweatherapp.ui.search.SearchFragmentViewModel
-import com.tommunyiri.dvtweatherapp.ui.search.SearchResultAdapter
-import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import dagger.hilt.android.AndroidEntryPoint
 

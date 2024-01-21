@@ -9,15 +9,14 @@ import com.tommunyiri.dvtweatherapp.data.model.Weather
 import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.source.repository.WeatherRepository
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import javax.inject.Inject
 import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
-import timber.log.Timber
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import javax.inject.Inject
 
 /**
  * Created by Tom Munyiri on 19/01/2024.

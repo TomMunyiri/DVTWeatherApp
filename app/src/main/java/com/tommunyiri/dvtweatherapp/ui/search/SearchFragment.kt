@@ -21,7 +21,6 @@ import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
 import com.tommunyiri.dvtweatherapp.data.model.SearchResult
 import com.tommunyiri.dvtweatherapp.data.model.Weather
-import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.databinding.FragmentSearchBinding
 import com.tommunyiri.dvtweatherapp.databinding.FragmentSearchDetailBinding
 import com.tommunyiri.dvtweatherapp.ui.BaseBottomSheetDialog

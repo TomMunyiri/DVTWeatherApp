@@ -8,7 +8,6 @@ import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import com.tommunyiri.dvtweatherapp.utils.Result
 
 /**
  * Created by Tom Munyiri on 19/01/2024.

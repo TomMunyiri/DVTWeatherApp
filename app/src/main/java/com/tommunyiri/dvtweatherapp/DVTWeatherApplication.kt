@@ -4,7 +4,6 @@ import android.app.Application
 import android.util.Log
 import androidx.preference.PreferenceManager
 import androidx.work.Configuration
-import androidx.work.DelegatingWorkerFactory
 import com.tommunyiri.dvtweatherapp.data.source.repository.WeatherRepository
 import com.tommunyiri.dvtweatherapp.utils.ThemeManager
 import com.tommunyiri.dvtweatherapp.worker.MyWorkerFactory

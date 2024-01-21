@@ -19,10 +19,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import com.tommunyiri.dvtweatherapp.R
-import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherCondition
-import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
 import com.tommunyiri.dvtweatherapp.databinding.FragmentHomeBinding
 import com.tommunyiri.dvtweatherapp.ui.BaseFragment
 import com.tommunyiri.dvtweatherapp.ui.MainActivity
@@ -35,7 +32,6 @@ import com.tommunyiri.dvtweatherapp.utils.makeVisible
 import com.tommunyiri.dvtweatherapp.utils.observeOnce
 import com.tommunyiri.dvtweatherapp.worker.UpdateWeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

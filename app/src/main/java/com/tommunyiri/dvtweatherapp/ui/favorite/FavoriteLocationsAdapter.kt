@@ -2,16 +2,11 @@ package com.tommunyiri.dvtweatherapp.ui.favorite
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
-import com.tommunyiri.dvtweatherapp.data.model.SearchResult
-import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.databinding.ItemFavoriteLocationBinding
-import com.tommunyiri.dvtweatherapp.databinding.ItemSearchResultBinding
-import com.tommunyiri.dvtweatherapp.ui.search.SearchResultAdapter
 
 /**
  * Created by Tom Munyiri on 21/01/2024.

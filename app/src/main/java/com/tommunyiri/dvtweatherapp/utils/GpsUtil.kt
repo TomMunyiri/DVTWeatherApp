@@ -31,15 +31,15 @@ class GpsUtil(private val context: Context) {
         builder.setAlwaysShow(true)
     }
 
-    fun turnGPSOn(OnGpsListener: OnGpsListener?) {
+    fun turnGPSOn(onGpsListener: OnGpsListener?) {
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            OnGpsListener?.gpsStatus(true)
+            onGpsListener?.gpsStatus(true)
         } else {
             locationSettingsRequest?.let {
                 settingsClient
                     .checkLocationSettings(it)
                     .addOnSuccessListener(context as Activity) {
-                        OnGpsListener?.gpsStatus(true)
+                        onGpsListener?.gpsStatus(true)
                     }.addOnFailureListener(context) { exception ->
 
                         when ((exception as ApiException).statusCode) {
@@ -57,7 +57,6 @@ class GpsUtil(private val context: Context) {
                                 val errorMessage =
                                     "Location settings are inadequate, and cannot be " + "fixed here. Fix in Settings."
                                 Timber.e(errorMessage)
-
                                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
                             }
                         }
