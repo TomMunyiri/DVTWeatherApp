@@ -1,0 +1,48 @@
+name: Ktlint
+
+on:
+  push:
+    branches: [main,develop] # Just in case master was not up to date while merging PR
+  pull_request:
+    types: [opened, synchronize]
+    branches: [main,develop]
+
+jobs:
+  run:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.0
+
+      - name: Create APIKEY.PROPERTIES File
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_KEY: ${{ secrets.API_KEY }}
+          ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+        run: |
+          touch apikey.properties
+          echo "BASE_URL=$BASE_URL" >> apikey.properties
+          echo "API_KEY=$API_KEY" >> apikey.properties
+          echo "ALGOLIA_API_KEY=$ALGOLIA_API_KEY" >> apikey.properties
+          echo "ALGOLIA_APP_ID=$ALGOLIA_APP_ID" >> apikey.properties
+          echo "ALGOLIA_INDEX_NAME=$ALGOLIA_INDEX_NAME" >> apikey.properties
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.0.0
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: ktlint
+        run: ./gradlew ktlintCheck
+
+      - uses: actions/upload-artifact@v4.2.0
+        with:
+          name: ktlint-report
+          path: ./**/build/reports/ktlint/
