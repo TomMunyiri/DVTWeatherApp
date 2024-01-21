@@ -37,7 +37,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ksp {
-            //arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
+            // arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
             arg("room.schemaLocation", "$projectDir/schemas")
         }
 
@@ -94,18 +94,18 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    //hilt
+    // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     ksp(libs.androidx.hilt.compiler)
-    //work manager
+    // work manager
     implementation(libs.work.runtime.ktx)
     // Optional testing dependency
     androidTestImplementation(libs.work.testing)
-    //coroutines
+    // coroutines
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.coroutines.android)
-    //network and serialization
+    // network and serialization
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     debugImplementation(libs.chuck)
@@ -113,24 +113,24 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.gson)
-    //room
+    // room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
-    //preferences
+    // preferences
     implementation(libs.androidx.preference)
-    //gms location services
+    // gms location services
     implementation(libs.gms.play.location)
-    //timber
+    // timber
     implementation(libs.timber)
     // Navigation Components
     implementation(libs.navigation.ui.ktx)
     implementation(libs.navigation.fragment.ktx)
-    //lifecycle livedata ktx
+    // lifecycle livedata ktx
     implementation(libs.lifecycle.livedata.ktx)
-    //algolia search
+    // algolia search
     implementation(libs.algolia)
-    //paging
+    // paging
     implementation(libs.androidx.paging)
 }
 
