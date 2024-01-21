@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.util.Properties
 
 plugins {
@@ -13,13 +12,15 @@ plugins {
 }
 
 android {
+    val properties = Properties()
+    properties.load(rootProject.file("local.properties").inputStream())
     namespace = "com.tommunyiri.dvtweatherapp"
     compileSdk = 34
 
     defaultConfig {
         applicationId = "com.tommunyiri.dvtweatherapp"
         minSdk = 24
-        targetSdk = 30
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -27,10 +28,8 @@ android {
 
         ksp {
             //arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
+            arg("room.schemaLocation", "$projectDir/schemas")
         }
-
-        val properties = Properties()
-        properties.load(rootProject.file("local.properties").inputStream())
 
         buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
         buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
@@ -41,7 +40,6 @@ android {
             properties.getProperty("ALGOLIA_INDEX_NAME")
         )
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
-
     }
 
     buildTypes {
@@ -51,6 +49,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+
         }
     }
     compileOptions {

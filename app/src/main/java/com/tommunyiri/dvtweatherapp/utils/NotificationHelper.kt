@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.ui.MainActivity
+import timber.log.Timber
 
 
 /**
@@ -32,16 +33,6 @@ class NotificationHelper(private val message: String, private val context: Conte
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
-        val pendingIntent =
-            PendingIntent.getActivity(context, 0, intent, 0)
-
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_dvt_weather_notification)
-            .setContentTitle(message)
-            .setContentText("Check out the latest weather information in your location!")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)
-            .build()
 
         if (ActivityCompat.checkSelfPermission(
                 context,
@@ -55,9 +46,22 @@ class NotificationHelper(private val message: String, private val context: Conte
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            runCatching {
+                val pendingIntent =
+                    PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+                val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_dvt_weather_notification)
+                    .setContentTitle(message)
+                    .setContentText("Check out the latest weather information in your location!")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
+                    .build()
+                NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
+            }.onFailure {
+                Timber.d("Notifications Error: ${it.localizedMessage}")
+            }
             return
         }
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
     }
 
     private fun createNotificationChannel() {

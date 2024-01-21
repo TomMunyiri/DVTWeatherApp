@@ -62,12 +62,11 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
      * @see refreshForecastData
      */
     //fun getWeatherForecast(cityId: Int?) {
-    fun getWeatherForecast(location: LocationModel ) {
+    fun getWeatherForecast(location: LocationModel) {
         _isForecastLoading.value = true
         viewModelScope.launch {
             when (val result = repository.getForecastWeather(location, false)) {
                 is Result.Success -> {
-                    Timber.d("VMForecast: ${result.data}")
                     _isForecastLoading.postValue(false)
                     if (!result.data.isNullOrEmpty()) {
                         val forecasts = result.data
@@ -81,7 +80,6 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
 
                 is Result.Loading -> {
                     _isForecastLoading.postValue(true)
-                    Timber.d("VMForecast: $result")
                 }
 
                 else -> {}

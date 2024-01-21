@@ -149,7 +149,8 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
 
                 condition.contains("rain", true)
                         || condition.contains("snow", true)
-                        || condition.contains("mist", true) -> {
+                        || condition.contains("mist", true)
+                        || condition.contains("haze", true) -> {
                     searchDetailBinding.cardView.background.setColorFilter(
                         ContextCompat.getColor(
                             requireContext(),
