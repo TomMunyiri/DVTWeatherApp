@@ -8,14 +8,13 @@
         android:layout_height="match_parent"
         tools:context=".ui.search.SearchFragment">
 
-
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="?actionBarSize"
             android:focusable="false"
-            android:paddingEnd="5dp"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             app:defaultQueryHint="@string/enter_city_text"
             app:iconifiedByDefault="false"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,20 +59,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:paddingEnd="16dp"
-            android:visibility="gone"
             android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="@string/zero_hits_text"
             android:textAlignment="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/location_search_recyclerview" />
 
         <include
-            android:id="@+id/toolbar"
-            android:visibility="gone"
-            layout="@layout/fragment_search_detail" />
+            android:id="@+id/fragmentSearchDetails"
+            layout="@layout/fragment_search_detail"
+            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

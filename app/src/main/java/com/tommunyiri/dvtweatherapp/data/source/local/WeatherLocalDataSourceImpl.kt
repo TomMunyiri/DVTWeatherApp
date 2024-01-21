@@ -1,20 +1,21 @@
 package com.tommunyiri.dvtweatherapp.data.source.local
 
 import com.tommunyiri.dvtweatherapp.data.source.local.dao.WeatherDao
+import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
 import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
+import com.tommunyiri.dvtweatherapp.utils.Result
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-class WeatherLocalDataSourceImpl@Inject constructor(
+class WeatherLocalDataSourceImpl @Inject constructor(
     private val weatherDao: WeatherDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : WeatherLocalDataSource {
@@ -43,4 +44,19 @@ class WeatherLocalDataSourceImpl@Inject constructor(
     override suspend fun deleteForecastWeather() = withContext(ioDispatcher) {
         weatherDao.deleteAllWeatherForecast()
     }
+
+    override suspend fun saveFavoriteLocation(favoriteLocation: DBFavoriteLocation) =
+        withContext(ioDispatcher) {
+            weatherDao.insertFavoriteCity(favoriteLocation)
+        }
+
+    override suspend fun getFavoriteLocations(): List<DBFavoriteLocation> =
+        withContext(ioDispatcher) {
+            return@withContext weatherDao.getAllFavoriteLocations()
+        }
+
+    override suspend fun deleteFavoriteLocation(name: String): Int =
+        withContext(ioDispatcher) {
+            return@withContext weatherDao.deleteFavoriteLocation(name)
+        }
 }

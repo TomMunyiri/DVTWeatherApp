@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.tommunyiri.dvtweatherapp.data.source.local.dao.WeatherDao
+import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
 import com.tommunyiri.dvtweatherapp.utils.typeconverters.ListNetworkWeatherDescriptionConverter
@@ -14,7 +15,11 @@ import com.tommunyiri.dvtweatherapp.utils.typeconverters.ListNetworkWeatherDescr
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-@Database(entities = [DBWeather::class, DBWeatherForecast::class], version = 2, exportSchema = true)
+@Database(
+    entities = [DBWeather::class, DBWeatherForecast::class, DBFavoriteLocation::class],
+    version = 2,
+    exportSchema = true
+)
 @TypeConverters(
     ListNetworkWeatherDescriptionConverter::class
 )

@@ -1,50 +1,48 @@
-package com.tommunyiri.dvtweatherapp.ui.search
+package com.tommunyiri.dvtweatherapp.ui.favorite
 
 import android.graphics.PorterDuff
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.helper.android.item.StatsTextView
-import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
-import com.algolia.instantsearch.helper.android.searchbox.connectView
-import com.algolia.instantsearch.helper.stats.StatsPresenterImpl
-import com.algolia.instantsearch.helper.stats.connectView
 import com.google.android.material.snackbar.Snackbar
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
-import com.tommunyiri.dvtweatherapp.data.model.SearchResult
 import com.tommunyiri.dvtweatherapp.data.model.Weather
-import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
-import com.tommunyiri.dvtweatherapp.databinding.FragmentSearchBinding
+import com.tommunyiri.dvtweatherapp.databinding.FragmentFavoritesBinding
 import com.tommunyiri.dvtweatherapp.databinding.FragmentSearchDetailBinding
 import com.tommunyiri.dvtweatherapp.ui.BaseBottomSheetDialog
 import com.tommunyiri.dvtweatherapp.ui.BaseFragment
 import com.tommunyiri.dvtweatherapp.ui.MainActivity
+import com.tommunyiri.dvtweatherapp.ui.home.HomeFragmentViewModel
+import com.tommunyiri.dvtweatherapp.ui.home.WeatherForecastAdapter
+import com.tommunyiri.dvtweatherapp.ui.search.SearchFragmentViewModel
+import com.tommunyiri.dvtweatherapp.ui.search.SearchResultAdapter
+import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener {
-    private lateinit var binding: FragmentSearchBinding
+class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClickedListener {
+    private lateinit var binding: FragmentFavoritesBinding
+    private val viewModel by viewModels<FavoriteFragmentViewModel> { viewModelFactoryProvider }
+    private val searchViewModel by viewModels<SearchFragmentViewModel> { viewModelFactoryProvider }
     private lateinit var searchDetailBinding: FragmentSearchDetailBinding
     private lateinit var selectedCity: FavoriteLocation
+    private val favoriteLocationsAdapter by lazy { FavoriteLocationsAdapter(this) }
     private val bottomSheetDialog by lazy {
         BaseBottomSheetDialog(
             requireActivity(),
             R.style.AppBottomSheetDialogTheme
         )
     }
-    private val viewModel by viewModels<SearchFragmentViewModel> { viewModelFactoryProvider }
-    private val searchResultAdapter by lazy { SearchResultAdapter(this) }
-    private val connection = ConnectionHandler()
-    private lateinit var searchBoxView: SearchBoxViewAppCompat
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -56,31 +54,26 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentSearchBinding.inflate(layoutInflater)
+        binding = FragmentFavoritesBinding.inflate(layoutInflater)
         searchDetailBinding = FragmentSearchDetailBinding.inflate(layoutInflater)
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).apply {
+            showToolBar()
+            resetTransparentStatusBar()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        searchBoxView = SearchBoxViewAppCompat(binding.searchView)
-        searchBoxView.searchView.isIconified = false
-
-        val statsView = StatsTextView(binding.stats)
-        connection += viewModel.searchBox.connectView(searchBoxView)
-        connection += viewModel.stats.connectView(statsView, StatsPresenterImpl())
-
-        searchBoxView.onQuerySubmitted = {
-            binding.zeroHits.visibility = View.GONE
-            if (!it.isNullOrEmpty()) {
-                viewModel.getSearchWeather(it)
-            }
-        }
-
-        val recyclerView = binding.locationSearchRecyclerview
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = searchResultAdapter
+        binding.viewModel = viewModel
+        binding.rvFavoriteLocations.adapter = favoriteLocationsAdapter
+        viewModel.getFavoriteLocations()
+        observeMoreViewModels()
+        observeSearchViewModel()
 
         searchDetailBinding.fabClose.setOnClickListener {
             if (bottomSheetDialog.isShowing)
@@ -88,20 +81,12 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
         }
 
         searchDetailBinding.ivFavorite.setOnClickListener {
-            viewModel.saveFavoriteLocation(selectedCity)
+            viewModel.deleteFavoriteLocation(selectedCity.name)
         }
-
-        observeViewModel()
-
     }
 
-    private fun observeViewModel() {
-        with(viewModel) {
-
-            locations.observe(viewLifecycleOwner) { hits ->
-                searchResultAdapter.submitList(hits)
-                binding.zeroHits.isVisible = hits.size == 0
-            }
+    private fun observeSearchViewModel() {
+        with(searchViewModel) {
 
             weatherInfo.observe(viewLifecycleOwner) { weather ->
                 weather?.let {
@@ -126,6 +111,53 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
                     ).show()
                 }
             }
+        }
+    }
+
+    private fun observeMoreViewModels() {
+        with(viewModel) {
+            favoriteLocation.observe(viewLifecycleOwner) { favoriteLocation ->
+                favoriteLocation?.let { list ->
+                    favoriteLocationsAdapter.submitList(list)
+                }
+            }
+
+            dataFetchStateFavoriteLocations.observe(viewLifecycleOwner) { state ->
+                binding.apply {
+                    rvFavoriteLocations.isVisible = state
+                    tvZeroFavorites.isVisible = !state
+                }
+            }
+
+            isFavoriteLocationLoading.observe(viewLifecycleOwner) { state ->
+                binding.searchWeatherLoader.isVisible = state
+            }
+
+            deleteFavoriteLocationResult.observe(viewLifecycleOwner) { deleteFavoriteLocationResult ->
+                deleteFavoriteLocationResult?.let {
+                    if (it == 1) {
+                        viewModel.getFavoriteLocations()
+                        if (bottomSheetDialog.isShowing)
+                            bottomSheetDialog.dismiss()
+                        Toast.makeText(
+                            context,
+                            "Favorite location deleted successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Deletion of favorite location failed",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
+            isFavoriteLocationDeletionLoading.observe(viewLifecycleOwner) { state ->
+                binding.searchWeatherLoader.isVisible = state
+            }
+
         }
     }
 
@@ -183,30 +215,17 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).apply {
-            showToolBar()
-            resetTransparentStatusBar()
-        }
-    }
-
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SearchFragment().apply {
+            FavoritesFragment().apply {
                 arguments = Bundle().apply {
                 }
             }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        connection.disconnect()
-    }
-
-    override fun onSearchResultClicked(searchResult: SearchResult) {
-        searchBoxView.setText(searchResult.name)
-        viewModel.getSearchWeather(searchResult.name)
+    override fun onSearchResultClicked(dbFavoriteLocation: FavoriteLocation) {
+        searchViewModel.getSearchWeather(dbFavoriteLocation.name)
+        selectedCity = dbFavoriteLocation
     }
 }

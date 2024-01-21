@@ -4,9 +4,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
-
+import com.tommunyiri.dvtweatherapp.utils.Result
 
 /**
  * Created by Tom Munyiri on 18/01/2024.
@@ -35,4 +36,13 @@ interface WeatherDao {
 
     @Query("DELETE FROM weather_forecast")
     suspend fun deleteAllWeatherForecast()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFavoriteCity(vararg city: DBFavoriteLocation)
+
+    @Query("SELECT * FROM favorite_locations_table ORDER BY name ASC")
+    suspend fun getAllFavoriteLocations(): List<DBFavoriteLocation>
+
+    @Query("DELETE FROM favorite_locations_table WHERE name=:name")
+    suspend fun deleteFavoriteLocation(name: String): Int
 }

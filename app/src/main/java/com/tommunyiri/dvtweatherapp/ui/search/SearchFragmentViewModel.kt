@@ -16,6 +16,7 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.tommunyiri.dvtweatherapp.BuildConfig
+import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.model.SearchResult
 import com.tommunyiri.dvtweatherapp.data.model.Weather
 import com.tommunyiri.dvtweatherapp.data.source.repository.WeatherRepository
@@ -102,6 +103,12 @@ class SearchFragmentViewModel @Inject constructor(private val repository: Weathe
 
                 else -> {}
             }
+        }
+    }
+
+    fun saveFavoriteLocation(favoriteLocation: FavoriteLocation) {
+        viewModelScope.launch {
+            repository.storeFavoriteLocationData(favoriteLocation)
         }
     }
 
