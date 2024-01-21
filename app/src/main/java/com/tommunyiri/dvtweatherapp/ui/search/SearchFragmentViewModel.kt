@@ -86,7 +86,7 @@ class SearchFragmentViewModel @Inject constructor(private val repository: Weathe
                 is Result.Success -> {
                     _isLoading.value = false
                     if (result.data != null) {
-                        Timber.i("Mayokun Result ${result.data}")
+                        Timber.i("Result ${result.data}")
                         _dataFetchState.value = true
                         _weatherInfo.postValue(result.data)
                     } else {
