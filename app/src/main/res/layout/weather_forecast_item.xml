@@ -25,12 +25,14 @@
             android:layout_height="wrap_content"
             android:text="@{weatherForecast.date}"
             android:textColor="@color/white"
+            android:gravity="start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Sunday" />
 
         <ImageView
+            android:foregroundGravity="center_horizontal"
             android:id="@+id/ivWeather"
             setIcon="@{weatherForecastDescription.description}"
             android:layout_width="0dp"
@@ -42,6 +44,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:gravity="end"
             android:id="@+id/tvTemp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

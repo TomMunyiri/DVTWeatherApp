@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.databinding.ActivityMainBinding
+import com.tommunyiri.dvtweatherapp.utils.ThemeManager
 import com.tommunyiri.dvtweatherapp.utils.makeGone
 import com.tommunyiri.dvtweatherapp.utils.makeVisible
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,6 +82,14 @@ class MainActivity : AppCompatActivity() {
         window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         //window.statusBarColor = Color.GRAY
         val windowInsetController = ViewCompat.getWindowInsetsController(window.decorView)
-        windowInsetController?.isAppearanceLightStatusBars = true
+        when (ThemeManager.getTheme(applicationContext)) {
+            "Light" -> windowInsetController?.isAppearanceLightStatusBars = true
+            "Dark" -> windowInsetController?.isAppearanceLightStatusBars = false
+            "System", "Auto-battery" -> {
+                val defaultNightMode = AppCompatDelegate.getDefaultNightMode()
+                windowInsetController?.isAppearanceLightStatusBars =
+                    defaultNightMode != AppCompatDelegate.MODE_NIGHT_YES
+            }
+        }
     }
 }

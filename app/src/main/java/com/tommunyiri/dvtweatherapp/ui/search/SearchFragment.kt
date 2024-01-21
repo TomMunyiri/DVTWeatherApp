@@ -175,6 +175,7 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
         super.onResume()
         (activity as MainActivity).apply {
             showToolBar()
+            resetTransparentStatusBar()
         }
     }
 
