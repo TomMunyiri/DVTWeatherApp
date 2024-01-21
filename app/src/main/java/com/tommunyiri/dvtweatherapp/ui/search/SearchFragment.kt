@@ -91,6 +91,11 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
             viewModel.saveFavoriteLocation(selectedCity)
         }
 
+        observeViewModel()
+
+    }
+
+    private fun observeViewModel() {
         with(viewModel) {
 
             locations.observe(viewLifecycleOwner) { hits ->
