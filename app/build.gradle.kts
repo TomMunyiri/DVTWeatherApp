@@ -9,6 +9,16 @@ plugins {
     alias(libs.plugins.ksp)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    alias(libs.plugins.ktlint)
+}
+
+tasks.check {
+    dependsOn("ktlintCheck")
+}
+
+ktlint {
+    version = "0.42.1"
+    ignoreFailures = false
 }
 
 android {
