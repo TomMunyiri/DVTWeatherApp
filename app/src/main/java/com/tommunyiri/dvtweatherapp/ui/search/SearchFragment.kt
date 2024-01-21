@@ -18,9 +18,11 @@ import com.algolia.instantsearch.helper.stats.StatsPresenterImpl
 import com.algolia.instantsearch.helper.stats.connectView
 import com.google.android.material.snackbar.Snackbar
 import com.tommunyiri.dvtweatherapp.R
+import com.tommunyiri.dvtweatherapp.data.model.City
 import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
 import com.tommunyiri.dvtweatherapp.data.model.SearchResult
 import com.tommunyiri.dvtweatherapp.data.model.Weather
+import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.databinding.FragmentSearchBinding
 import com.tommunyiri.dvtweatherapp.databinding.FragmentSearchDetailBinding
 import com.tommunyiri.dvtweatherapp.ui.BaseBottomSheetDialog
@@ -33,6 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var searchDetailBinding: FragmentSearchDetailBinding
+    private lateinit var selectedCity: DBFavoriteLocation
     private val bottomSheetDialog by lazy {
         BaseBottomSheetDialog(
             requireActivity(),
@@ -85,6 +88,10 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
                 bottomSheetDialog.dismiss()
         }
 
+        searchDetailBinding.ivFavorite.setOnClickListener {
+            viewModel.saveFavoriteLocation(selectedCity)
+        }
+
         with(viewModel) {
 
             locations.observe(viewLifecycleOwner) { hits ->
@@ -123,6 +130,7 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
             weatherCondition = result.networkWeatherDescription.first()
             location.text = result.name
             weather = result
+            selectedCity = DBFavoriteLocation(result.name)
             val condition = weatherCondition as NetworkWeatherDescription
             adaptUIWithCurrentWeather(condition.main)
         }

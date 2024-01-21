@@ -1,8 +1,10 @@
 package com.tommunyiri.dvtweatherapp.data.source.repository
 
+import com.tommunyiri.dvtweatherapp.data.model.City
 import com.tommunyiri.dvtweatherapp.data.model.LocationModel
 import com.tommunyiri.dvtweatherapp.data.model.Weather
 import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
+import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.utils.Result
 /**
  * Created by Tom Munyiri on 19/01/2024.
@@ -24,4 +26,6 @@ interface WeatherRepository {
     suspend fun deleteWeatherData()
 
     suspend fun deleteForecastData()
+
+    suspend fun storeFavoriteLocationData(favoriteLocation: DBFavoriteLocation)
 }

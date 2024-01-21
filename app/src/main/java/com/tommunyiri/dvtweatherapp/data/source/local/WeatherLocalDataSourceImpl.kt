@@ -1,6 +1,7 @@
 package com.tommunyiri.dvtweatherapp.data.source.local
 
 import com.tommunyiri.dvtweatherapp.data.source.local.dao.WeatherDao
+import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
 import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
@@ -14,7 +15,7 @@ import javax.inject.Inject
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-class WeatherLocalDataSourceImpl@Inject constructor(
+class WeatherLocalDataSourceImpl @Inject constructor(
     private val weatherDao: WeatherDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : WeatherLocalDataSource {
@@ -43,4 +44,9 @@ class WeatherLocalDataSourceImpl@Inject constructor(
     override suspend fun deleteForecastWeather() = withContext(ioDispatcher) {
         weatherDao.deleteAllWeatherForecast()
     }
+
+    override suspend fun saveFavoriteLocation(favoriteLocation: DBFavoriteLocation) =
+        withContext(ioDispatcher) {
+            weatherDao.insertFavoriteCity(favoriteLocation)
+        }
 }

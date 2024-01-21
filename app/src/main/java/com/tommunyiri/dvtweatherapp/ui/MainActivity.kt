@@ -82,14 +82,8 @@ class MainActivity : AppCompatActivity() {
         window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         //window.statusBarColor = Color.GRAY
         val windowInsetController = ViewCompat.getWindowInsetsController(window.decorView)
-        when (ThemeManager.getTheme(applicationContext)) {
-            "Light" -> windowInsetController?.isAppearanceLightStatusBars = true
-            "Dark" -> windowInsetController?.isAppearanceLightStatusBars = false
-            "System", "Auto-battery" -> {
-                val defaultNightMode = AppCompatDelegate.getDefaultNightMode()
-                windowInsetController?.isAppearanceLightStatusBars =
-                    defaultNightMode != AppCompatDelegate.MODE_NIGHT_YES
-            }
-        }
+        val defaultNightMode = AppCompatDelegate.getDefaultNightMode()
+        windowInsetController?.isAppearanceLightStatusBars =
+            defaultNightMode != AppCompatDelegate.MODE_NIGHT_YES
     }
 }

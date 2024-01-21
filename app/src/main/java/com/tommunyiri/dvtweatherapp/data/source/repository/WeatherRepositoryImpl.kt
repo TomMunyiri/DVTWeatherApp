@@ -1,9 +1,11 @@
 package com.tommunyiri.dvtweatherapp.data.source.repository
 
+import com.tommunyiri.dvtweatherapp.data.model.City
 import com.tommunyiri.dvtweatherapp.data.model.LocationModel
 import com.tommunyiri.dvtweatherapp.data.model.Weather
 import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.source.local.WeatherLocalDataSource
+import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.remote.WeatherRemoteDataSource
 import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
 import com.tommunyiri.dvtweatherapp.mapper.WeatherForecastMapperLocal
@@ -132,4 +134,10 @@ class WeatherRepositoryImpl @Inject constructor(
     override suspend fun deleteForecastData() {
         localDataSource.deleteForecastWeather()
     }
+
+    override suspend fun storeFavoriteLocationData(favoriteLocation: DBFavoriteLocation) =
+        withContext(ioDispatcher) {
+            localDataSource.saveFavoriteLocation(favoriteLocation)
+        }
+
 }

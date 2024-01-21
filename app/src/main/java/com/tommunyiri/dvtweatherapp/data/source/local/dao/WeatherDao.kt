@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
 
@@ -35,4 +36,7 @@ interface WeatherDao {
 
     @Query("DELETE FROM weather_forecast")
     suspend fun deleteAllWeatherForecast()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFavoriteCity(vararg city: DBFavoriteLocation)
 }
