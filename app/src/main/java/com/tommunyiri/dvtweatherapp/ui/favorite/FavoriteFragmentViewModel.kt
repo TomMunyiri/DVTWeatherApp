@@ -27,6 +27,15 @@ class FavoriteFragmentViewModel@Inject constructor(private val repository: Weath
     private val _dataFetchStateFavoriteLocations = MutableLiveData<Boolean>()
     val dataFetchStateFavoriteLocations = _dataFetchStateFavoriteLocations.asLiveData()
 
+    private val _deleteFavoriteLocationResult = MutableLiveData<Int?>()
+    val deleteFavoriteLocationResult = _deleteFavoriteLocationResult.asLiveData()
+
+    private val _isFavoriteLocationDeletionLoading = MutableLiveData<Boolean>()
+    val isFavoriteLocationDeletionLoading = _isFavoriteLocationDeletionLoading.asLiveData()
+
+    private val _deleteStateFavoriteLocation = MutableLiveData<Boolean>()
+    val deleteStateFavoriteLocation = _deleteStateFavoriteLocation.asLiveData()
+
     fun getFavoriteLocations() {
         _isFavoriteLocationLoading.value = true
         viewModelScope.launch {
@@ -44,6 +53,26 @@ class FavoriteFragmentViewModel@Inject constructor(private val repository: Weath
 
                 is Result.Loading -> {
                     _isFavoriteLocationLoading.postValue(true)
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    fun deleteFavoriteLocation(name:String) {
+        _isFavoriteLocationDeletionLoading.value = true
+        viewModelScope.launch {
+            when (val result = repository.deleteFavoriteLocation(name)) {
+                is Result.Success -> {
+                    _isFavoriteLocationDeletionLoading.postValue(false)
+                        val deleteResult = result.data
+                        _deleteStateFavoriteLocation.value = true
+                        _deleteFavoriteLocationResult.value = deleteResult
+                }
+
+                is Result.Loading -> {
+                    _isFavoriteLocationDeletionLoading.postValue(true)
                 }
 
                 else -> {}

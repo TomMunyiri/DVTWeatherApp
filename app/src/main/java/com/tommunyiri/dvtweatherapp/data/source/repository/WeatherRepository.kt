@@ -35,4 +35,6 @@ interface WeatherRepository {
     suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation)
 
     suspend fun getFavoriteLocations(): Result<List<FavoriteLocation>?>
+
+    suspend fun deleteFavoriteLocation(name:String): Result<Int>?
 }

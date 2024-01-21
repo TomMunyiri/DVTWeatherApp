@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -80,7 +81,7 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
         }
 
         searchDetailBinding.ivFavorite.setOnClickListener {
-            //viewModel.saveFavoriteLocation(selectedCity)
+            viewModel.deleteFavoriteLocation(selectedCity.name)
         }
     }
 
@@ -129,6 +130,31 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
             }
 
             isFavoriteLocationLoading.observe(viewLifecycleOwner) { state ->
+                binding.searchWeatherLoader.isVisible = state
+            }
+
+            deleteFavoriteLocationResult.observe(viewLifecycleOwner) { deleteFavoriteLocationResult ->
+                deleteFavoriteLocationResult?.let {
+                    if (it == 1) {
+                        viewModel.getFavoriteLocations()
+                        if (bottomSheetDialog.isShowing)
+                            bottomSheetDialog.dismiss()
+                        Toast.makeText(
+                            context,
+                            "Favorite location deleted successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Deletion of favorite location failed",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
+            isFavoriteLocationDeletionLoading.observe(viewLifecycleOwner) { state ->
                 binding.searchWeatherLoader.isVisible = state
             }
 

@@ -1,12 +1,10 @@
 package com.tommunyiri.dvtweatherapp.data.source.repository
 
-import com.tommunyiri.dvtweatherapp.data.model.City
 import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.model.LocationModel
 import com.tommunyiri.dvtweatherapp.data.model.Weather
 import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.source.local.WeatherLocalDataSource
-import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.remote.WeatherRemoteDataSource
 import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
 import com.tommunyiri.dvtweatherapp.mapper.FavoriteLocationListMapperLocal
@@ -153,6 +151,12 @@ class WeatherRepositoryImpl @Inject constructor(
             } else {
                 Result.Success(null)
             }
+        }
+
+    override suspend fun deleteFavoriteLocation(name: String): Result<Int> =
+        withContext(ioDispatcher) {
+            val deleteFavoriteLocationResult = localDataSource.deleteFavoriteLocation(name)
+            Result.Success(deleteFavoriteLocationResult)
         }
 
 }

@@ -1,10 +1,9 @@
 package com.tommunyiri.dvtweatherapp.data.source.local
 
-import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
-
+import com.tommunyiri.dvtweatherapp.utils.Result
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
@@ -27,4 +26,6 @@ interface WeatherLocalDataSource {
     suspend fun saveFavoriteLocation(favoriteLocation: DBFavoriteLocation)
 
     suspend fun getFavoriteLocations(): List<DBFavoriteLocation>?
+
+    suspend fun deleteFavoriteLocation(name: String): Int
 }

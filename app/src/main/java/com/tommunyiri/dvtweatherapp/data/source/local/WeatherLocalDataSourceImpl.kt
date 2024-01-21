@@ -8,7 +8,7 @@ import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
+import com.tommunyiri.dvtweatherapp.utils.Result
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
@@ -53,5 +53,10 @@ class WeatherLocalDataSourceImpl @Inject constructor(
     override suspend fun getFavoriteLocations(): List<DBFavoriteLocation> =
         withContext(ioDispatcher) {
             return@withContext weatherDao.getAllFavoriteLocations()
+        }
+
+    override suspend fun deleteFavoriteLocation(name: String): Int =
+        withContext(ioDispatcher) {
+            return@withContext weatherDao.deleteFavoriteLocation(name)
         }
 }
