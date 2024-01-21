@@ -17,6 +17,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.0
 
+      - name: Create Properties File
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_KEY: ${{ secrets.API_KEY }}
+          ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+        run: |
+          touch local.properties
+          echo "BASE_URL=$BASE_URL" >> local.properties
+          echo "API_KEY=$API_KEY" >> local.properties
+          echo "ALGOLIA_API_KEY=$ALGOLIA_API_KEY" >> local.properties
+          echo "ALGOLIA_APP_ID=$ALGOLIA_APP_ID" >> local.properties
+          echo "ALGOLIA_INDEX_NAME=$ALGOLIA_INDEX_NAME" >> local.properties
+
       - name: Create APIKEY.PROPERTIES File
         env:
           BASE_URL: ${{ secrets.BASE_URL }}

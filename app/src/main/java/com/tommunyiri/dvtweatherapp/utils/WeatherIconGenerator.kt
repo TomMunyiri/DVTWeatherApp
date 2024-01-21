@@ -1,9 +1,7 @@
 package com.tommunyiri.dvtweatherapp.utils
 
-import android.content.Context
 import android.widget.ImageView
 import com.tommunyiri.dvtweatherapp.R
-
 
 /**
  * Created by Tom Munyiri on 20/01/2024.
@@ -13,9 +11,9 @@ import com.tommunyiri.dvtweatherapp.R
 class WeatherIconGenerator {
     companion object {
         /**
-         * This function helps to dynamically set the [WeatherIconView] depending on the weather
+         * This function helps to dynamically set the [ImageView] depending on the weather
          * condition [condition] received.
-         * @param iconView the [WeatherIconView] whose icon is to be set
+         * @param iconView the [ImageView] whose icon is to be set
          * @param condition the weather condition
          */
         fun getIconResources( iconView: ImageView, condition: String?) {

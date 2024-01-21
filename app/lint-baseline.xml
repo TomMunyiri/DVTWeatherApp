@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.3.0-alpha14" type="baseline" client="gradle" dependencies="false" name="AGP (8.3.0-alpha14)" variant="all" version="8.3.0-alpha14">
+
+    <issue
+        id="KotlinNullnessAnnotation"
+        message="Do not use `@Nullable` in Kotlin; the nullability is already implied by the Kotlin type `View?` ending with `?`"
+        errorLine1="    @Nullable"
+        errorLine2="    ~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/UserInteractionAwareCallback.kt"
+            line="56"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="KotlinNullnessAnnotation"
+        message="Do not use `@Nullable` in Kotlin; the nullability is already implied by the Kotlin type `ActionMode?` ending with `?`"
+        errorLine1="    @Nullable"
+        errorLine2="    ~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/UserInteractionAwareCallback.kt"
+            line="110"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="KotlinNullnessAnnotation"
+        message="Do not use `@Nullable` in Kotlin; the nullability is already implied by the Kotlin type `ActionMode?` ending with `?`"
+        errorLine1="    @Nullable"
+        errorLine2="    ~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/UserInteractionAwareCallback.kt"
+            line="116"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates."
+        errorLine1="    val parser = SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;)"
+        errorLine2="                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/ExtensionFunctions.kt"
+            line="36"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates."
+        errorLine1="    val formatter = SimpleDateFormat(&quot;EEE MMM d, HH:mma&quot;)"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/ExtensionFunctions.kt"
+            line="38"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="FragmentTagUsage"
+        message="Replace the &lt;fragment> tag with FragmentContainerView."
+        errorLine1="    &lt;fragment"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="31"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="RemoveWorkManagerInitializer"
+        message="Remove androidx.work.WorkManagerInitializer from your AndroidManifest.xml when using on-demand initialization."
+        errorLine1="    &lt;application"
+        errorLine2="    ^">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="12"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="VectorRaster"
+        message="Limit vector icons sizes to 200×200 to keep icon drawing fast; see https://developer.android.com/studio/write/vector-asset-studio#when for more"
+        errorLine1="    android:width=&quot;800dp&quot;"
+        errorLine2="                   ~~~~~">
+        <location
+            file="src/main/res/drawable/ic_favorite.xml"
+            line="2"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.3.0-alpha14 is available: 8.3.0-beta02"
+        errorLine1="agp = &quot;8.3.0-alpha14&quot;"
+        errorLine2="      ~~~~~~~~~~~~~~~">
+        <location
+            file="$HOME/work/android/DVTWeatherApp/gradle/libs.versions.toml"
+            line="2"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.3.0-alpha14 is available: 8.3.0-beta02"
+        errorLine1="agp = &quot;8.3.0-alpha14&quot;"
+        errorLine2="      ~~~~~~~~~~~~~~~">
+        <location
+            file="$HOME/work/android/DVTWeatherApp/gradle/libs.versions.toml"
+            line="2"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.3.0-alpha14 is available: 8.3.0-beta02"
+        errorLine1="agp = &quot;8.3.0-alpha14&quot;"
+        errorLine2="      ~~~~~~~~~~~~~~~">
+        <location
+            file="$HOME/work/android/DVTWeatherApp/gradle/libs.versions.toml"
+            line="2"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.tools.build:gradle than 8.1.4 is available: 8.2.1"
+        errorLine1="gradle = &quot;8.1.4&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="$HOME/work/android/DVTWeatherApp/gradle/libs.versions.toml"
+            line="18"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.tools.build:gradle than 8.1.4 is available: 8.2.1"
+        errorLine1="gradle = &quot;8.1.4&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="$HOME/work/android/DVTWeatherApp/gradle/libs.versions.toml"
+            line="18"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.tools.build:gradle than 8.1.4 is available: 8.2.1"
+        errorLine1="gradle = &quot;8.1.4&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="$HOME/work/android/DVTWeatherApp/gradle/libs.versions.toml"
+            line="18"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-crashlytics than 18.6.0 is available: 18.6.1"
+        errorLine1="firebaseCrashlytics = &quot;18.6.0&quot;"
+        errorLine2="                      ~~~~~~~~">
+        <location
+            file="$HOME/work/android/DVTWeatherApp/gradle/libs.versions.toml"
+            line="16"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-crashlytics than 18.6.0 is available: 18.6.1"
+        errorLine1="firebaseCrashlytics = &quot;18.6.0&quot;"
+        errorLine2="                      ~~~~~~~~">
+        <location
+            file="$HOME/work/android/DVTWeatherApp/gradle/libs.versions.toml"
+            line="16"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.firebase:firebase-crashlytics than 18.6.0 is available: 18.6.1"
+        errorLine1="firebaseCrashlytics = &quot;18.6.0&quot;"
+        errorLine2="                      ~~~~~~~~">
+        <location
+            file="$HOME/work/android/DVTWeatherApp/gradle/libs.versions.toml"
+            line="16"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 23"
+        errorLine1="    @TargetApi(Build.VERSION_CODES.M)"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/UserInteractionAwareCallback.kt"
+            line="105"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 23"
+        errorLine1="    @TargetApi(Build.VERSION_CODES.M)"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/UserInteractionAwareCallback.kt"
+            line="115"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.clear` appears to be unused">
+        <location
+            file="src/main/res/drawable/clear.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.clear_3x` appears to be unused">
+        <location
+            file="src/main/res/drawable/clear_3x.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.black` appears to be unused"
+        errorLine1="    &lt;color name=&quot;black&quot;>#FF000000&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="3"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.accentColor` appears to be unused"
+        errorLine1="    &lt;color name=&quot;accentColor&quot;>#E1E2E1&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="13"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher` appears to be unused"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.ic_launcher_background` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_launcher_background.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.ic_launcher_foreground` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/ic_launcher_foreground.xml"
+            line="1"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher_round` appears to be unused"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.partlysunny_3x` appears to be unused">
+        <location
+            file="src/main/res/drawable/partlysunny_3x.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.rain` appears to be unused">
+        <location
+            file="src/main/res/drawable/rain.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.rain_3x` appears to be unused">
+        <location
+            file="src/main/res/drawable/rain_3x.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.sea_cloudy` appears to be unused">
+        <location
+            file="src/main/res/drawable/sea_cloudy.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.sea_rainy` appears to be unused">
+        <location
+            file="src/main/res/drawable/sea_rainy.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.sea_sunnypng` appears to be unused">
+        <location
+            file="src/main/res/drawable/sea_sunnypng.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.saved_locations` appears to be unused"
+        errorLine1="    &lt;string name=&quot;saved_locations&quot;>Saved Locations&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="5"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.search_location` appears to be unused"
+        errorLine1="    &lt;string name=&quot;search_location&quot;>Search Location&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="6"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.weather_history` appears to be unused"
+        errorLine1="    &lt;string name=&quot;weather_history&quot;>Weather History&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="12"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.sort_by` appears to be unused"
+        errorLine1="    &lt;string name=&quot;sort_by&quot;>Sort by:&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="13"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.weather_in` appears to be unused"
+        errorLine1="    &lt;string name=&quot;weather_in&quot;>Weather in &lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="16"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.comma` appears to be unused"
+        errorLine1="    &lt;string name=&quot;comma&quot;>, &lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="17"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.select_date_text` appears to be unused"
+        errorLine1="    &lt;string name=&quot;select_date_text&quot;>Forecast up to 5days. Select end date for forecast.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="20"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.weather_forecast` appears to be unused"
+        errorLine1="    &lt;string name=&quot;weather_forecast&quot;>Weather Forecast&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="21"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.instant_weather` appears to be unused"
+        errorLine1="    &lt;string name=&quot;instant_weather&quot;>Instant Weather&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="26"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.no_forecast_info` appears to be unused"
+        errorLine1="    &lt;string name=&quot;no_forecast_info&quot;>Weather forecast for selected day is unavailable.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="27"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.gps_text` appears to be unused"
+        errorLine1="    &lt;string name=&quot;gps_text&quot;>Please enable your GPS!&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="32"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.preference_theme_title` appears to be unused"
+        errorLine1="    &lt;string name=&quot;preference_theme_title&quot;>Theme&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="35"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.flight_mode_error` appears to be unused"
+        errorLine1="    &lt;string name=&quot;flight_mode_error&quot;>Your device is in Flight Mode, disable and restart the application.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="46"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.location_permission_error` appears to be unused"
+        errorLine1="    &lt;string name=&quot;location_permission_error&quot;>Permission was not granted! \n\n Enable permission manually in this application\&apos;s settings and restart the application.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="47"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.highprecision_internet_error` appears to be unused"
+        errorLine1="    &lt;string name=&quot;highprecision_internet_error&quot;>An error occurred when getting your location! \n\n Ensure your device is connected to the internet. \n\n Swipe down to refresh.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="48"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.location_optimization_error` appears to be unused"
+        errorLine1="    &lt;string name=&quot;location_optimization_error&quot;>Location Optimization Permission was not granted! \n\n Enable permission manually in application settings \n and restart the application.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="49"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.general_main_error` appears to be unused"
+        errorLine1="    &lt;string name=&quot;general_main_error&quot;>An error occurred in getting your location! \n\n Ensure your device is connected to the internet \n\n Swipe down to refresh.&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="50"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.rate_app` appears to be unused"
+        errorLine1="    &lt;string name=&quot;rate_app&quot;>Rate this app&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="61"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.hello_blank_fragment` appears to be unused"
+        errorLine1="    &lt;string name=&quot;hello_blank_fragment&quot;>Hello blank fragment&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="63"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/clear.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/clear.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/clear_2x.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/clear_2x.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/clear_3x.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/clear_3x.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/forest_cloudy.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/forest_cloudy.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/forest_rainy.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/forest_rainy.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/forest_sunny.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/forest_sunny.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/partlysunny.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/partlysunny.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/partlysunny_2x.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/partlysunny_2x.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/partlysunny_3x.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/partlysunny_3x.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/rain.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/rain.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/rain_2x.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/rain_2x.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/rain_3x.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/rain_3x.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/sea_cloudy.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/sea_cloudy.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/sea_rainy.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/sea_rainy.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/sea_sunnypng.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/sea_sunnypng.png"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;com.google.android.material.floatingactionbutton.FloatingActionButton"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout-night/fragment_search_detail.xml"
+            line="30"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                        &lt;ImageView"
+        errorLine2="                         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout-night/fragment_search_detail.xml"
+            line="56"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                        &lt;ImageView"
+        errorLine2="                         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_search_detail.xml"
+            line="58"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                            &lt;ImageView"
+        errorLine2="                             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout-night/fragment_search_detail.xml"
+            line="80"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                            &lt;ImageView"
+        errorLine2="                             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_search_detail.xml"
+            line="82"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                            &lt;ImageView"
+        errorLine2="                             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout-night/fragment_search_detail.xml"
+            line="90"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                            &lt;ImageView"
+        errorLine2="                             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_search_detail.xml"
+            line="92"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                            &lt;ImageView"
+        errorLine2="                             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout-night/fragment_search_detail.xml"
+            line="100"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                            &lt;ImageView"
+        errorLine2="                             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_search_detail.xml"
+            line="102"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                        &lt;ImageView"
+        errorLine2="                         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout-night/fragment_search_detail.xml"
+            line="220"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                        &lt;ImageView"
+        errorLine2="                         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_search_detail.xml"
+            line="222"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                        &lt;ImageView"
+        errorLine2="                         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout-night/fragment_search_detail.xml"
+            line="231"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                        &lt;ImageView"
+        errorLine2="                         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_search_detail.xml"
+            line="233"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/weather_forecast_item.xml"
+            line="33"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        this.text = double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="27"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        this.text = double.toString() + context.resources.getString(R.string.temp_symbol_celsius)"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="29"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\nmin&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="41"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\nmin&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="41"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\nmin&quot;"
+        errorLine2="                                                                                                  ~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="41"
+            column="99"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\nmin&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="44"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\nmin&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="44"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\nmin&quot;"
+        errorLine2="                                                                                               ~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="44"
+            column="96"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\nmax&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="56"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\nmax&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="56"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\nmax&quot;"
+        errorLine2="                                                                                                  ~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="56"
+            column="99"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\nmax&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="59"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\nmax&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="59"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\nmax&quot;"
+        errorLine2="                                                                                               ~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="59"
+            column="96"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\ncurrent&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="71"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\ncurrent&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="71"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_fahrenheit)}\ncurrent&quot;"
+        errorLine2="                                                                                                  ~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="71"
+            column="99"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\ncurrent&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="74"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\ncurrent&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="74"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="            &quot;${double.toString() + context.resources.getString(R.string.temp_symbol_celsius)}\ncurrent&quot;"
+        errorLine2="                                                                                               ~~~~~~~">
+        <location
+            file="src/main/java/com/tommunyiri/dvtweatherapp/utils/BindingAdapter.kt"
+            line="74"
+            column="96"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;TextView&quot;, should use `@string` resource"
+        errorLine1="                            android:text=&quot;TextView&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout-night/fragment_search_detail.xml"
+            line="186"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;TextView&quot;, should use `@string` resource"
+        errorLine1="                            android:text=&quot;TextView&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_search_detail.xml"
+            line="188"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry"
+        errorLine1="            android:paddingEnd=&quot;16dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_search.xml"
+            line="17"
+            column="13"/>
+    </issue>
+
+</issues>
