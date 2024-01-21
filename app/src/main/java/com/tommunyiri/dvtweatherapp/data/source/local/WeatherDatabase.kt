@@ -20,9 +20,7 @@ import com.tommunyiri.dvtweatherapp.utils.typeconverters.ListNetworkWeatherDescr
     version = 2,
     exportSchema = true
 )
-@TypeConverters(
-    ListNetworkWeatherDescriptionConverter::class
-)
+@TypeConverters(ListNetworkWeatherDescriptionConverter::class)
 abstract class WeatherDatabase : RoomDatabase() {
 
     abstract val weatherDao: WeatherDao
