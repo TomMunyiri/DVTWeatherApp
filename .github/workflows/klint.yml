@@ -2,7 +2,7 @@ name: Ktlint
 
 on:
   push:
-    branches: [main,develop] # Just in case master was not up to date while merging PR
+    branches: [main] # Just in case main was not up to date while merging PR
   pull_request:
     types: [opened, synchronize]
     branches: [main,develop]
