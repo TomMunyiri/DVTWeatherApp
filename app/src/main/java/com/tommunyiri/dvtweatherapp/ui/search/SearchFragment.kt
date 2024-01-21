@@ -2,7 +2,6 @@ package com.tommunyiri.dvtweatherapp.ui.search
 
 import android.graphics.PorterDuff
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ import com.algolia.instantsearch.helper.stats.StatsPresenterImpl
 import com.algolia.instantsearch.helper.stats.connectView
 import com.google.android.material.snackbar.Snackbar
 import com.tommunyiri.dvtweatherapp.R
-import com.tommunyiri.dvtweatherapp.data.model.City
+import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
 import com.tommunyiri.dvtweatherapp.data.model.SearchResult
 import com.tommunyiri.dvtweatherapp.data.model.Weather
@@ -35,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var searchDetailBinding: FragmentSearchDetailBinding
-    private lateinit var selectedCity: DBFavoriteLocation
+    private lateinit var selectedCity: FavoriteLocation
     private val bottomSheetDialog by lazy {
         BaseBottomSheetDialog(
             requireActivity(),
@@ -130,7 +129,7 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
             weatherCondition = result.networkWeatherDescription.first()
             location.text = result.name
             weather = result
-            selectedCity = DBFavoriteLocation(result.name)
+            selectedCity = FavoriteLocation(result.name)
             val condition = weatherCondition as NetworkWeatherDescription
             adaptUIWithCurrentWeather(condition.main)
         }

@@ -1,5 +1,6 @@
 package com.tommunyiri.dvtweatherapp.data.source.local
 
+import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
@@ -24,4 +25,6 @@ interface WeatherLocalDataSource {
     suspend fun deleteForecastWeather()
 
     suspend fun saveFavoriteLocation(favoriteLocation: DBFavoriteLocation)
+
+    suspend fun getFavoriteLocations(): List<DBFavoriteLocation>?
 }

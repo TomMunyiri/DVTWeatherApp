@@ -1,6 +1,7 @@
 package com.tommunyiri.dvtweatherapp.data.source.repository
 
 import com.tommunyiri.dvtweatherapp.data.model.City
+import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.model.LocationModel
 import com.tommunyiri.dvtweatherapp.data.model.Weather
 import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
@@ -8,6 +9,8 @@ import com.tommunyiri.dvtweatherapp.data.source.local.WeatherLocalDataSource
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.source.remote.WeatherRemoteDataSource
 import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
+import com.tommunyiri.dvtweatherapp.mapper.FavoriteLocationListMapperLocal
+import com.tommunyiri.dvtweatherapp.mapper.FavoriteLocationMapperLocal
 import com.tommunyiri.dvtweatherapp.mapper.WeatherForecastMapperLocal
 import com.tommunyiri.dvtweatherapp.mapper.WeatherForecastMapperRemote
 import com.tommunyiri.dvtweatherapp.mapper.WeatherMapperLocal
@@ -135,9 +138,21 @@ class WeatherRepositoryImpl @Inject constructor(
         localDataSource.deleteForecastWeather()
     }
 
-    override suspend fun storeFavoriteLocationData(favoriteLocation: DBFavoriteLocation) =
+    override suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation) =
         withContext(ioDispatcher) {
-            localDataSource.saveFavoriteLocation(favoriteLocation)
+            val mapper = FavoriteLocationMapperLocal()
+            localDataSource.saveFavoriteLocation(mapper.transformToDto(favoriteLocation))
+        }
+
+    override suspend fun getFavoriteLocations(): Result<List<FavoriteLocation>?> =
+        withContext(ioDispatcher) {
+            val mapper = FavoriteLocationListMapperLocal()
+            val favoriteLocations = localDataSource.getFavoriteLocations()
+            if (favoriteLocations != null) {
+                Result.Success(mapper.transformToDomain(favoriteLocations))
+            } else {
+                Result.Success(null)
+            }
         }
 
 }

@@ -49,4 +49,9 @@ class WeatherLocalDataSourceImpl @Inject constructor(
         withContext(ioDispatcher) {
             weatherDao.insertFavoriteCity(favoriteLocation)
         }
+
+    override suspend fun getFavoriteLocations(): List<DBFavoriteLocation> =
+        withContext(ioDispatcher) {
+            return@withContext weatherDao.getAllFavoriteLocations()
+        }
 }

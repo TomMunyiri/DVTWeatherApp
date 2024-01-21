@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tommunyiri.dvtweatherapp.ViewModelFactory
 import com.tommunyiri.dvtweatherapp.di.key.ViewModelKey
+import com.tommunyiri.dvtweatherapp.ui.favorite.FavoriteFragmentViewModel
 import com.tommunyiri.dvtweatherapp.ui.home.HomeFragmentViewModel
 import com.tommunyiri.dvtweatherapp.ui.search.SearchFragmentViewModel
 import dagger.Binds
@@ -32,4 +33,9 @@ abstract class ViewModelModule {
     @Binds
     @ViewModelKey(SearchFragmentViewModel::class)
     abstract fun bindSearchFragmentViewModel(viewModel: SearchFragmentViewModel): ViewModel
+
+    @IntoMap
+    @Binds
+    @ViewModelKey(FavoriteFragmentViewModel::class)
+    abstract fun bindFavoritesFragmentViewModel(viewModel: FavoriteFragmentViewModel): ViewModel
 }

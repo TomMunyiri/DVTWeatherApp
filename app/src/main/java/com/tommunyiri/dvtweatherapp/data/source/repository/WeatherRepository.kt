@@ -1,11 +1,13 @@
 package com.tommunyiri.dvtweatherapp.data.source.repository
 
 import com.tommunyiri.dvtweatherapp.data.model.City
+import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.model.LocationModel
 import com.tommunyiri.dvtweatherapp.data.model.Weather
 import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.utils.Result
+
 /**
  * Created by Tom Munyiri on 19/01/2024.
  * Company: Eclectics International Ltd
@@ -15,7 +17,10 @@ interface WeatherRepository {
     suspend fun getWeather(location: LocationModel, refresh: Boolean): Result<Weather?>
 
     //suspend fun getForecastWeather(cityId: Int, refresh: Boolean): Result<List<WeatherForecast>?>
-    suspend fun getForecastWeather(location: LocationModel, refresh: Boolean): Result<List<WeatherForecast>?>
+    suspend fun getForecastWeather(
+        location: LocationModel,
+        refresh: Boolean
+    ): Result<List<WeatherForecast>?>
 
     suspend fun getSearchWeather(location: String): Result<Weather?>
 
@@ -27,5 +32,7 @@ interface WeatherRepository {
 
     suspend fun deleteForecastData()
 
-    suspend fun storeFavoriteLocationData(favoriteLocation: DBFavoriteLocation)
+    suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation)
+
+    suspend fun getFavoriteLocations(): Result<List<FavoriteLocation>?>
 }
