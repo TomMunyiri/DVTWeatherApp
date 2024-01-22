@@ -21,5 +21,13 @@
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.tommunyiri.dvtweatherapp.ui.favorite.FavoritesFragment"
-        android:label="@string/favorite"/>
+        android:label="@string/favorite">
+        <action
+            android:id="@+id/action_favoritesFragment_to_favoriteLocationsMapFragment"
+            app:destination="@id/favoriteLocationsMapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteLocationsMapFragment"
+        android:name="com.tommunyiri.dvtweatherapp.ui.favorite.FavoriteLocationsMapFragment"
+        android:label="@string/favorite" />
 </navigation>

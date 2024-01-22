@@ -45,6 +45,8 @@ algolia = "2.11.1"
 paging = "3.2.1"
 #ktlint
 ktlint="10.2.1"
+#google-maps
+google-maps="18.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -98,6 +100,8 @@ lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-lived
 algolia = { group = "com.algolia", name = "instantsearch-android", version.ref = "algolia" }
 #paging
 androidx-paging = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
+#google-maps
+google-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "google-maps" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

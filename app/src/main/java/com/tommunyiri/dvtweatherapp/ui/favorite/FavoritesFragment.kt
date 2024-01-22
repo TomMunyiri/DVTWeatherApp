@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
@@ -84,6 +85,10 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
         searchDetailBinding.ivFavorite.setOnClickListener {
             isDelete = true
             selectedCity?.name?.let { it1 -> viewModel.deleteFavoriteLocation(it1) }
+        }
+
+        binding.fabGoogleMap.setOnClickListener {
+            findNavController().navigate(R.id.action_favoritesFragment_to_favoriteLocationsMapFragment)
         }
     }
 

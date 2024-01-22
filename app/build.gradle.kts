@@ -132,6 +132,8 @@ dependencies {
     implementation(libs.algolia)
     // paging
     implementation(libs.androidx.paging)
+    // google-maps
+    implementation(libs.google.maps)
 }
 
 class RoomSchemaArgProvider(

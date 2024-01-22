@@ -82,4 +82,12 @@ class MainActivity : AppCompatActivity() {
         windowInsetController?.isAppearanceLightStatusBars =
             defaultNightMode != AppCompatDelegate.MODE_NIGHT_YES
     }
+
+    fun hideBottomNavigationBar() {
+        binding.bottomNavBar.makeGone()
+    }
+
+    fun showBottomNavigationBar() {
+        binding.bottomNavBar.makeVisible()
+    }
 }

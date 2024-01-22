@@ -6,6 +6,7 @@ import android.location.LocationManager
 import android.widget.Toast
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
@@ -68,4 +69,10 @@ class GpsUtil(private val context: Context) {
     interface OnGpsListener {
         fun gpsStatus(isGPSEnabled: Boolean)
     }
+}
+
+fun createLocationRequest(): LocationRequest = LocationRequest.create().apply {
+    interval = 1500
+    fastestInterval = 3000
+    priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,25 +10,20 @@
             type="com.tommunyiri.dvtweatherapp.ui.favorite.FavoriteFragmentViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="0dp"
         tools:context=".ui.favorite.FavoritesFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvFavoriteLocations"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapsFavoriteLocations"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:itemCount="20"
-            tools:listitem="@layout/item_search_result" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
         <ProgressBar
             android:id="@+id/search_weather_loader"
@@ -34,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/rvFavoriteLocations"
+            app:layout_constraintBottom_toBottomOf="@+id/mapsFavoriteLocations"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,23 +46,11 @@
             android:paddingEnd="16dp"
             android:text="@string/zero_favorites_text"
             android:textAlignment="center"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rvFavoriteLocations" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:src="@drawable/ic_maps"
-            android:id="@+id/fabGoogleMap"
-            android:elevation="1dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="80dp"
-            android:backgroundTint="@color/primaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/mapsFavoriteLocations" />
 
         <include
             android:id="@+id/fragmentSearchDetails"
