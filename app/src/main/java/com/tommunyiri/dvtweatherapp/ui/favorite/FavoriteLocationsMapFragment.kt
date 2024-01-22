@@ -10,7 +10,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,9 +30,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
-import com.tommunyiri.dvtweatherapp.R
+import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.databinding.FragmentFavoriteLocationsMapBinding
-import com.tommunyiri.dvtweatherapp.databinding.FragmentFavoritesBinding
 import com.tommunyiri.dvtweatherapp.ui.BaseFragment
 import com.tommunyiri.dvtweatherapp.ui.MainActivity
 import com.tommunyiri.dvtweatherapp.utils.checkPlayServices
@@ -55,9 +53,11 @@ class FavoriteLocationsMapFragment : BaseFragment(), OnMapReadyCallback,
     private val DEFAULT_ZOOM = 5f
     private var firstLocationUpdate = true
     private val REQUEST_LOCATION_PERMISSION = 2
+    private var favoriteLocationsList: List<FavoriteLocation> = emptyList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            favoriteLocationsList = it.getParcelableArrayList("favoriteLocations")!!
         }
     }
 
@@ -95,6 +95,11 @@ class FavoriteLocationsMapFragment : BaseFragment(), OnMapReadyCallback,
         }
     }
 
+    override fun onLowMemory() {
+        super.onLowMemory()
+        binding.mapsFavoriteLocations.onLowMemory()
+    }
+
     private fun populateFields() {
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(createLocationRequest())
@@ -126,21 +131,27 @@ class FavoriteLocationsMapFragment : BaseFragment(), OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        with(mMap) {
+            isMyLocationEnabled = true
+            isTrafficEnabled = true
+            with(uiSettings) {
+                isMyLocationButtonEnabled = true
+                isZoomControlsEnabled = true
+                isCompassEnabled = true
+                isMapToolbarEnabled = true
+            }
+            //setOnMarkerClickListener(this@FavoriteLocationsMapFragment)
+            //setOnCameraMoveStartedListener(this@FavoriteLocationsMapFragment)
+        }
         checkPermission()
         loadMapData()
     }
 
     private fun loadMapData() {
-        val cities = listOf(
-            Triple("Kampala", 0.3163, 32.5825),
-            Triple("Nairobi", -1.2921, 36.8219),
-            Triple("Kigali", -1.9441, 30.0595)
-        )
-
-        for ((cityName, lat, lng) in cities) {
+        for ((name, lat, lng, country) in favoriteLocationsList) {
             val markerOptions = MarkerOptions()
                 .position(LatLng(lat, lng))
-                .title(cityName)
+                .title("$name, $country")
             mMap.addMarker(markerOptions)
         }
     }

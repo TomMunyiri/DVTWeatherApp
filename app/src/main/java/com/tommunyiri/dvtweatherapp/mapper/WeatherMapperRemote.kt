@@ -16,7 +16,9 @@ class WeatherMapperRemote : BaseMapper<NetworkWeather, Weather> {
         name = type.name,
         wind = type.wind,
         networkWeatherDescription = type.networkWeatherDescriptions,
-        networkWeatherCondition = type.networkWeatherCondition
+        networkWeatherCondition = type.networkWeatherCondition,
+        networkWeatherCoordinates = type.networkWeatherCoordinates,
+        networkSys = type.networkSys
     )
 
     override fun transformToDto(type: Weather): NetworkWeather = NetworkWeather(
@@ -25,6 +27,8 @@ class WeatherMapperRemote : BaseMapper<NetworkWeather, Weather> {
         name = type.name,
         wind = type.wind,
         networkWeatherDescriptions = type.networkWeatherDescription,
-        networkWeatherCondition = type.networkWeatherCondition
+        networkWeatherCondition = type.networkWeatherCondition,
+        networkWeatherCoordinates = type.networkWeatherCoordinates,
+        networkSys = type.networkSys
     )
 }

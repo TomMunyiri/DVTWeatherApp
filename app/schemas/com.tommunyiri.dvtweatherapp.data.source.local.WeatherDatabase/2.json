@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "55fc227b062e167f074cd2b3e41a4b52",
+    "identityHash": "81626a50bcf4db2403819b60446f44f9",
     "entities": [
       {
         "tableName": "weather_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`unique_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `city_id` INTEGER NOT NULL, `city_name` TEXT NOT NULL, `weather_details` TEXT NOT NULL, `speed` REAL NOT NULL, `deg` INTEGER NOT NULL, `temp` REAL NOT NULL, `pressure` REAL NOT NULL, `humidity` REAL NOT NULL, `tempMin` REAL NOT NULL, `tempMax` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`unique_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `city_id` INTEGER NOT NULL, `city_name` TEXT NOT NULL, `weather_details` TEXT NOT NULL, `speed` REAL NOT NULL, `deg` INTEGER NOT NULL, `temp` REAL NOT NULL, `pressure` REAL NOT NULL, `humidity` REAL NOT NULL, `tempMin` REAL NOT NULL, `tempMax` REAL NOT NULL, `lat` REAL NOT NULL, `lon` REAL NOT NULL, `country` TEXT NOT NULL, `sunrise` INTEGER NOT NULL, `sunset` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uId",
@@ -72,6 +72,36 @@
             "fieldPath": "networkWeatherCondition.tempMax",
             "columnName": "tempMax",
             "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "networkWeatherCoordinates.lat",
+            "columnName": "lat",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "networkWeatherCoordinates.lon",
+            "columnName": "lon",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "networkSys.country",
+            "columnName": "country",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "networkSys.sunrise",
+            "columnName": "sunrise",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "networkSys.sunset",
+            "columnName": "sunset",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -160,11 +190,29 @@
       },
       {
         "tableName": "favorite_locations_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, PRIMARY KEY(`name`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `lat` REAL NOT NULL, `lon` REAL NOT NULL, `country` TEXT NOT NULL, PRIMARY KEY(`name`))",
         "fields": [
           {
             "fieldPath": "name",
             "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lat",
+            "columnName": "lat",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lon",
+            "columnName": "lon",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "country",
+            "columnName": "country",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -182,7 +230,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '55fc227b062e167f074cd2b3e41a4b52')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '81626a50bcf4db2403819b60446f44f9')"
     ]
   }
 }

@@ -16,7 +16,9 @@ class WeatherMapperLocal : BaseMapper<DBWeather, Weather> {
         name = type.cityName,
         wind = type.wind,
         networkWeatherDescription = type.networkWeatherDescription,
-        networkWeatherCondition = type.networkWeatherCondition
+        networkWeatherCondition = type.networkWeatherCondition,
+        networkWeatherCoordinates = type.networkWeatherCoordinates,
+        networkSys = type.networkSys
     )
 
     override fun transformToDto(type: Weather): DBWeather = DBWeather(
@@ -25,6 +27,8 @@ class WeatherMapperLocal : BaseMapper<DBWeather, Weather> {
         cityName = type.name,
         wind = type.wind,
         networkWeatherDescription = type.networkWeatherDescription,
-        networkWeatherCondition = type.networkWeatherCondition
+        networkWeatherCondition = type.networkWeatherCondition,
+        networkWeatherCoordinates = type.networkWeatherCoordinates,
+        networkSys = type.networkSys
     )
 }

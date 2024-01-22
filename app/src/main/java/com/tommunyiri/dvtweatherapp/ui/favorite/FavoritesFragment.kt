@@ -88,7 +88,12 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
         }
 
         binding.fabGoogleMap.setOnClickListener {
-            findNavController().navigate(R.id.action_favoritesFragment_to_favoriteLocationsMapFragment)
+            val bundle = Bundle()
+            bundle.putParcelableArrayList("favoriteLocations", favoriteLocationList)
+            findNavController().navigate(
+                R.id.action_favoritesFragment_to_favoriteLocationsMapFragment,
+                bundle
+            )
         }
     }
 
@@ -196,7 +201,12 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
             weatherCondition = result.networkWeatherDescription.first()
             location.text = result.name
             weather = result
-            selectedCity = FavoriteLocation(result.name)
+            selectedCity = FavoriteLocation(
+                result.name,
+                result.networkWeatherCoordinates.lat,
+                result.networkWeatherCoordinates.lon,
+                result.networkSys.country
+            )
             val condition = weatherCondition as NetworkWeatherDescription
             adaptUIWithCurrentWeather(condition.main)
         }

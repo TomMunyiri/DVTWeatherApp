@@ -31,13 +31,17 @@ The architecture of this application relies and complies with the following poin
 * [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) for realtime crash reporting and tracking stability issues that erode app quality.
 
 ## Features
-- [ ] Offline first
-- [ ] Get current weather
-- [ ] Get weather forecast for the next 5 days
-- [ ] Change theme
-- [ ] Change preferred unit of temperature
+- [ ] Offline first approach for current weather and weather forecast 
+- [ ] Get and display current weather
+- [ ] Change home screen background image depending on the current weather
+- [ ] Display current city 
+- [ ] Display current time
+- [ ] Get and display weather forecast for the next 5 days
+- [ ] Change app theme
+- [ ] Set preferred unit of temperature
 - [ ] Search location and display the current weather. Algolia used for searching
 - [ ] Save locations, display saved locations, remove from saved locations, get weather for saved locations
+- [ ] Show saved locations on a Google Map
 
 ## Installation
 DVT Weather requires a minimum API level of 24. Clone the repository. You will need an API key i.e. `API_KEY` from [Open Weather](https://openweathermap.org/) to request data. If you don’t already have an account, you will need to create one in order to request an API Key. Also, you will need to create an app on [Algolia](https://www.algolia.com/doc/).

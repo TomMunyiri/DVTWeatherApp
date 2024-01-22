@@ -133,7 +133,12 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
             weatherCondition = result.networkWeatherDescription.first()
             location.text = result.name
             weather = result
-            selectedCity = FavoriteLocation(result.name)
+            selectedCity = FavoriteLocation(
+                result.name,
+                result.networkWeatherCoordinates.lat,
+                result.networkWeatherCoordinates.lon,
+                result.networkSys.country
+            )
             val condition = weatherCondition as NetworkWeatherDescription
             adaptUIWithCurrentWeather(condition.main)
         }

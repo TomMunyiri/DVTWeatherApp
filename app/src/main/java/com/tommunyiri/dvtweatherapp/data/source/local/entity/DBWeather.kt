@@ -4,7 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.tommunyiri.dvtweatherapp.data.model.NetworkSys
 import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherCondition
+import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherCoordinates
 import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
 import com.tommunyiri.dvtweatherapp.data.model.Wind
 
@@ -33,5 +35,11 @@ data class DBWeather(
     val networkWeatherDescription: List<NetworkWeatherDescription>,
 
     @Embedded
-    val networkWeatherCondition: NetworkWeatherCondition
+    val networkWeatherCondition: NetworkWeatherCondition,
+
+    @Embedded
+    val networkWeatherCoordinates: NetworkWeatherCoordinates,
+
+    @Embedded
+    val networkSys: NetworkSys
 )

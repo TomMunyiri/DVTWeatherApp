@@ -12,9 +12,9 @@ import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBFavoriteLocation
 class FavoriteLocationMapperLocal : BaseMapper<DBFavoriteLocation, FavoriteLocation> {
 
     override fun transformToDomain(type: DBFavoriteLocation): FavoriteLocation =
-        FavoriteLocation(type.name)
+        FavoriteLocation(type.name, type.lat, type.lon, type.country)
 
 
     override fun transformToDto(type: FavoriteLocation): DBFavoriteLocation =
-        DBFavoriteLocation(type.name)
+        DBFavoriteLocation(type.name, type.lat, type.lon, type.country)
 }

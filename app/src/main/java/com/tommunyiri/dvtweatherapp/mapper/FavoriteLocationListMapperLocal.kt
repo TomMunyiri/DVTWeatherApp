@@ -13,13 +13,19 @@ class FavoriteLocationListMapperLocal :
     BaseMapper<List<DBFavoriteLocation>, List<FavoriteLocation>> {
     override fun transformToDomain(type: List<DBFavoriteLocation>): List<FavoriteLocation> {
         return type.map { dbFavoriteLocation ->
-            FavoriteLocation(dbFavoriteLocation.name)
+            FavoriteLocation(
+                dbFavoriteLocation.name, dbFavoriteLocation.lat,
+                dbFavoriteLocation.lon, dbFavoriteLocation.country
+            )
         }
     }
 
     override fun transformToDto(type: List<FavoriteLocation>): List<DBFavoriteLocation> {
         return type.map { favoriteLocation ->
-            DBFavoriteLocation(favoriteLocation.name)
+            DBFavoriteLocation(
+                favoriteLocation.name, favoriteLocation.lat,
+                favoriteLocation.lon, favoriteLocation.country
+            )
         }
     }
 }

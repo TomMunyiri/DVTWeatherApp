@@ -13,5 +13,14 @@ import androidx.room.PrimaryKey
 data class DBFavoriteLocation(
     @PrimaryKey
     @ColumnInfo(name = "name")
-    val name: String
+    val name: String,
+
+    @ColumnInfo(name = "lat")
+    val lat: Double,
+
+    @ColumnInfo(name = "lon")
+    val lon: Double,
+
+    @ColumnInfo(name = "country")
+    val country: String
 )
