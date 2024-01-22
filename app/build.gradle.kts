@@ -105,7 +105,7 @@ dependencies {
     // coroutines
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.coroutines.android)
-    implementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlinx.coroutines.test)
     // network and serialization
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
@@ -138,11 +138,11 @@ dependencies {
     // unit-testing
     implementation(libs.mockito.core)
     // room-testing
-    implementation(libs.room.testing)
+    // testImplementation(libs.room.testing)
     // hamcrest
-    implementation(libs.hamcrest)
+    testImplementation(libs.hamcrest)
     // roboelectric
-    implementation(libs.roboelectric)
+    testImplementation(libs.roboelectric)
 }
 
 class RoomSchemaArgProvider(
