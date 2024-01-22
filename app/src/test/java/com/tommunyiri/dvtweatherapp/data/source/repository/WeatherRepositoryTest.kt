@@ -284,7 +284,7 @@ class WeatherRepositoryTest {
             when (response) {
                 is Result.Success -> {
                     val weather = response.data
-                    Assert.assertThat<Weather>(
+                    Assert.assertThat(
                         weather as Weather,
                         CoreMatchers.`is`(CoreMatchers.notNullValue())
                     )
