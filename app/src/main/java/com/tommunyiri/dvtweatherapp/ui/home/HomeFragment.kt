@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -375,10 +376,19 @@ class HomeFragment : BaseFragment() {
     }
 
     companion object {
-        private val REQUIRED_PERMISSIONS = arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )
+        private val REQUIRED_PERMISSIONS =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+            } else {
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            }
         private const val LOCATION_REQUEST_CODE = 123
     }
 
@@ -389,13 +399,13 @@ class HomeFragment : BaseFragment() {
             .build()
 
         val weatherUpdateRequest =
-            PeriodicWorkRequestBuilder<UpdateWeatherWorker>(5, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<UpdateWeatherWorker>(10, TimeUnit.MINUTES)
                 .setConstraints(constraint)
-                .setInitialDelay(6, TimeUnit.HOURS)
+                .setInitialDelay(10, TimeUnit.MINUTES)
                 .build()
 
         WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
-            "Update_weather_worker",
+            "DVT_update_weather_worker",
             ExistingPeriodicWorkPolicy.REPLACE, weatherUpdateRequest
         )
     }

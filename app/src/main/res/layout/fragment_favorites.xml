@@ -48,7 +48,7 @@
             android:paddingEnd="16dp"
             android:text="@string/zero_favorites_text"
             android:textAlignment="center"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

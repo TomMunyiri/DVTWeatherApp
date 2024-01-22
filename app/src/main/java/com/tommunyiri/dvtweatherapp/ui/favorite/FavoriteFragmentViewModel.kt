@@ -16,7 +16,7 @@ import javax.inject.Inject
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-class FavoriteFragmentViewModel@Inject constructor(private val repository: WeatherRepository) :
+class FavoriteFragmentViewModel @Inject constructor(private val repository: WeatherRepository) :
     ViewModel() {
     private val _favoriteLocations = MutableLiveData<List<FavoriteLocation>?>()
     val favoriteLocation = _favoriteLocations.asLiveData()
@@ -60,15 +60,15 @@ class FavoriteFragmentViewModel@Inject constructor(private val repository: Weath
         }
     }
 
-    fun deleteFavoriteLocation(name:String) {
+    fun deleteFavoriteLocation(name: String) {
         _isFavoriteLocationDeletionLoading.value = true
         viewModelScope.launch {
             when (val result = repository.deleteFavoriteLocation(name)) {
                 is Result.Success -> {
                     _isFavoriteLocationDeletionLoading.postValue(false)
-                        val deleteResult = result.data
-                        _deleteStateFavoriteLocation.value = true
-                        _deleteFavoriteLocationResult.value = deleteResult
+                    val deleteResult = result.data
+                    _deleteStateFavoriteLocation.value = true
+                    _deleteFavoriteLocationResult.value = deleteResult
                 }
 
                 is Result.Loading -> {
@@ -78,5 +78,11 @@ class FavoriteFragmentViewModel@Inject constructor(private val repository: Weath
                 else -> {}
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        _deleteFavoriteLocationResult.value = null
+        _isFavoriteLocationDeletionLoading.value = false
     }
 }

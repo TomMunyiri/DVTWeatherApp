@@ -82,6 +82,7 @@ class SearchFragmentViewModel @Inject constructor(private val repository: Weathe
      */
     fun getSearchWeather(name: String) {
         _isLoading.postValue(true)
+        _weatherInfo.postValue(null)
         viewModelScope.launch {
             when (val result = repository.getSearchWeather(name)) {
                 is Result.Success -> {
@@ -116,5 +117,10 @@ class SearchFragmentViewModel @Inject constructor(private val repository: Weathe
         super.onCleared()
         searcher.cancel()
         connection.disconnect()
+    }
+
+    fun clearData() {
+        _weatherInfo.postValue(null)
+        _isLoading.postValue(false)
     }
 }

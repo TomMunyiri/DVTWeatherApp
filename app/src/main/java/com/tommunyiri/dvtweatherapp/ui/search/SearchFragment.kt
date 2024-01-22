@@ -202,6 +202,9 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
     override fun onDestroyView() {
         super.onDestroyView()
         connection.disconnect()
+        viewModel.clearData()
+        if (bottomSheetDialog.isShowing)
+            bottomSheetDialog.dismiss()
     }
 
     override fun onSearchResultClicked(searchResult: SearchResult) {

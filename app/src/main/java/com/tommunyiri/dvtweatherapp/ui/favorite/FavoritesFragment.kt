@@ -21,7 +21,10 @@ import com.tommunyiri.dvtweatherapp.ui.BaseFragment
 import com.tommunyiri.dvtweatherapp.ui.MainActivity
 import com.tommunyiri.dvtweatherapp.ui.search.SearchFragmentViewModel
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
+import com.tommunyiri.dvtweatherapp.utils.makeGone
+import com.tommunyiri.dvtweatherapp.utils.makeVisible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClickedListener {
@@ -29,7 +32,9 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
     private val viewModel by viewModels<FavoriteFragmentViewModel> { viewModelFactoryProvider }
     private val searchViewModel by viewModels<SearchFragmentViewModel> { viewModelFactoryProvider }
     private lateinit var searchDetailBinding: FragmentSearchDetailBinding
-    private lateinit var selectedCity: FavoriteLocation
+    private var selectedCity: FavoriteLocation? = null
+    private var selectedCityPosition by Delegates.notNull<Int>()
+    private lateinit var favoriteLocationList: ArrayList<FavoriteLocation>
     private val favoriteLocationsAdapter by lazy { FavoriteLocationsAdapter(this) }
     private val bottomSheetDialog by lazy {
         BaseBottomSheetDialog(
@@ -37,6 +42,7 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
             R.style.AppBottomSheetDialogTheme
         )
     }
+    private var isDelete = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,13 +82,13 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
         }
 
         searchDetailBinding.ivFavorite.setOnClickListener {
-            viewModel.deleteFavoriteLocation(selectedCity.name)
+            isDelete = true
+            selectedCity?.name?.let { it1 -> viewModel.deleteFavoriteLocation(it1) }
         }
     }
 
     private fun observeSearchViewModel() {
         with(searchViewModel) {
-
             weatherInfo.observe(viewLifecycleOwner) { weather ->
                 weather?.let {
                     val formattedWeather = it.apply {
@@ -113,7 +119,19 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
         with(viewModel) {
             favoriteLocation.observe(viewLifecycleOwner) { favoriteLocation ->
                 favoriteLocation?.let { list ->
-                    favoriteLocationsAdapter.submitList(list)
+                    favoriteLocationList = list as ArrayList<FavoriteLocation>
+                    if (list.isNotEmpty()) {
+                        favoriteLocationsAdapter.submitList(list)
+                        binding.apply {
+                            rvFavoriteLocations.makeVisible()
+                            tvZeroFavorites.makeGone()
+                        }
+                    } else {
+                        binding.apply {
+                            rvFavoriteLocations.makeGone()
+                            tvZeroFavorites.makeVisible()
+                        }
+                    }
                 }
             }
 
@@ -131,14 +149,10 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
             deleteFavoriteLocationResult.observe(viewLifecycleOwner) { deleteFavoriteLocationResult ->
                 deleteFavoriteLocationResult?.let {
                     if (it == 1) {
-                        viewModel.getFavoriteLocations()
+                        //viewModel.getFavoriteLocations()
+                        updateRecyclerView()
                         if (bottomSheetDialog.isShowing)
                             bottomSheetDialog.dismiss()
-                        Toast.makeText(
-                            context,
-                            "Favorite location deleted successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     } else {
                         Toast.makeText(
                             context,
@@ -154,6 +168,22 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
             }
 
         }
+    }
+
+    private fun updateRecyclerView() {
+        if (isDelete) {
+            favoriteLocationList.remove(selectedCity)
+            favoriteLocationsAdapter.notifyItemRemoved(selectedCityPosition)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isDelete = false
+        selectedCity = null
+        searchViewModel.clearData()
+        if (bottomSheetDialog.isShowing)
+            bottomSheetDialog.dismiss()
     }
 
     private fun displayWeatherResult(result: Weather) {
@@ -219,8 +249,10 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
             }
     }
 
-    override fun onSearchResultClicked(dbFavoriteLocation: FavoriteLocation) {
+    override fun onSearchResultClicked(dbFavoriteLocation: FavoriteLocation, position: Int) {
+        searchViewModel.clearData()
         searchViewModel.getSearchWeather(dbFavoriteLocation.name)
         selectedCity = dbFavoriteLocation
+        selectedCityPosition = position
     }
 }

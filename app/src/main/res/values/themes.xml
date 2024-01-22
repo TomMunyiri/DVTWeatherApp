@@ -14,7 +14,7 @@
     <style name="Theme.DVTWeatherApp" parent="Base.Theme.DVTWeatherApp" />
 
     <style name="SplashScreenTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowBackground">@mipmap/new_ic_launcher</item>
+        <item name="android:windowBackground">@drawable/splash_screen_image</item>
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryLightColor</item>
