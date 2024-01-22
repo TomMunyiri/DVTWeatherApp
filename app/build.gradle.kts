@@ -105,6 +105,7 @@ dependencies {
     // coroutines
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.coroutines.android)
+    implementation(libs.kotlinx.coroutines.test)
     // network and serialization
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
@@ -134,6 +135,14 @@ dependencies {
     implementation(libs.androidx.paging)
     // google-maps
     implementation(libs.google.maps)
+    // unit-testing
+    implementation(libs.mockito.core)
+    // room-testing
+    implementation(libs.room.testing)
+    // hamcrest
+    implementation(libs.hamcrest)
+    // roboelectric
+    implementation(libs.roboelectric)
 }
 
 class RoomSchemaArgProvider(
