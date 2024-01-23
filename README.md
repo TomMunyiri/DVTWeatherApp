@@ -87,7 +87,7 @@ ALGOLIA_INDEX_NAME = "YOUR_INDEX_NAME"
 <img src="media/home_screen.png"  width="250"/> <img src="media/search_light.png"  width="250"/> <img src="media/favorites_weather_light.png" width="250"/>
 
 ### Dark Theme
-<img src="media/settings_dark.png"  width="250"/> <img src="media/search_weather_dark.png"  width="250"/> <img src="media/favorites_map_dark.png" width="250"/>
+<img src="media/settings_dark.png"  width="250"/> <img src="media/favorites_dark.png"  width="250"/> <img src="media/favorites_map_dark.png" width="250"/>
 
 [//]: # (## Contribution)
 
