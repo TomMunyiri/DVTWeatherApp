@@ -1,0 +1,25 @@
+
+†
+Vapp/src/main/java/com/tommunyiri/dvtweatherapp/data/model/NetworkWeatherDescription.kt,a/e/ae1027d37e7e7541092faffe484389550e00eb42
+w
+Gapp/src/main/java/com/tommunyiri/dvtweatherapp/data/model/NetworkSys.kt,6/b/6bd2d6babb0b7df8676f970cf8aedac354283bc3
+I
+gradle/libs.versions.toml,d/7/d7595319a0658be6f1ed500ad590d42e4b28bc4f
+Ž
+^app/src/test/java/com/tommunyiri/dvtweatherapp/data/source/repository/WeatherRepositoryTest.kt,3/a/3a87bc2ef8d244c58b7bc88d58f839dea4f0b82b
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+z
+Japp/src/main/java/com/tommunyiri/dvtweatherapp/ui/search/SearchFragment.kt,5/6/56d3b62b48600ae27eaa429bab5ff04a52e450af
+D
+app/build.gradle.kts,d/2/d2a4383452aad84a18429a5844d31330a012a9e6
+„
+Tapp/src/main/java/com/tommunyiri/dvtweatherapp/data/model/NetworkWeatherCondition.kt,a/4/a4d31d91ee95d531e320b08ad0a30ce2e53fc46f
+@
+build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
+T
+$.github/workflows/sonarqube_analysis,5/2/52042c56ea784dfd3ffb563090812ddd841763a7
+X
+(.github/workflows/sonarqube_analysis.yml,5/0/508c854327fbbe0bd74cbbb9f77acfad89a43880
+S
+#.github/workflows/android_build.yml,f/b/fb775086fb4821ea2ceb55df41ed726900a41b02

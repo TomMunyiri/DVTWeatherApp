@@ -54,7 +54,7 @@ Each record follows this structure:
 {
     "objectID": "ffe74e4cdddbc_dashboard_generated_id",
     "country": "Kenya",
-    "geonameid": 1085510,
+    "geonameid": 47439340,
     "name": "Westlands",
     "subcountry": "Nairobi"
 }
@@ -77,6 +77,7 @@ ALGOLIA_INDEX_NAME = "YOUR_INDEX_NAME"
 [Github Actions](https://github.com/TomMunyiri/DVTWeatherApp/actions) is used for CI/CD. The project contains the following workflows:
 * [Android Build](https://github.com/TomMunyiri/DVTWeatherApp/blob/main/.github/workflows/android_build.yml) - Runs tests, builds the project, and generates an apk. 
 * [Ktlint](https://github.com/TomMunyiri/DVTWeatherApp/blob/main/.github/workflows/klint.yml) - Does lint checking using the [ktlint](https://github.com/JLLeitschuh/ktlint-gradle) gradle plugin.
+* [SonarQube Analysis](https://github.com/TomMunyiri/DVTWeatherApp/blob/main/.github/workflows/sonarqube_analysis.yml) - Does static code analysis to detect bugs, vulnerabilities and code smells.
 
 ## Credits
 

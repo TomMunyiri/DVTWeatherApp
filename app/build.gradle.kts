@@ -10,6 +10,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     alias(libs.plugins.ktlint)
+    id("org.sonarqube")
 }
 
 tasks.check {
@@ -19,6 +20,29 @@ tasks.check {
 ktlint {
     version = "0.42.1"
     ignoreFailures = false
+}
+
+sonarqube {
+    val properties = Properties()
+    properties.load(rootProject.file("local.properties").inputStream())
+    properties {
+        //TODO Read sensitive data from properties file
+        property("sonar.projectKey", "DVT-Weather-App")
+        property("sonar.projectName", "DVT Weather App")
+        property("sonar.host.url", "http://localhost:9000")
+        property("sonar.language", "kotlin")
+        property("sonar.sources", "src/main/java")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.login", "admin")
+        property("sonar.password", "tomamwas")
+        property(
+            "sonar.coverage.exclusions", "**/*Test*/**,' +\n" +
+                    "                '*.json,' +\n" +
+                    "                '**/*test*/**,' +\n" +
+                    "                '**/.gradle/**,' +\n" +
+                    "                '**/R.class"
+        )
+    }
 }
 
 android {

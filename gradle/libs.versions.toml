@@ -12,6 +12,7 @@ constraintlayout = "2.1.4"
 hilt-android = "2.48"
 ksp = "1.9.0-1.0.13"
 hilt-compiler = "1.1.0"
+sonarqubeGradlePlugin = "3.1.1"
 # Firebase Services
 firebaseCrashlytics = "18.6.0"
 firebaseAnalytics = "21.5.0"
@@ -44,9 +45,9 @@ algolia = "2.11.1"
 #paging
 paging = "3.2.1"
 #ktlint
-ktlint="10.2.1"
+ktlint = "10.2.1"
 #google-maps
-google-maps="18.2.0"
+google-maps = "18.2.0"
 
 #unit-testing
 mockito = "4.0.0"
@@ -71,6 +72,7 @@ gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "gr
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
 firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 #work manager
+sonarqube-gradle-plugin = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin", version.ref = "sonarqubeGradlePlugin" }
 work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
 # Include optional testing library if needed
 work-testing = { group = "androidx.work", name = "work-testing", version.ref = "workManager" }
