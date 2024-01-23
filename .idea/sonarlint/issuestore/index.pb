@@ -23,3 +23,5 @@ X
 (.github/workflows/sonarqube_analysis.yml,5/0/508c854327fbbe0bd74cbbb9f77acfad89a43880
 S
 #.github/workflows/android_build.yml,f/b/fb775086fb4821ea2ceb55df41ed726900a41b02
+C
+settings.gradle.kts,7/4/749edfcc96398253e5b3416184e95c46621da850
