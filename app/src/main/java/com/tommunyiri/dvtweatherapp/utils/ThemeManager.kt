@@ -1,10 +1,6 @@
 package com.tommunyiri.dvtweatherapp.utils
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.PreferenceManager
-import timber.log.Timber
-
 
 /**
  * Created by Tom Munyiri on 19/01/2024.

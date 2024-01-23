@@ -25,28 +25,6 @@ class MainActivity : AppCompatActivity() {
         //enableEdgeToEdge()
         setContentView(binding.root)
         setupNavigation()
-
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            //v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            WindowInsetsCompat.CONSUMED
-            v.setPadding(systemBars.left, 0, systemBars.right,systemBars.bottom)
-            insets
-        }*/
-
-        // Creates a button that mimics a crash when pressed
-        /*val crashButton = Button(this)
-        crashButton.text = "Test Crash"
-        crashButton.setOnClickListener {
-            throw RuntimeException("Test Crash") // Force a crash
-        }
-
-        addContentView(
-            crashButton, ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        )*/
     }
 
     private fun setupNavigation() {

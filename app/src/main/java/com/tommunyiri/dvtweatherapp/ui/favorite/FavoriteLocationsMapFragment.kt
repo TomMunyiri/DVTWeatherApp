@@ -189,7 +189,6 @@ class FavoriteLocationsMapFragment : BaseFragment(), OnMapReadyCallback,
         }
     }
 
-    /***/
     private fun checkSettings() {
         task.addOnSuccessListener {
             requestLocationUpdates()
@@ -224,20 +223,16 @@ class FavoriteLocationsMapFragment : BaseFragment(), OnMapReadyCallback,
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
-                mMap.isMyLocationEnabled = true
-                requestLocationUpdates()
-            }
+        if (requestCode == REQUEST_LOCATION_PERMISSION && grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
+            mMap.isMyLocationEnabled = true
+            requestLocationUpdates()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == requestCheckSettings) {
-                requestLocationUpdates()
-            }
+        if (resultCode == Activity.RESULT_OK && requestCode == requestCheckSettings) {
+            requestLocationUpdates()
         }
     }
 

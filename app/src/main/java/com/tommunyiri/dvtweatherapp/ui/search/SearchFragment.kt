@@ -99,7 +99,7 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
 
             locations.observe(viewLifecycleOwner) { hits ->
                 searchResultAdapter.submitList(hits)
-                binding.zeroHits.isVisible = hits.size == 0
+                binding.zeroHits.isVisible = hits.isEmpty()
             }
 
             weatherInfo.observe(viewLifecycleOwner) { weather ->

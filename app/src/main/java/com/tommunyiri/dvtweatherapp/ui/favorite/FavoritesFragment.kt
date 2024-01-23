@@ -159,7 +159,6 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
             deleteFavoriteLocationResult.observe(viewLifecycleOwner) { deleteFavoriteLocationResult ->
                 deleteFavoriteLocationResult?.let {
                     if (it == 1) {
-                        //viewModel.getFavoriteLocations()
                         updateRecyclerView()
                         if (bottomSheetDialog.isShowing)
                             bottomSheetDialog.dismiss()

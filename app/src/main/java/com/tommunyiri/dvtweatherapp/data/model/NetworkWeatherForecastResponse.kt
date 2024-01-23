@@ -1,8 +1,6 @@
 package com.tommunyiri.dvtweatherapp.data.model
 
 import com.google.gson.annotations.SerializedName
-import com.tommunyiri.dvtweatherapp.data.model.City
-import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherForecast
 
 /**
  * Created by Tom Munyiri on 18/01/2024.

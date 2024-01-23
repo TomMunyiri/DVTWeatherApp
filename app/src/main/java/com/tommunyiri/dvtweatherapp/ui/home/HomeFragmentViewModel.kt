@@ -55,6 +55,9 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
     private val _dataFetchStateForecast = MutableLiveData<Boolean>()
     val dataFetchStateForecast = _dataFetchStateForecast.asLiveData()
 
+    private val _isWeatherRefresh = MutableLiveData<Boolean>()
+    val isWeatherRefresh = _isWeatherRefresh.asLiveData()
+
     /**
      *This attempts to get the [WeatherForecast] from the local data source,
      * if the result is null, it gets from the remote source.
@@ -81,7 +84,10 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
                     _isForecastLoading.postValue(true)
                 }
 
-                else -> {}
+                is Result.Error -> {
+                    _dataFetchStateForecast.value = false
+                    _isForecastLoading.value = false
+                }
             }
         }
     }
@@ -115,9 +121,6 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
                 }
 
                 is Result.Loading -> _isForecastLoading.postValue(true)
-                is Result.Error -> TODO()
-                Result.Loading -> TODO()
-                is Result.Success -> TODO()
             }
         }
     }
@@ -137,7 +140,9 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
                         val weather = result.data
                         _dataFetchState.value = true
                         _weather.value = weather
+                        _isWeatherRefresh.value = false
                     } else {
+                        _isWeatherRefresh.value = true
                         refreshWeather(location)
                     }
                 }

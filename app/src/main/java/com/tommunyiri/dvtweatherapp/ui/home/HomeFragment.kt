@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -41,7 +42,6 @@ class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
     private var isGPSEnabled = false
     private val weatherForecastAdapter by lazy { WeatherForecastAdapter() }
-    private var isRefresh = false
 
     @Inject
     lateinit var prefs: SharedPreferenceHelper
@@ -77,8 +77,8 @@ class HomeFragment : BaseFragment() {
         binding.viewModel = viewModel
         hideAllViews(true)
         observeViewModels()
+        observeMoreViewModels()
         binding.swipeRefreshId.setOnRefreshListener {
-            isRefresh = true
             binding.errorText.makeGone()
             binding.progressBar.makeVisible()
             hideViews()
@@ -94,12 +94,13 @@ class HomeFragment : BaseFragment() {
         viewModel.fetchLocationLiveData().observeOnce(
             viewLifecycleOwner
         ) { location ->
-            if (isRefresh) {
-                viewModel.refreshForecastData(location)
-            } else {
-                viewModel.getWeatherForecast(location)
+            viewModel.isWeatherRefresh.observe(viewLifecycleOwner) { isWeatherRefresh ->
+                if (isWeatherRefresh) {
+                    viewModel.refreshForecastData(location)
+                } else {
+                    viewModel.getWeatherForecast(location)
+                }
             }
-            observeMoreViewModels()
         }
     }
 
@@ -120,14 +121,38 @@ class HomeFragment : BaseFragment() {
             }
 
             dataFetchStateForecast.observe(viewLifecycleOwner) { state ->
-                binding.apply {
-                    rvForecast.isVisible = state
-                    forecastErrorText.isVisible = !state
+                when (state) {
+                    true -> {
+                        binding.apply {
+                            rvForecast.isVisible = state
+                            forecastErrorText.isVisible = !state
+                        }
+                    }
+
+                    false -> {
+                        binding.apply {
+                            Toast.makeText(
+                                context,
+                                "Error fetching weather forecast",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            rvForecast.makeGone()
+                        }
+                    }
                 }
+
             }
 
             isForecastLoading.observe(viewLifecycleOwner) { state ->
-                binding.pbForecast.isVisible = state
+                when (state) {
+                    true -> {
+                        binding.pbForecast.makeVisible()
+                    }
+
+                    false -> {
+                        binding.pbForecast.makeGone()
+                    }
+                }
             }
 
         }
@@ -190,15 +215,15 @@ class HomeFragment : BaseFragment() {
                 when (state) {
                     true -> {
                         unHideViews()
-                        binding.errorText.visibility = View.GONE
+                        binding.errorText.makeGone()
                     }
 
                     false -> {
                         hideViews()
                         binding.apply {
-                            errorText.visibility = View.VISIBLE
-                            progressBar.visibility = View.GONE
-                            loadingText.visibility = View.GONE
+                            errorText.makeVisible()
+                            progressBar.makeGone()
+                            loadingText.makeGone()
                         }
                     }
                 }
@@ -209,15 +234,15 @@ class HomeFragment : BaseFragment() {
                     true -> {
                         hideViews()
                         binding.apply {
-                            progressBar.visibility = View.VISIBLE
-                            loadingText.visibility = View.VISIBLE
+                            progressBar.makeVisible()
+                            loadingText.makeVisible()
                         }
                     }
 
                     false -> {
                         binding.apply {
-                            progressBar.visibility = View.GONE
-                            loadingText.visibility = View.GONE
+                            progressBar.makeGone()
+                            loadingText.makeGone()
                         }
                     }
                 }
@@ -406,7 +431,7 @@ class HomeFragment : BaseFragment() {
 
         WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
             "DVT_update_weather_worker",
-            ExistingPeriodicWorkPolicy.REPLACE, weatherUpdateRequest
+            ExistingPeriodicWorkPolicy.UPDATE, weatherUpdateRequest
         )
     }
 }
