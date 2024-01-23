@@ -7,10 +7,6 @@ on:
     types: [opened, synchronize]
     branches: [main,develop]
 
-concurrency:
-  group: build-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   run:
     continue-on-error: true

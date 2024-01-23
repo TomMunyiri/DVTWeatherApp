@@ -6,10 +6,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-concurrency:
-  group: build-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build:
     name: Build
