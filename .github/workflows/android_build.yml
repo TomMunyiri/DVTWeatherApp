@@ -3,9 +3,12 @@ name: Android Build
 on :
     pull_request :
        branches : [main,develop]
-
     push:
       branches: [main]
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
