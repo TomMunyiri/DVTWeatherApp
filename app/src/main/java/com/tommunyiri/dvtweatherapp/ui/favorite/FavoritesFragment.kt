@@ -35,7 +35,7 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
     private lateinit var searchDetailBinding: FragmentSearchDetailBinding
     private var selectedCity: FavoriteLocation? = null
     private var selectedCityPosition by Delegates.notNull<Int>()
-    private lateinit var favoriteLocationList: ArrayList<FavoriteLocation>
+    private var favoriteLocationList = arrayListOf<FavoriteLocation>()
     private val favoriteLocationsAdapter by lazy { FavoriteLocationsAdapter(this) }
     private val bottomSheetDialog by lazy {
         BaseBottomSheetDialog(
@@ -88,12 +88,20 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
         }
 
         binding.fabGoogleMap.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putParcelableArrayList("favoriteLocations", favoriteLocationList)
-            findNavController().navigate(
-                R.id.action_favoritesFragment_to_favoriteLocationsMapFragment,
-                bundle
-            )
+            if (favoriteLocationList.isNotEmpty()) {
+                val bundle = Bundle()
+                bundle.putParcelableArrayList("favoriteLocations", favoriteLocationList)
+                findNavController().navigate(
+                    R.id.action_favoritesFragment_to_favoriteLocationsMapFragment,
+                    bundle
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Add favorite locations to use this feature",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
