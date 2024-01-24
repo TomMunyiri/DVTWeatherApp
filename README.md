@@ -82,6 +82,11 @@ ALGOLIA_INDEX_NAME = "YOUR_INDEX_NAME"
 
 * [Icon Kitchen](https://icon.kitchen/) was used to generate the launcher icon.
 
+## TODO
+* Add proguard rules
+* Enable obfuscation and disable debuggable for release builds
+* Use token for sonarqube
+
 ## Screenshots
 ### Light Theme
 <img src="media/home_screen.png"  width="250"/> <img src="media/search_light.png"  width="250"/> <img src="media/favorites_weather_light.png" width="250"/>

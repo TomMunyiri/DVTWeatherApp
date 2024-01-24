@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import java.util.Properties
 
 plugins {
@@ -79,13 +80,19 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
         debug {
-
+            isMinifyEnabled = false
+            isDebuggable = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {

@@ -63,3 +63,5 @@ Zapp/src/main/java/com/tommunyiri/dvtweatherapp/data/source/repository/WeatherRe
 ^app/src/main/java/com/tommunyiri/dvtweatherapp/data/source/repository/WeatherRepositoryImpl.kt,2/1/21bca941265110df55ee2d24f38d4decc869f2a5
 K
 .github/workflows/klint.yml,b/0/b0fc17d59a6ffb06f055f51329d87afa5ca7595e
+F
+app/proguard-rules.pro,9/e/9e08934d811afe28fbc77aaa3c0d747b94348db9
