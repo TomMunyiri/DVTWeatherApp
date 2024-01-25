@@ -85,7 +85,7 @@ SONAR_HOST_URL = "http://localhost:9000"
 SonarQube is integrated into the project for static code analysis. It helps detect bugs, vulnerabilities and code smells. 
 * ### Setup
 A local installation of SonarQube server is needed in order to run static code analysis.
-For more information on how to setup SonarQube, please read [here](https://docs.sonarsource.com/sonarqube/latest/try-out-sonarqube/?_gl=1*1sri4ay*_gcl_au*MjA2NDUyNDAwOC4xNzA1OTk5NjU0*_ga*MTIzODg3MzguMTcwNTk5OTY1NA..*_ga_9JZ0GZ5TC6*MTcwNTk5OTY1NC4xLjEuMTcwNjAxNDc2NS4xMS4wLjA.)
+For more information on how to setup SonarQube, please read [here](https://docs.sonarsource.com/sonarqube/latest/try-out-sonarqube/?_gl=1*1sri4ay*_gcl_au*MjA2NDUyNDAwOC4xNzA1OTk5NjU0*_ga*MTIzODg3MzguMTcwNTk5OTY1NA..*_ga_9JZ0GZ5TC6*MTcwNTk5OTY1NC4xLjEuMTcwNjAxNDc2NS4xMS4wLjA.) .
 As of 25th Jan 2023, SonarQube required Java 17 or lower to run properly. Please make sure you have Java 17 or lower installed.
 To set the default JDK on mac, use `export JAVA_HOME='/usr/libexec/java_home -v 17'`
 * ### Start SonarQube 
@@ -101,7 +101,6 @@ Check the results on (http://localhost:9000) after the analysis is complete.
 ## TODO
 * Add proguard rules
 * Enable obfuscation and disable debuggable for release builds
-* Use token for sonarqube
 
 ## Screenshots
 ### Light Theme
