@@ -26,16 +26,17 @@ ktlint {
 sonarqube {
     val properties = Properties()
     properties.load(rootProject.file("local.properties").inputStream())
+    val sonarqubeToken = properties.getProperty("SONAR_TOKEN")
+    val sonarqubeUrl = properties.getProperty("SONAR_HOST_URL")
     properties {
         //TODO Read sensitive data from properties file
         property("sonar.projectKey", "DVT-Weather-App")
         property("sonar.projectName", "DVT Weather App")
-        property("sonar.host.url", "http://localhost:9000")
+        property("sonar.host.url", sonarqubeUrl)
         property("sonar.language", "kotlin")
         property("sonar.sources", "src/main/java")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.login", "admin")
-        property("sonar.password", "tomamwas")
+        property("sonar.token", sonarqubeToken)
         property(
             "sonar.coverage.exclusions", "**/*Test*/**,' +\n" +
                     "                '*.json,' +\n" +

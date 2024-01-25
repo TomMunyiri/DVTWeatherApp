@@ -33,7 +33,6 @@ class NotificationHelper(private val message: String, private val context: Conte
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
-
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.POST_NOTIFICATIONS
@@ -46,6 +45,8 @@ class NotificationHelper(private val message: String, private val context: Conte
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            return
+        } else {
             runCatching {
                 val pendingIntent =
                     PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
@@ -60,7 +61,6 @@ class NotificationHelper(private val message: String, private val context: Conte
             }.onFailure {
                 Timber.d("Notifications Error: ${it.localizedMessage}")
             }
-            return
         }
     }
 

@@ -65,3 +65,13 @@ K
 .github/workflows/klint.yml,b/0/b0fc17d59a6ffb06f055f51329d87afa5ca7595e
 F
 app/proguard-rules.pro,9/e/9e08934d811afe28fbc77aaa3c0d747b94348db9
+A
+gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
+w
+Gapp/src/main/java/com/tommunyiri/dvtweatherapp/DVTWeatherApplication.kt,8/c/8c76f4970fedf373f213d951e0c285609932f7d0
+x
+Happ/src/main/java/com/tommunyiri/dvtweatherapp/worker/MyWorkerFactory.kt,b/e/bed82b87395ae7dff7b1c99bbe25d691a277a61d
+|
+Lapp/src/main/java/com/tommunyiri/dvtweatherapp/worker/UpdateWeatherWorker.kt,0/0/006d7170f951a93ac17dd35233af24a57e5a40ae
+z
+Japp/src/main/java/com/tommunyiri/dvtweatherapp/utils/NotificationHelper.kt,6/d/6d032f834a68d866f7002ddf89dcc3c74ae508f3
