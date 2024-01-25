@@ -83,14 +83,14 @@ SONAR_HOST_URL = "http://localhost:9000"
 ## Setting up SonarQube locally
 
 SonarQube is integrated into the project for static code analysis. It helps detect bugs, vulnerabilities and code smells. 
-### Setup
+* ### Setup
 A local installation of SonarQube server is needed in order to run static code analysis.
 For more information on how to setup SonarQube, please read [here](https://docs.sonarsource.com/sonarqube/latest/try-out-sonarqube/?_gl=1*1sri4ay*_gcl_au*MjA2NDUyNDAwOC4xNzA1OTk5NjU0*_ga*MTIzODg3MzguMTcwNTk5OTY1NA..*_ga_9JZ0GZ5TC6*MTcwNTk5OTY1NC4xLjEuMTcwNjAxNDc2NS4xMS4wLjA.)
 As of 25th Jan 2023, SonarQube required Java 17 or lower to run properly. Please make sure you have Java 17 or lower installed.
 To set the default JDK on mac, use `export JAVA_HOME='/usr/libexec/java_home -v 17'`
-### Start SonarQube 
+* ### Start SonarQube 
 To start sonar qube local instance, run `/opt/sonarqube/bin/macosx-universal-64/sonar.sh console`. Replace `macosx-universal-64` with your OS version. If not sure of your OS version, `cd` into `/opt/sonarqube/bin/` and then `ls`
-### Run SonarQube
+* ### Run SonarQube
 To run a static code analysis on the project using SonarQube, navigate to the project's root directory and execute `./gradlew sonarqube -Dsonar.host.url=http://localhost:9000` .
 Check the results on (http://localhost:9000) after the analysis is complete.
 
