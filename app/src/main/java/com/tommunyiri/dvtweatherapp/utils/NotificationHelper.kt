@@ -36,7 +36,7 @@ class NotificationHelper(private val message: String, private val context: Conte
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
+            ) != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
         ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions

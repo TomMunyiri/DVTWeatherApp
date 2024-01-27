@@ -424,9 +424,9 @@ class HomeFragment : BaseFragment() {
             .build()
 
         val weatherUpdateRequest =
-            PeriodicWorkRequestBuilder<UpdateWeatherWorker>(30, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<UpdateWeatherWorker>(10, TimeUnit.MINUTES)
                 .setConstraints(constraint)
-                .setInitialDelay(5, TimeUnit.MINUTES)
+                .setInitialDelay(10, TimeUnit.MINUTES)
                 .build()
 
         WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
