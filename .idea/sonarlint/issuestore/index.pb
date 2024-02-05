@@ -79,3 +79,5 @@ y
 Iapp/src/main/java/com/tommunyiri/dvtweatherapp/di/module/NetworkModule.kt,4/6/46385383a3f2c621823cde8ec07455f0e39cdecc
 u
 Eapp/src/main/java/com/tommunyiri/dvtweatherapp/di/module/AppModule.kt,4/2/42f3ddbcf58a1eb47c86c3d048adc8edecd4a401
+€
+Papp/src/main/java/com/tommunyiri/dvtweatherapp/ui/home/WeatherForecastAdapter.kt,3/4/34c7b16c761e3731c3fc59bea23ce73a87f0bbf1

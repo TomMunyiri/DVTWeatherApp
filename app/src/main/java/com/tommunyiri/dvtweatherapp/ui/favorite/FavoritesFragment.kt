@@ -271,7 +271,7 @@ class FavoritesFragment : BaseFragment(), FavoriteLocationsAdapter.OnItemClicked
             }
     }
 
-    override fun onSearchResultClicked(dbFavoriteLocation: FavoriteLocation, position: Int) {
+    override fun onFavoriteLocationClicked(dbFavoriteLocation: FavoriteLocation, position: Int) {
         searchViewModel.clearData()
         searchViewModel.getSearchWeather(dbFavoriteLocation.name)
         selectedCity = dbFavoriteLocation

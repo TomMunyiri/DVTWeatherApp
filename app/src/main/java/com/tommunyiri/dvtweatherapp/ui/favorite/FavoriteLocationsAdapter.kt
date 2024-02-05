@@ -22,7 +22,7 @@ class FavoriteLocationsAdapter(private val delegate: OnItemClickedListener) : Li
         val searchResult = getItem(position)
         if (searchResult != null) {
             holder.itemView.setOnClickListener {
-                delegate.onSearchResultClicked(searchResult,position)
+                delegate.onFavoriteLocationClicked(searchResult,position)
             }
             holder.bind(searchResult)
         }
@@ -53,6 +53,6 @@ class FavoriteLocationsAdapter(private val delegate: OnItemClickedListener) : Li
     }
 
     interface OnItemClickedListener {
-        fun onSearchResultClicked(dbFavoriteLocation: FavoriteLocation,position: Int)
+        fun onFavoriteLocationClicked(dbFavoriteLocation: FavoriteLocation, position: Int)
     }
 }
