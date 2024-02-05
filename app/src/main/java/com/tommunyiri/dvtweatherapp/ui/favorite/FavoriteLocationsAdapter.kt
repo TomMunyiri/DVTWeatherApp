@@ -19,12 +19,12 @@ class FavoriteLocationsAdapter(private val delegate: OnItemClickedListener) : Li
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val searchResult = getItem(position)
-        if (searchResult != null) {
+        val favoriteLocation = getItem(position)
+        if (favoriteLocation != null) {
             holder.itemView.setOnClickListener {
-                delegate.onFavoriteLocationClicked(searchResult,position)
+                delegate.onFavoriteLocationClicked(favoriteLocation,position)
             }
-            holder.bind(searchResult)
+            holder.bind(favoriteLocation)
         }
     }
 
