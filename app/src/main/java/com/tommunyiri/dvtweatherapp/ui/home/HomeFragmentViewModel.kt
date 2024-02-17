@@ -3,6 +3,7 @@ package com.tommunyiri.dvtweatherapp.ui.home
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.tommunyiri.dvtweatherapp.data.model.LocationModel
 import com.tommunyiri.dvtweatherapp.data.model.Weather
@@ -13,6 +14,9 @@ import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -33,8 +37,8 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
         currentSystemTime()
     }
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading = _isLoading.asLiveData()
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading = _isLoading.asStateFlow()
 
     private val _dataFetchState = MutableLiveData<Boolean>()
     val dataFetchState = _dataFetchState.asLiveData()
@@ -131,7 +135,7 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
      * @see refreshWeather
      */
     fun getWeather(location: LocationModel) {
-        _isLoading.postValue(true)
+        _isLoading.value = true
         viewModelScope.launch {
             when (val result = repository.getWeather(location, false)) {
                 is Result.Success -> {
@@ -152,7 +156,7 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
                     _dataFetchState.value = false
                 }
 
-                is Result.Loading -> _isLoading.postValue(true)
+                is Result.Loading -> _isLoading.value = true
             }
         }
     }
@@ -200,7 +204,7 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
                     _dataFetchState.value = false
                 }
 
-                is Result.Loading -> _isLoading.postValue(true)
+                is Result.Loading -> _isLoading.value = true
             }
         }
     }

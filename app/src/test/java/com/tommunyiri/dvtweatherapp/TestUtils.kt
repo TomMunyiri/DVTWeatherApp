@@ -23,7 +23,7 @@ import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
 val fakeDbWeatherEntity = DBWeather(
     1,
     123,
-    "Lagos",
+    "Nairobi",
     Wind(32.5, 24),
     listOf(NetworkWeatherDescription(1L, "Main", "Cloudy", "icon")),
     NetworkWeatherCondition(324.43, 1234.32, 32.5, 34.4, 34.6),
@@ -44,7 +44,7 @@ val dummyLocation = LocationModel(12.2, 23.4)
 val fakeNetworkWeather = NetworkWeather(
     1,
     123,
-    "Lagos",
+    "Nairobi",
     Wind(32.5, 24),
     listOf(NetworkWeatherDescription(1L, "Main", "Cloudy", "icon")),
     NetworkWeatherCondition(324.43, 1234.32, 32.5, 34.4, 34.6),
@@ -65,7 +65,7 @@ val fakeNetworkWeatherForecast = NetworkWeatherForecast(
 val fakeWeather = Weather(
     1,
     123,
-    "Lagos",
+    "Nairobi",
     Wind(32.5, 24),
     listOf(NetworkWeatherDescription(1L, "Main", "Cloudy", "cloud")),
     NetworkWeatherCondition(324.43, 1234.32, 32.5, 45.4, 124.9),

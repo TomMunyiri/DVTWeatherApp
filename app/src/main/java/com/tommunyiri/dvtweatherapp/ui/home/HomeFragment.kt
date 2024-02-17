@@ -15,6 +15,9 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -34,6 +37,8 @@ import com.tommunyiri.dvtweatherapp.utils.makeVisible
 import com.tommunyiri.dvtweatherapp.utils.observeOnce
 import com.tommunyiri.dvtweatherapp.worker.UpdateWeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -229,7 +234,7 @@ class HomeFragment : BaseFragment() {
                 }
             }
 
-            isLoading.observe(viewLifecycleOwner) { state ->
+            /*isLoading.observe(viewLifecycleOwner) { state ->
                 when (state) {
                     true -> {
                         hideViews()
@@ -246,7 +251,48 @@ class HomeFragment : BaseFragment() {
                         }
                     }
                 }
+            }*/
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    isLoading.collect { isLoadingState ->
+                        when (isLoadingState) {
+                            true -> {
+                                hideViews()
+                                binding.apply {
+                                    progressBar.makeVisible()
+                                    loadingText.makeVisible()
+                                }
+                            }
+
+                            false -> {
+                                binding.apply {
+                                    progressBar.makeGone()
+                                    loadingText.makeGone()
+                                }
+                            }
+                        }
+                    }
+                }
             }
+
+            /*viewLifecycleOwner.lifecycleScope.launch {
+                when (isLoading.value) {
+                    true -> {
+                        hideViews()
+                        binding.apply {
+                            progressBar.makeVisible()
+                            loadingText.makeVisible()
+                        }
+                    }
+
+                    false -> {
+                        binding.apply {
+                            progressBar.makeGone()
+                            loadingText.makeGone()
+                        }
+                    }
+                }
+            }*/
         }
     }
 

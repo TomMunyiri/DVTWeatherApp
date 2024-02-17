@@ -10,9 +10,11 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.ResolvableApiException
@@ -30,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
+import com.google.android.material.internal.ParcelableSparseArray
 import com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.databinding.FragmentFavoriteLocationsMapBinding
 import com.tommunyiri.dvtweatherapp.ui.BaseFragment
@@ -57,7 +60,7 @@ class FavoriteLocationsMapFragment : BaseFragment(), OnMapReadyCallback,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            favoriteLocationsList = it.getParcelableArrayList("favoriteLocations")!!
+            favoriteLocationsList = it.getParcelableArrayList("favoriteLocations") ?: emptyList()
         }
     }
 
@@ -144,7 +147,11 @@ class FavoriteLocationsMapFragment : BaseFragment(), OnMapReadyCallback,
             //setOnCameraMoveStartedListener(this@FavoriteLocationsMapFragment)
         }
         checkPermission()
-        loadMapData()
+        if (favoriteLocationsList.isNotEmpty()) {
+            loadMapData()
+        } else {
+            Toast.makeText(requireContext(), "No Favorite Locations", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun loadMapData() {
