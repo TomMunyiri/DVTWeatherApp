@@ -2,8 +2,8 @@ package com.tommunyiri.dvtweatherapp.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.tommunyiri.dvtweatherapp.data.source.local.WeatherDatabase
-import com.tommunyiri.dvtweatherapp.data.source.local.dao.WeatherDao
+import com.tommunyiri.dvtweatherapp.data.local.WeatherDatabase
+import com.tommunyiri.dvtweatherapp.data.local.dao.WeatherDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

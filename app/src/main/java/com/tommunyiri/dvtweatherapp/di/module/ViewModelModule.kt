@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tommunyiri.dvtweatherapp.ViewModelFactory
 import com.tommunyiri.dvtweatherapp.di.key.ViewModelKey
-import com.tommunyiri.dvtweatherapp.ui.favorite.FavoriteFragmentViewModel
-import com.tommunyiri.dvtweatherapp.ui.home.HomeFragmentViewModel
-import com.tommunyiri.dvtweatherapp.ui.search.SearchFragmentViewModel
+import com.tommunyiri.dvtweatherapp.presentation.favorite.FavoriteFragmentViewModel
+import com.tommunyiri.dvtweatherapp.presentation.home.HomeFragmentViewModel
+import com.tommunyiri.dvtweatherapp.presentation.search.SearchFragmentViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -76,6 +76,9 @@ android {
             properties.getProperty("ALGOLIA_INDEX_NAME")
         )
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -107,9 +110,19 @@ android {
         viewBinding = true
         dataBinding = true
         buildConfig = true
+        compose = true
     }
     lint {
         baseline = file("lint-baseline.xml")
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion =  "1.5.0"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
@@ -123,11 +136,14 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(platform(libs.compose.bom))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     // hilt
     implementation(libs.hilt.android)
+    androidTestImplementation(platform(libs.compose.bom))
     ksp(libs.hilt.android.compiler)
     ksp(libs.androidx.hilt.compiler)
     // work manager
@@ -175,6 +191,29 @@ dependencies {
     testImplementation(libs.hamcrest)
     // roboelectric
     testImplementation(libs.roboelectric)
+    //jetpack-compose
+    implementation(libs.activity.compose)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.coil.compose)
+    implementation(libs.vico.compose)
+    implementation(libs.vico.compose.m3)
+    implementation(libs.vico.core)
+    implementation(libs.androidx.material3.window.size)
+    implementation(libs.ui)
+    implementation(libs.ui.graphics)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.material3)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.ui.text.google.fonts)
 }
 
 class RoomSchemaArgProvider(

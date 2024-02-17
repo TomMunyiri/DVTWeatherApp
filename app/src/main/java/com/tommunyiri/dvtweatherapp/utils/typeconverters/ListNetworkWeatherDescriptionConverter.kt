@@ -3,7 +3,7 @@ package com.tommunyiri.dvtweatherapp.utils.typeconverters
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
+import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherDescription
 import java.lang.reflect.Type
 
 

@@ -1,7 +1,7 @@
 package com.tommunyiri.dvtweatherapp.di.module
 
-import com.tommunyiri.dvtweatherapp.data.source.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.data.source.repository.WeatherRepositoryImpl
+import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.data.repository.WeatherRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

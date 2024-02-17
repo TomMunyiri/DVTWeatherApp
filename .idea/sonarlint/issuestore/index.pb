@@ -141,3 +141,13 @@ Napp/src/main/java/com/tommunyiri/dvtweatherapp/ui/settings/SettingsFragment.kt
 Mapp/src/main/java/com/tommunyiri/dvtweatherapp/data/model/FavoriteLocation.kt,4/8/48d8764bd59b29c8bdee90d35b730b5081fa989b
 ˆ
 Xapp/src/main/java/com/tommunyiri/dvtweatherapp/mapper/FavoriteLocationListMapperLocal.kt,f/9/f975d476e35654b31c7ab8003c4f6acf2de4046e
+x
+Happ/src/main/java/com/tommunyiri/dvtweatherapp/ui/MainActivityCompose.kt,4/c/4c3ff4c8e3970b759923e9f226c92c8ac732888f
+‡
+Wapp/src/main/java/com/tommunyiri/dvtweatherapp/data/repository/WeatherRepositoryImpl.kt,8/f/8f9a03da6199cb165c3a986632697d1cf6e4bbfb
+€
+Papp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/home/HomeFragment.kt,9/6/96a64be2f7c7e1e34a1197a0c6be281d3d84b0ea
+‚
+Rapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/MainActivityCompose.kt,9/9/997c135e3533e315adbe635ce2bcfe51c0f7bf94
+‰
+Yapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/home/HomeFragmentViewModel.kt,2/0/201c4c6cb948cd4f5336de40d4dce7d4b13e5d58

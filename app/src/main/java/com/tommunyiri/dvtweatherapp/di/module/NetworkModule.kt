@@ -1,6 +1,6 @@
 package com.tommunyiri.dvtweatherapp.di.module
 
-import com.tommunyiri.dvtweatherapp.data.source.remote.retrofit.WeatherApiService
+import com.tommunyiri.dvtweatherapp.data.remote.retrofit.WeatherApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

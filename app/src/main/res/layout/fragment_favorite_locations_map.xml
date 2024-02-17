@@ -7,14 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.tommunyiri.dvtweatherapp.ui.favorite.FavoriteFragmentViewModel" />
+            type="com.tommunyiri.dvtweatherapp.presentation.favorite.FavoriteFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        tools:context=".ui.favorite.FavoritesFragment">
+        tools:context=".presentation.favorite.FavoritesFragment">
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapsFavoriteLocations"

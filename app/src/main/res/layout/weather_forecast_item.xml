@@ -7,11 +7,11 @@
 
         <variable
             name="weatherForecast"
-            type="com.tommunyiri.dvtweatherapp.data.model.WeatherForecast" />
+            type="com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast" />
 
         <variable
             name="weatherForecastDescription"
-            type="com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription" />
+            type="com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherDescription" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

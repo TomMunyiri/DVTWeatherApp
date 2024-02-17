@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.tommunyiri.dvtweatherapp.ui.favorite.FavoriteFragmentViewModel" />
+            type="com.tommunyiri.dvtweatherapp.presentation.favorite.FavoriteFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="70dp"
-        tools:context=".ui.favorite.FavoritesFragment">
+        tools:context=".presentation.favorite.FavoritesFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFavoriteLocations"

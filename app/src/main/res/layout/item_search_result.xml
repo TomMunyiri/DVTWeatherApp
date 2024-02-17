@@ -7,7 +7,7 @@
 
         <variable
             name="searchResult"
-            type="com.tommunyiri.dvtweatherapp.data.model.SearchResult" />
+            type="com.tommunyiri.dvtweatherapp.domain.model.SearchResult" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

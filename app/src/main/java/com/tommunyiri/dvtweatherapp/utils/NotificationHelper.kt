@@ -12,7 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.tommunyiri.dvtweatherapp.R
-import com.tommunyiri.dvtweatherapp.ui.MainActivity
+import com.tommunyiri.dvtweatherapp.presentation.MainActivity
 import timber.log.Timber
 
 

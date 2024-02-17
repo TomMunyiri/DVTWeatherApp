@@ -7,7 +7,7 @@
 
         <variable
             name="favoriteLocation"
-            type="com.tommunyiri.dvtweatherapp.data.model.FavoriteLocation" />
+            type="com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
