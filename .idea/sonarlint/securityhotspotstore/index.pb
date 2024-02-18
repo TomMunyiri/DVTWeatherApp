@@ -137,3 +137,6 @@ Capp/src/main/java/com/tommunyiri/dvtweatherapp/domain/model/Wind.kt,a/8/a875e4
 Xapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/model/NetworkWeatherDescription.kt,a/1/a110f8d2e819dc817bb4c6ffbb05a6f51bb2f1d2
 Å
 Qapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/PermissionStateExt.kt,0/6/06b873deae8271a71d7e8516e72409f2ed50dc88
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
