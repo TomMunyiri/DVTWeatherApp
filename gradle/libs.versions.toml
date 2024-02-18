@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0-alpha14"
+agp = "8.4.0-alpha10"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -16,7 +16,7 @@ sonarqubeGradlePlugin = "3.1.1"
 # Firebase Services
 firebaseCrashlytics = "18.6.0"
 firebaseAnalytics = "21.5.0"
-gradle = "8.1.4"
+gradle = "8.4.0-alpha10"
 googleServices = "4.4.0"
 firebaseCrashlyticsGradle = "2.9.9"
 #work manager
@@ -65,6 +65,8 @@ runtime-livedata = "1.6.1"
 ui-text-google-fonts = "1.6.1"
 vico = "1.11.3"
 lifecycleRuntimeKtx = "2.7.0"
+#accompanist for permissions
+google-accompanist = "0.21.1-beta"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -152,6 +154,7 @@ vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+google-accompanist = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "google-accompanist" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

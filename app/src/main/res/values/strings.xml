@@ -65,4 +65,9 @@
     <string name="weather_image_content_description">Current Weather Image</string>
     <string name="close_weather_info_bottom_sheet">Close Weather Info Bottom Sheet</string>
     <string name="title_activity_main_compose">MainActivityCompose</string>
+    <string name="temp_placeholder">25\u2103</string>
+    <string name="temp_min_placeholder">19\u2103\nmin</string>
+    <string name="temp_max_placeholder">30\u2103\nmax</string>
+    <string name="temp_current_placeholder">23\u2103\ncurrent</string>
+    <string name="current_weather_placeholder">clouds</string>
 </resources>

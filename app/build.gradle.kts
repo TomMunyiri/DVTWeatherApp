@@ -117,7 +117,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion =  "1.5.0"
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
     packaging {
         resources {
@@ -214,6 +214,8 @@ dependencies {
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.ui.text.google.fonts)
+    //accompanist
+    implementation(libs.google.accompanist)
 }
 
 class RoomSchemaArgProvider(
