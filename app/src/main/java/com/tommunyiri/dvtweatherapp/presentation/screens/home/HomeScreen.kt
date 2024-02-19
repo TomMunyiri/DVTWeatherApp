@@ -106,7 +106,7 @@ fun HomeScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp)
+                            .padding(16.dp, 16.dp, 16.dp, 80.dp),
                     ) {
                         items(weatherForecastList.size) { i ->
                             val weatherForecast = weatherForecastList[i]

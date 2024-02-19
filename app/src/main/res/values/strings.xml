@@ -27,7 +27,7 @@
     <string name="no_forecast_info">Weather forecast for selected day is unavailable.</string>
     <string name="search">Search</string>
     <string name="favorite">Favorites</string>
-    <string name="enter_city_text">Enter the name of the city to search</string>
+    <string name="enter_city_text">Enter city name to search</string>
     <string name="zero_hits_text">Couldn\'t find your city. \n\n Go ahead and hit the search button.</string>
     <string name="zero_favorites_text">Your saved locations will\nappear here.</string>
     <string name="gps_text">Please enable your GPS!</string>

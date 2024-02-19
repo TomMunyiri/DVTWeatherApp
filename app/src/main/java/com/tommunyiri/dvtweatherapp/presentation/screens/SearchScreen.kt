@@ -27,10 +27,9 @@ import com.tommunyiri.dvtweatherapp.ui.theme.md_theme_dark_secondaryContainer
 /**
  * Composable function that represents the search screen of the application.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen() {
-    Column(modifier = Modifier.padding(5.dp, 50.dp, 5.dp, 5.dp)) {
+    Column(modifier = Modifier.padding(5.dp, 45.dp, 5.dp, 5.dp)) {
         OutlinedTextField(
             leadingIcon = {
                 Icon(
@@ -44,7 +43,7 @@ fun SearchScreen() {
 
             },
             modifier = Modifier
-                .padding(16.dp)
+                .padding(5.dp)
                 .fillMaxWidth(),
             placeholder = {
                 Text(text = stringResource(id = R.string.enter_city_text))

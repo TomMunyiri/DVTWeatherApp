@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.tommunyiri.dvtweatherapp.presentation.composables.BottomNavigationBar
 import com.tommunyiri.dvtweatherapp.presentation.navigation.NavigationScreens
+import com.tommunyiri.dvtweatherapp.ui.theme.sunny
 
 /**
  * Composable function that represents the main screen of the application.
@@ -23,7 +24,7 @@ import com.tommunyiri.dvtweatherapp.presentation.navigation.NavigationScreens
 @Composable
 fun MainScreen(navController: NavHostController) {
     Scaffold(bottomBar = {
-        BottomAppBar {
+        BottomAppBar(containerColor = Color.Transparent) {
             BottomNavigationBar(
                 navController = navController
             )
