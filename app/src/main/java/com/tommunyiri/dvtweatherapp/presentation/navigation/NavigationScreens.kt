@@ -1,12 +1,14 @@
 package com.tommunyiri.dvtweatherapp.presentation.navigation
 
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.tommunyiri.dvtweatherapp.presentation.navigation.nav.NavItem
 import com.tommunyiri.dvtweatherapp.presentation.screens.FavoritesScreen
-import com.tommunyiri.dvtweatherapp.presentation.screens.HomeScreen
+import com.tommunyiri.dvtweatherapp.presentation.screens.home.HomeScreen
 import com.tommunyiri.dvtweatherapp.presentation.screens.SearchScreen
 import com.tommunyiri.dvtweatherapp.presentation.screens.SettingsScreen
 
@@ -17,7 +19,10 @@ import com.tommunyiri.dvtweatherapp.presentation.screens.SettingsScreen
  */
 @Composable
 fun NavigationScreens(navController: NavHostController) {
-    NavHost(navController, startDestination = NavItem.Home.path) {
+    NavHost(
+        navController,
+        startDestination = NavItem.Home.path
+    ) {
         composable(NavItem.Home.path) { HomeScreen() }
         composable(NavItem.Search.path) { SearchScreen() }
         composable(NavItem.Favorites.path) { FavoritesScreen() }

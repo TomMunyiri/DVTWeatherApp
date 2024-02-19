@@ -1,40 +1,64 @@
-package com.tommunyiri.dvtweatherapp.presentation.home
+package com.tommunyiri.dvtweatherapp.presentation.screens.home
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
 import com.tommunyiri.dvtweatherapp.utils.Result
+import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
+import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
 
+
 /**
- * Created by Tom Munyiri on 19/01/2024.
+ * Created by Tom Munyiri on 19/02/2024.
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-
-class HomeFragmentViewModel @Inject constructor(private val repository: WeatherRepository) :
+@HiltViewModel
+class HomeScreenViewModel @Inject constructor(
+    private val repository: WeatherRepository,
+    private val locationLiveData: LocationLiveData,
+    private val prefs: SharedPreferenceHelper
+) :
     ViewModel() {
 
-    @Inject
-    lateinit var locationLiveData: LocationLiveData
+    lateinit var location: LocationModel
+    var state by mutableStateOf(HomeScreenState())
 
     init {
         currentSystemTime()
+        state = state.copy(isLoading = true)
+        viewModelScope.launch {
+            fetchLocation().collect { locationValue ->
+                location = locationValue
+                getWeather(location)
+            }
+        }
     }
 
     private val _isLoading = MutableStateFlow(true)
@@ -48,7 +72,7 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
 
     val time = currentSystemTime()
 
-    fun fetchLocationLiveData() = locationLiveData
+    private fun fetchLocation() = locationLiveData.asFlow().distinctUntilChanged().take(1)
 
     private val _forecast = MutableLiveData<List<WeatherForecast>?>()
     val forecast = _forecast.asLiveData()
@@ -62,6 +86,18 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
     private val _isWeatherRefresh = MutableLiveData<Boolean>()
     val isWeatherRefresh = _isWeatherRefresh.asLiveData()
 
+    fun getSharedPrefs(): SharedPreferenceHelper {
+        return prefs
+    }
+
+    fun onEvent(event: HomeScreenEvent) {
+        when (event) {
+            is HomeScreenEvent.Refresh -> {
+                refreshWeather(location)
+            }
+        }
+    }
+
     /**
      *This attempts to get the [WeatherForecast] from the local data source,
      * if the result is null, it gets from the remote source.
@@ -69,7 +105,6 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
      */
     //fun getWeatherForecast(cityId: Int?) {
     fun getWeatherForecast(location: LocationModel) {
-        _isForecastLoading.value = true
         viewModelScope.launch {
             when (val result = repository.getForecastWeather(location, false)) {
                 is Result.Success -> {
@@ -134,29 +169,24 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
      * if the result is null, it gets from the remote source.
      * @see refreshWeather
      */
-    fun getWeather(location: LocationModel) {
-        _isLoading.value = true
+    private fun getWeather(locationModel: LocationModel) {
         viewModelScope.launch {
-            when (val result = repository.getWeather(location, false)) {
+            when (val result = repository.getWeather(locationModel, false)) {
                 is Result.Success -> {
-                    _isLoading.value = false
                     if (result.data != null) {
                         val weather = result.data
-                        _dataFetchState.value = true
-                        _weather.value = weather
-                        _isWeatherRefresh.value = false
+                        Log.d("TAG", "getWeather: $weather")
+                        state = state.copy(isLoading = false, weather = weather, error = null)
                     } else {
-                        _isWeatherRefresh.value = true
-                        refreshWeather(location)
+                        refreshWeather(locationModel)
                     }
                 }
 
                 is Result.Error -> {
-                    _isLoading.value = false
-                    _dataFetchState.value = false
+                    state = state.copy(isLoading = false, error = result.exception.toString())
                 }
 
-                is Result.Loading -> _isLoading.value = true
+                is Result.Loading -> state = state.copy(isLoading = true)
             }
         }
     }
@@ -173,12 +203,11 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
      * This is called when the user swipes down to refresh.
      * This enables the [Weather] for the current [location] to be received.
      */
-    fun refreshWeather(location: LocationModel) {
-        _isLoading.value = true
+    private fun refreshWeather(locationModel: LocationModel = location) {
+        state = state.copy(isLoading = true)
         viewModelScope.launch {
-            when (val result = repository.getWeather(location, true)) {
+            when (val result = repository.getWeather(locationModel, true)) {
                 is Result.Success -> {
-                    _isLoading.value = false
                     if (result.data != null) {
                         val weather = result.data.apply {
                             this.networkWeatherCondition.temp =
@@ -188,23 +217,19 @@ class HomeFragmentViewModel @Inject constructor(private val repository: WeatherR
                             this.networkWeatherCondition.tempMin =
                                 convertKelvinToCelsius(this.networkWeatherCondition.tempMin)
                         }
-                        _dataFetchState.value = true
-                        _weather.value = weather
-
+                        state = state.copy(isLoading = false, weather = weather, error = null)
                         repository.deleteWeatherData()
                         repository.storeWeatherData(weather)
                     } else {
-                        _weather.postValue(null)
-                        _dataFetchState.postValue(false)
+                        state = state.copy(isLoading = false, error = "No weather data")
                     }
                 }
 
                 is Result.Error -> {
-                    _isLoading.value = false
-                    _dataFetchState.value = false
+                    state = state.copy(isLoading = false, error = result.exception.toString())
                 }
 
-                is Result.Loading -> _isLoading.value = true
+                is Result.Loading -> state = state.copy(isLoading = true)
             }
         }
     }

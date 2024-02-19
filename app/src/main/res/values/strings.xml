@@ -70,4 +70,7 @@
     <string name="temp_max_placeholder">30\u2103\nmax</string>
     <string name="temp_current_placeholder">23\u2103\ncurrent</string>
     <string name="current_weather_placeholder">clouds</string>
+    <string name="min">\nmin</string>
+    <string name="current">\ncurrent</string>
+    <string name="max">\nmax</string>
 </resources>

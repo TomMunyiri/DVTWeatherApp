@@ -55,7 +55,6 @@ fun WeatherForecastItem(
             ) {
                 Text(
                     text = weatherForecast.date,
-                    fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp,
                     color = Color.White,
                     overflow = TextOverflow.Ellipsis,
@@ -73,7 +72,6 @@ fun WeatherForecastItem(
                                 weatherForecast.networkWeatherCondition.toString().lowercase()
                             )
                         ),
-                        //painterResource(id = R.drawable.rain_2x),
                         contentDescription = "contentDescription",
                         modifier = Modifier,
                     )
@@ -83,7 +81,6 @@ fun WeatherForecastItem(
                         weatherForecast.networkWeatherCondition.temp,
                         LocalContext.current
                     ),
-                    fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp,
                     color = Color.White,
                     overflow = TextOverflow.Ellipsis,

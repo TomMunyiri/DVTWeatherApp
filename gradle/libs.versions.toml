@@ -154,7 +154,8 @@ vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-google-accompanist = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "google-accompanist" }
+google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "google-accompanist" }
+google-accompanist-swipe-refresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "google-accompanist" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

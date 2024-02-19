@@ -214,8 +214,10 @@ dependencies {
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.ui.text.google.fonts)
-    //accompanist
-    implementation(libs.google.accompanist)
+    //accompanist-permissions
+    implementation(libs.google.accompanist.permissions)
+    //accompanist-swipe-refresh
+    implementation(libs.google.accompanist.swipe.refresh)
 }
 
 class RoomSchemaArgProvider(
