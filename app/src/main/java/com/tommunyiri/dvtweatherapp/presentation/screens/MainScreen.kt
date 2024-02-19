@@ -3,7 +3,9 @@ package com.tommunyiri.dvtweatherapp.presentation.screens
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,6 +18,7 @@ import com.tommunyiri.dvtweatherapp.presentation.navigation.NavigationScreens
  *
  * @param navController The navigation controller used for handling navigation between screens.
  */
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navController: NavHostController) {

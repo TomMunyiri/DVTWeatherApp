@@ -60,73 +60,71 @@ fun HomeScreen(
             CircularProgressIndicator()
         }
     }
-    state.weather?.let { weather ->
-        val weatherForecast1 = WeatherForecast(
-            1, "Tue, 9:23PM", Wind(12.12, 123),
-            listOf(NetworkWeatherDescription(1L, "main", "Sun", "")),
-            NetworkWeatherCondition(42.2, 13.5, 45.3, 12.6, 4.12)
-        )
-        val weatherForecast2 = WeatherForecast(
-            2, "Wed, 9:23PM", Wind(12.12, 123),
-            listOf(NetworkWeatherDescription(1L, "main", "Rain", "")),
-            NetworkWeatherCondition(56.2, 13.5, 45.3, 12.6, 4.12)
-        )
-        val weatherForecast3 = WeatherForecast(
-            3, "Thur, 9:23PM", Wind(12.12, 123),
-            listOf(NetworkWeatherDescription(1L, "main", "Clear", "")),
-            NetworkWeatherCondition(12.2, 13.5, 45.3, 12.6, 4.12)
-        )
-        val weatherForecast4 = WeatherForecast(
-            4, "Fri, 9:23PM", Wind(12.12, 123),
-            listOf(NetworkWeatherDescription(1L, "main", "Cloudy", "")),
-            NetworkWeatherCondition(21.2, 13.5, 45.3, 12.6, 4.12)
-        )
-        val weatherForecastList =
-            listOf(weatherForecast1, weatherForecast2, weatherForecast3, weatherForecast4)
-
-        val screenBackground = when (weather.networkWeatherCondition.toString()) {
-            "rainy" -> rainy
-            "sunny" -> sunny
-            else -> cloudy
+    val swipeRefreshState = rememberSwipeRefreshState(
+        isRefreshing = viewModel.state.isLoading
+    )
+    SwipeRefresh(
+        state = swipeRefreshState,
+        onRefresh = {
+            viewModel.onEvent(HomeScreenEvent.Refresh)
         }
-        val swipeRefreshState = rememberSwipeRefreshState(
-            isRefreshing = viewModel.state.isLoading
-        )
-        SwipeRefresh(
-            state = swipeRefreshState,
-            onRefresh = {
-                viewModel.onEvent(HomeScreenEvent.Refresh)
+    ) {
+        state.weather?.let { weather ->
+
+            val screenBackgroundColor = when {
+                weather.networkWeatherDescription.toString()
+                    .contains("cloud", true) -> cloudy
+
+                weather.networkWeatherDescription.toString().contains("rain", true) ||
+                        weather.networkWeatherDescription.toString().contains("snow", true)
+                        || weather.networkWeatherDescription.toString().contains("mist", true)
+                        || weather.networkWeatherDescription.toString()
+                    .contains("haze", true) -> rainy
+
+                else -> cloudy
             }
-        ) {
+
             Column(
                 modifier = Modifier
-                    .background(screenBackground)
+                    .background(screenBackgroundColor)
                     .fillMaxSize()
             ) {
                 TopHeader(weather, prefs, viewModel)
                 TempSection(weather, prefs)
                 HorizontalDivider(modifier = Modifier.fillMaxWidth(), color = Color.White)
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    items(weatherForecastList.size) { i ->
-                        val weatherForecast = weatherForecastList[i]
-                        WeatherForecastItem(
-                            weatherForecast = weatherForecast,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    /*navigator.navigate(
-                                    CompanyInfoScreenDestination(company.symbol)
-                                )*/
-                                }
-                                .padding(0.dp, 10.dp, 0.dp, 10.dp)
-                        )
+                if (state.isLoadingForecast) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(30.dp),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
+                state.weatherForecastList?.let { weatherForecastList ->
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        items(weatherForecastList.size) { i ->
+                            val weatherForecast = weatherForecastList[i]
+                            WeatherForecastItem(
+                                weatherForecast = weatherForecast,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        /*navigator.navigate(
+                                        CompanyInfoScreenDestination(company.symbol)
+                                    )*/
+                                    }
+                                    .padding(0.dp, 10.dp, 0.dp, 10.dp)
+                            )
+                        }
+                    }
 
+                }
             }
         }
     }
@@ -210,10 +208,17 @@ fun TopHeader(
     prefs: SharedPreferenceHelper,
     viewModel: HomeScreenViewModel
 ) {
-    val painterResource = when (weather?.networkWeatherDescription.toString()) {
-        "rainy" -> R.drawable.forest_rainy
-        "sunny" -> R.drawable.forest_sunny
-        else -> R.drawable.forest_cloudy
+    val painterResource = when {
+        weather?.networkWeatherDescription.toString()
+            .contains("cloud", true) -> R.drawable.forest_cloudy
+
+        weather?.networkWeatherDescription.toString().contains("rain", true) ||
+                weather?.networkWeatherDescription.toString().contains("snow", true)
+                || weather?.networkWeatherDescription.toString().contains("mist", true)
+                || weather?.networkWeatherDescription.toString()
+            .contains("haze", true) -> R.drawable.forest_rainy
+
+        else -> R.drawable.forest_sunny
     }
 
     weather?.cityId?.let { prefs.saveCityId(it) }

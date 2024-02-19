@@ -111,8 +111,6 @@ Vapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/navigation/nav/NavT
 Qapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/MainScreen.kt,a/2/a247eaafa6b2326a30b75f2bfa3b48d6bb66de76
 é
 ^app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/BottomNavigationBar.kt,3/7/3701afd63f63f5e3aa56e4082534e4be834ab8ca
-Å
-Qapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/HomeScreen.kt,8/b/8b6d7275fbfdfdf68c2b7c08b255370f7317a4f7
 Ö
 Uapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/SettingsScreen.kt,3/c/3c55d0c860e5ad9bb4d786c10c9cab6bbfe7dde4
 É

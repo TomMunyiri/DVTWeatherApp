@@ -10,9 +10,10 @@ import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
  * Email: munyiri.thomas@eclectics.io
  */
 data class HomeScreenState(
-    val weatherForecastList: List<WeatherForecast> = emptyList(),
+    val weatherForecastList: List<WeatherForecast>? = null,
     val weather: Weather? = null,
     val isLoading: Boolean = false,
+    val isLoadingForecast: Boolean = false,
     val isRefreshing: Boolean = false,
     val error: String? = null
 )

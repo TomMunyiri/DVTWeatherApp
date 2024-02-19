@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.tommunyiri.dvtweatherapp.presentation.navigation.nav.NavItem
+import com.tommunyiri.dvtweatherapp.ui.theme.sunny
 
 /**
  * Composable function that represents the bottom navigation bar of the application.

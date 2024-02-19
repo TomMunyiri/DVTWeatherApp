@@ -61,12 +61,6 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-    private val _isLoading = MutableStateFlow(true)
-    val isLoading = _isLoading.asStateFlow()
-
-    private val _dataFetchState = MutableLiveData<Boolean>()
-    val dataFetchState = _dataFetchState.asLiveData()
-
     private val _weather = MutableLiveData<Weather?>()
     val weather = _weather.asLiveData()
 
@@ -74,17 +68,6 @@ class HomeScreenViewModel @Inject constructor(
 
     private fun fetchLocation() = locationLiveData.asFlow().distinctUntilChanged().take(1)
 
-    private val _forecast = MutableLiveData<List<WeatherForecast>?>()
-    val forecast = _forecast.asLiveData()
-
-    private val _isForecastLoading = MutableLiveData<Boolean>()
-    val isForecastLoading = _isForecastLoading.asLiveData()
-
-    private val _dataFetchStateForecast = MutableLiveData<Boolean>()
-    val dataFetchStateForecast = _dataFetchStateForecast.asLiveData()
-
-    private val _isWeatherRefresh = MutableLiveData<Boolean>()
-    val isWeatherRefresh = _isWeatherRefresh.asLiveData()
 
     fun getSharedPrefs(): SharedPreferenceHelper {
         return prefs
@@ -93,7 +76,22 @@ class HomeScreenViewModel @Inject constructor(
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
             is HomeScreenEvent.Refresh -> {
-                refreshWeather(location)
+                viewModelScope.launch {
+                    fetchLocation().collect { locationValue ->
+                        location = locationValue
+                        refreshWeather(location)
+                    }
+                }
+            }
+
+            HomeScreenEvent.GetForecast -> {
+                state = state.copy(isLoadingForecast = true)
+                viewModelScope.launch {
+                    fetchLocation().collect { locationValue ->
+                        location = locationValue
+                        getWeatherForecast(location)
+                    }
+                }
             }
         }
     }
@@ -104,62 +102,63 @@ class HomeScreenViewModel @Inject constructor(
      * @see refreshForecastData
      */
     //fun getWeatherForecast(cityId: Int?) {
-    fun getWeatherForecast(location: LocationModel) {
+    private fun getWeatherForecast(locationModel: LocationModel) {
+        state = state.copy(isLoadingForecast = true)
         viewModelScope.launch {
-            when (val result = repository.getForecastWeather(location, false)) {
+            when (val result = repository.getForecastWeather(locationModel, false)) {
                 is Result.Success -> {
-                    _isForecastLoading.postValue(false)
                     if (!result.data.isNullOrEmpty()) {
                         val forecasts = result.data
-                        _dataFetchStateForecast.value = true
-                        _forecast.value = forecasts
+                        state = state.copy(
+                            isLoadingForecast = false,
+                            weatherForecastList = forecasts,
+                            error = null
+                        )
                     } else {
                         refreshForecastData(location)
                         //refreshForecastData(cityId)
                     }
                 }
 
-                is Result.Loading -> {
-                    _isForecastLoading.postValue(true)
-                }
+                is Result.Loading ->
+                    state = state.copy(isLoadingForecast = true, error = null)
 
-                is Result.Error -> {
-                    _dataFetchStateForecast.value = false
-                    _isForecastLoading.value = false
-                }
+                is Result.Error ->
+                    state =
+                        state.copy(isLoadingForecast = false, error = result.exception.toString())
+
             }
         }
     }
 
     //fun refreshForecastData(cityId: Int?) {
-    fun refreshForecastData(location: LocationModel) {
-        _isForecastLoading.value = true
+    private fun refreshForecastData(locationModel: LocationModel) {
+        state = state.copy(isLoadingForecast = true)
         viewModelScope.launch {
-            when (val result = repository.getForecastWeather(location, true)) {
+            when (val result = repository.getForecastWeather(locationModel, true)) {
                 is Result.Success -> {
-                    _isForecastLoading.postValue(false)
                     if (result.data != null) {
                         val forecast = result.data.onEach { forecast ->
                             forecast.networkWeatherCondition.temp =
                                 convertKelvinToCelsius(forecast.networkWeatherCondition.temp)
                             forecast.date = forecast.date.formatDate().toString()
                         }
-                        _forecast.postValue(forecast)
-                        _dataFetchStateForecast.postValue(true)
+                        state = state.copy(
+                            isLoadingForecast = false,
+                            weatherForecastList = forecast,
+                            error = null
+                        )
                         repository.deleteForecastData()
                         repository.storeForecastData(forecast)
                     } else {
-                        _dataFetchStateForecast.postValue(false)
-                        _forecast.postValue(null)
+                        refreshForecastData(locationModel)
                     }
                 }
 
-                is Result.Error -> {
-                    _dataFetchStateForecast.value = false
-                    _isForecastLoading.value = false
-                }
+                is Result.Error -> state =
+                    state.copy(isLoadingForecast = false, error = result.exception.toString())
 
-                is Result.Loading -> _isForecastLoading.postValue(true)
+                is Result.Loading -> state = state.copy(isLoadingForecast = true, error = null)
             }
         }
     }
@@ -175,18 +174,17 @@ class HomeScreenViewModel @Inject constructor(
                 is Result.Success -> {
                     if (result.data != null) {
                         val weather = result.data
-                        Log.d("TAG", "getWeather: $weather")
                         state = state.copy(isLoading = false, weather = weather, error = null)
+                        getWeatherForecast(locationModel)
                     } else {
                         refreshWeather(locationModel)
                     }
                 }
 
-                is Result.Error -> {
+                is Result.Error ->
                     state = state.copy(isLoading = false, error = result.exception.toString())
-                }
 
-                is Result.Loading -> state = state.copy(isLoading = true)
+                is Result.Loading -> state = state.copy(isLoading = true, error = null)
             }
         }
     }
@@ -218,6 +216,7 @@ class HomeScreenViewModel @Inject constructor(
                                 convertKelvinToCelsius(this.networkWeatherCondition.tempMin)
                         }
                         state = state.copy(isLoading = false, weather = weather, error = null)
+                        refreshForecastData(locationModel)
                         repository.deleteWeatherData()
                         repository.storeWeatherData(weather)
                     } else {
@@ -225,9 +224,8 @@ class HomeScreenViewModel @Inject constructor(
                     }
                 }
 
-                is Result.Error -> {
+                is Result.Error ->
                     state = state.copy(isLoading = false, error = result.exception.toString())
-                }
 
                 is Result.Loading -> state = state.copy(isLoading = true)
             }

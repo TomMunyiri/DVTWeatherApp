@@ -1,6 +1,7 @@
 package com.tommunyiri.dvtweatherapp.presentation.composables
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherCondition
 import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherDescription
@@ -69,7 +71,7 @@ fun WeatherForecastItem(
                     Image(
                         painterResource(
                             id = getWeatherIcon(
-                                weatherForecast.networkWeatherCondition.toString().lowercase()
+                                weatherForecast.networkWeatherDescription.toString().lowercase()
                             )
                         ),
                         contentDescription = "contentDescription",
@@ -116,10 +118,21 @@ fun getFormattedTemperature(double: Double, context: Context): String {
 }
 
 fun getWeatherIcon(condition: String): Int {
-    return when (condition.lowercase()) {
-        in listOf("sun", "wind", "sunny") -> R.drawable.clear_3x
-        in listOf("cloudy", "fog", "overcast") -> R.drawable.partlysunny_3x
-        in listOf("rain", "storm", "snow", "blizzard", "thunder") -> R.drawable.rain_3x
+    return when {
+        condition.contains("sun", true)
+                || condition.contains("wind", true) -> R.drawable.clear_3x
+
+        condition.contains("cloudy", true)
+                || condition.contains("fog", true)
+                || condition.contains("overcast", true) -> R.drawable.partlysunny_3x
+
+        condition.contains("rain", true)
+                || condition.contains("storm", true)
+                || condition.contains("snow", true)
+                || condition.contains("blizzard", true)
+                || condition.contains("thunder", true) -> R.drawable.rain_3x
+
         else -> R.drawable.partlysunny_3x // Default icon for other cases
+
     }
 }
