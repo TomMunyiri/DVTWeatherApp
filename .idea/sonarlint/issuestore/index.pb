@@ -154,3 +154,5 @@ y
 Iapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/model/NetworkSys.kt,d/0/d096140f24a68d38287fe65111f9b80e16a83e2d
 ‹
 [app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/home/HomeScreenEvent.kt,f/f/ffe9027e204e0195f427efefb4f2a5702341b53e
+†
+Vapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/FavoritesScreen.kt,1/3/13f99aa1ff2ce2ee41ff88904ba1595b125a6455

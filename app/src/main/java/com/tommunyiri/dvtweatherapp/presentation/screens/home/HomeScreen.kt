@@ -114,16 +114,10 @@ fun HomeScreen(
                                 weatherForecast = weatherForecast,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable {
-                                        /*navigator.navigate(
-                                        CompanyInfoScreenDestination(company.symbol)
-                                    )*/
-                                    }
                                     .padding(0.dp, 10.dp, 0.dp, 10.dp)
                             )
                         }
                     }
-
                 }
             }
         }
