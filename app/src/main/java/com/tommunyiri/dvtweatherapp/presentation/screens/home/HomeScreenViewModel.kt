@@ -44,11 +44,14 @@ class HomeScreenViewModel @Inject constructor(
     private val repository: WeatherRepository,
     private val locationLiveData: LocationLiveData,
     private val prefs: SharedPreferenceHelper
-) :
-    ViewModel() {
+) : ViewModel() {
 
     lateinit var location: LocationModel
     var state by mutableStateOf(HomeScreenState())
+    private val _weather = MutableLiveData<Weather?>()
+    val weather = _weather.asLiveData()
+
+    val time = currentSystemTime()
 
     init {
         currentSystemTime()
@@ -60,11 +63,6 @@ class HomeScreenViewModel @Inject constructor(
             }
         }
     }
-
-    private val _weather = MutableLiveData<Weather?>()
-    val weather = _weather.asLiveData()
-
-    val time = currentSystemTime()
 
     private fun fetchLocation() = locationLiveData.asFlow().distinctUntilChanged().take(1)
 

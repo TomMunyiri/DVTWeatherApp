@@ -1,60 +1,64 @@
-package com.tommunyiri.dvtweatherapp.presentation.search
+package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.algolia.search.client.ClientSearch
+import com.algolia.instantsearch.android.paging3.searchbox.connectPaginator
+import com.algolia.instantsearch.android.paging3.Paginator
+import com.algolia.instantsearch.compose.searchbox.SearchBoxState
+import com.algolia.instantsearch.searchbox.SearchBoxConnector
+import com.algolia.instantsearch.core.connection.ConnectionHandler
+import com.algolia.instantsearch.searchbox.connectView
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.IndexName
 import com.tommunyiri.dvtweatherapp.BuildConfig
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
+import com.tommunyiri.dvtweatherapp.domain.model.SearchResult
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 
 /**
- * Created by Tom Munyiri on 20/01/2024.
+ * Created by Tom Munyiri on 20/02/2024.
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-class SearchFragmentViewModel @Inject constructor(private val repository: WeatherRepository) :
+
+@HiltViewModel
+class SearchScreenViewModel @Inject constructor(private val repository: WeatherRepository) :
     ViewModel() {
 
     private val applicationID = BuildConfig.ALGOLIA_APP_ID
     private val algoliaAPIKey = BuildConfig.ALGOLIA_API_KEY
     private val algoliaIndexName = BuildConfig.ALGOLIA_INDEX_NAME
-    private val client = ClientSearch(
-        ApplicationID(applicationID),
-        APIKey(algoliaAPIKey)
+
+    val searcher = HitsSearcher(
+        applicationID = ApplicationID(applicationID),
+        apiKey = APIKey(algoliaAPIKey),
+        indexName = IndexName(algoliaIndexName)
     )
-    /*private val index = client.initIndex(IndexName(algoliaIndexName))
-    private val searcher = SearcherSingleIndex(index)
 
-    private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher) { hit ->
-        SearchResult(
-            name = hit["name"]?.jsonPrimitive?.content ?: "",
-            subcountry = hit["subcountry"]?.jsonPrimitive?.content ?: "",
-            country = hit["country"]?.jsonPrimitive?.content ?: ""
-        )
-    }
+    // Search Box
+    val searchBoxState = SearchBoxState()
+    val searchBoxConnector = SearchBoxConnector(searcher)
 
-    private val pagedListConfig = PagedList.Config.Builder().setPageSize(50).build()
-    val locations: LiveData<PagedList<SearchResult>> =
-        LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
+    // Hits
+    val hitsPaginator = Paginator(searcher) { it.deserialize(SearchResult.serializer()) }
 
-    val searchBox = SearchBoxConnectorPagedList(searcher, listOf(locations))
-    val stats = StatsConnector(searcher)
-    private val connection = ConnectionHandler()
+    val connections = ConnectionHandler(searchBoxConnector)
 
     init {
-        connection += searchBox
-        connection += stats
-    }*/
+        connections += searchBoxConnector.connectView(searchBoxState)
+        connections += searchBoxConnector.connectPaginator(hitsPaginator)
+    }
 
     private val _weatherInfo = MutableLiveData<Weather?>()
     val weatherInfo = _weatherInfo.asLiveData()
@@ -104,12 +108,7 @@ class SearchFragmentViewModel @Inject constructor(private val repository: Weathe
 
     override fun onCleared() {
         super.onCleared()
-        //searcher.cancel()
-        //connection.disconnect()
+        searcher.cancel()
     }
 
-    fun clearData() {
-        _weatherInfo.postValue(null)
-        _isLoading.postValue(false)
-    }
 }

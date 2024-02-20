@@ -12,6 +12,7 @@ plugins {
     id("com.google.firebase.crashlytics")
     alias(libs.plugins.ktlint)
     id("org.sonarqube")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
 }
 
 tasks.check {
@@ -179,6 +180,9 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     // algolia search
     implementation(libs.algolia)
+    implementation(libs.algolia.instantsearch.compose)
+    implementation(libs.algolia.instantsearch.android.paging3)
+    //implementation(libs.algoliasearch.client.kotlin)
     // paging
     implementation(libs.androidx.paging)
     // google-maps

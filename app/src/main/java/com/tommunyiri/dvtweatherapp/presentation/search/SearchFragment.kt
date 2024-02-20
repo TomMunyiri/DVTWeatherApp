@@ -10,11 +10,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.helper.android.item.StatsTextView
-import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
-import com.algolia.instantsearch.helper.android.searchbox.connectView
-import com.algolia.instantsearch.helper.stats.StatsPresenterImpl
-import com.algolia.instantsearch.helper.stats.connectView
 import com.google.android.material.snackbar.Snackbar
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
@@ -43,7 +38,7 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
     private val viewModel by viewModels<SearchFragmentViewModel> { viewModelFactoryProvider }
     private val searchResultAdapter by lazy { SearchResultAdapter(this) }
     private val connection = ConnectionHandler()
-    private lateinit var searchBoxView: SearchBoxViewAppCompat
+    //private lateinit var searchBoxView: SearchBoxViewAppCompat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -63,7 +58,7 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchBoxView = SearchBoxViewAppCompat(binding.searchView)
+        /*searchBoxView = SearchBoxViewAppCompat(binding.searchView)
         searchBoxView.searchView.isIconified = false
 
         val statsView = StatsTextView(binding.stats)
@@ -75,7 +70,7 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
             if (!it.isNullOrEmpty()) {
                 viewModel.getSearchWeather(it)
             }
-        }
+        }*/
 
         val recyclerView = binding.locationSearchRecyclerview
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -97,10 +92,10 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
     private fun observeViewModel() {
         with(viewModel) {
 
-            locations.observe(viewLifecycleOwner) { hits ->
+            /*locations.observe(viewLifecycleOwner) { hits ->
                 searchResultAdapter.submitList(hits)
                 binding.zeroHits.isVisible = hits.isEmpty()
-            }
+            }*/
 
             weatherInfo.observe(viewLifecycleOwner) { weather ->
                 weather?.let {
@@ -213,7 +208,7 @@ class SearchFragment : BaseFragment(), SearchResultAdapter.OnItemClickedListener
     }
 
     override fun onSearchResultClicked(searchResult: SearchResult) {
-        searchBoxView.setText(searchResult.name)
+        //searchBoxView.setText(searchResult.name)
         viewModel.getSearchWeather(searchResult.name)
     }
 }

@@ -41,7 +41,10 @@ swiperefreshlayout = "1.1.0"
 #lifecycle
 lifecycle = "2.7.0"
 #algolia search
-algolia = "2.11.1"
+algolia = "3.3.0"
+algolia-instantsearch-compose = "3.3.0"
+algolia-instantsearch-android-paging3 = "3.3.0"
+algoliasearch-client-kotlin = "2.1.3"
 #paging
 paging = "3.2.1"
 #ktlint
@@ -120,6 +123,10 @@ androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "s
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
 #algolia search
 algolia = { group = "com.algolia", name = "instantsearch-android", version.ref = "algolia" }
+algolia-instantsearch-compose = { group = "com.algolia", name = "instantsearch-compose", version.ref = "algolia-instantsearch-compose" }
+algolia-instantsearch-android-paging3 = { group = "com.algolia", name = "instantsearch-android-paging3", version.ref = "algolia-instantsearch-android-paging3" }
+#algoliasearch-client-kotlin = { group = "com.algolia", name = "algoliasearch-client-kotlin", version.ref = "algoliasearch-client-kotlin" }
+
 #paging
 androidx-paging = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
 #google-maps

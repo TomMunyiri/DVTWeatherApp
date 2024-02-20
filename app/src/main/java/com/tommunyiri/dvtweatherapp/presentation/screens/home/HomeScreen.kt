@@ -1,7 +1,6 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,20 +25,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.tommunyiri.dvtweatherapp.R
-import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherCondition
-import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherDescription
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
-import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
-import com.tommunyiri.dvtweatherapp.domain.model.Wind
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherForecastItem
 import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
 import com.tommunyiri.dvtweatherapp.ui.theme.rainy
-import com.tommunyiri.dvtweatherapp.ui.theme.sunny
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 
 /**
