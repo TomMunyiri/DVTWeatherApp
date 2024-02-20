@@ -36,7 +36,6 @@ import com.tommunyiri.dvtweatherapp.ui.theme.sunny
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 
-
 /**
  * Composable function that represents the home screen of the application.
  */
