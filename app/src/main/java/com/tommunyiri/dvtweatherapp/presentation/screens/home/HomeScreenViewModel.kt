@@ -1,8 +1,6 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.home
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
@@ -19,20 +16,15 @@ import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
 import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
-import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
-
 
 /**
  * Created by Tom Munyiri on 19/02/2024.

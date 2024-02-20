@@ -32,6 +32,7 @@ import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherForecastItem
 import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
 import com.tommunyiri.dvtweatherapp.ui.theme.rainy
+import com.tommunyiri.dvtweatherapp.ui.theme.sunny
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 
@@ -75,7 +76,7 @@ fun HomeScreen(
                         || weather.networkWeatherDescription.toString()
                     .contains("haze", true) -> rainy
 
-                else -> cloudy
+                else -> sunny
             }
 
             Column(

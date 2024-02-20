@@ -58,5 +58,25 @@ class WeatherIconGenerator {
                 }
             }
         }
+
+        fun getWeatherIcon(condition: String): Int {
+            return when {
+                condition.contains("sun", true)
+                        || condition.contains("wind", true) -> R.drawable.clear_3x
+
+                condition.contains("cloudy", true)
+                        || condition.contains("fog", true)
+                        || condition.contains("overcast", true) -> R.drawable.partlysunny_3x
+
+                condition.contains("rain", true)
+                        || condition.contains("storm", true)
+                        || condition.contains("snow", true)
+                        || condition.contains("blizzard", true)
+                        || condition.contains("thunder", true) -> R.drawable.rain_3x
+
+                else -> R.drawable.partlysunny_3x // Default icon for other cases
+
+            }
+        }
     }
 }

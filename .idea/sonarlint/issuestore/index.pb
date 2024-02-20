@@ -113,8 +113,6 @@ Qapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/MainScreen.
 ^app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/BottomNavigationBar.kt,3/7/3701afd63f63f5e3aa56e4082534e4be834ab8ca
 Ö
 Uapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/SettingsScreen.kt,3/c/3c55d0c860e5ad9bb4d786c10c9cab6bbfe7dde4
-É
-Sapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/SearchScreen.kt,1/0/101222006fc0f8e6f0ac2b7f4ed6af3eb85edaae
 {
 Kapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/MainActivity.kt,9/a/9a71970a128b44e7b2d0b9f28ee3332a9ff921e8
 p
@@ -158,8 +156,6 @@ Iapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/model/NetworkSys.kt,d/0/
 Vapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/FavoritesScreen.kt,1/3/13f99aa1ff2ce2ee41ff88904ba1595b125a6455
 Ñ
 Tapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/search/SearchFragment.kt,8/1/812e353e4459b076c270c7b97aeccebf25c2520d
-ò
-happ/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/home/search/SearchScreenViewModel.kt,c/6/c62571344c300479fd626141fea7c48ec2826707
 ì
 capp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/search/SearchScreenViewModel.kt,b/1/b16ef00593262506a222f1a6cd4118046c272818
 ç
@@ -170,3 +166,13 @@ _app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/search/Sear
 Kapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/model/SearchResult.kt,c/a/cac6d535a5460ea1da6a875cc7bb7384265baa56
 ä
 Zapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/search/SearchScreen.kt,f/f/ff8a92c0f06c7a7abd40b7bf81b90cacb8fcb912
+s
+Capp/src/test/java/com/tommunyiri/dvtweatherapp/MainCoroutineRule.kt,7/7/777681d15aea5c05c04b7c474ac4887f4ae8534e
+è
+_app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/search/SearchScreenState.kt,9/3/93153fa5fa4bc6f36be6af157a56f382bf59c09e
+â
+Yapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/search/SearchResultAdapter.kt,8/e/8e28c6b14c77d8ecf2197eb29c083f4d7dc88e90
+î
+dapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/WeatherBottomSheetContent.kt,b/0/b0d7a7add5ac0918aad3867d194540098b40910f
+à
+Xapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/model/NetworkWeatherCoordinates.kt,b/6/b6048beff1b87993c01b8e6291fcfeca8993a7d8

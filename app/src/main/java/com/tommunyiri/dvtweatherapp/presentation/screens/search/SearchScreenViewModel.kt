@@ -1,5 +1,8 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,8 +25,12 @@ import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.SearchResult
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.presentation.screens.home.HomeScreenEvent
+import com.tommunyiri.dvtweatherapp.presentation.screens.home.HomeScreenState
 import com.tommunyiri.dvtweatherapp.utils.Result
+import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
+import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -37,14 +44,17 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class SearchScreenViewModel @Inject constructor(private val repository: WeatherRepository) :
+class SearchScreenViewModel @Inject constructor(
+    private val repository: WeatherRepository,
+    private val prefs: SharedPreferenceHelper
+) :
     ViewModel() {
 
     private val applicationID = BuildConfig.ALGOLIA_APP_ID
     private val algoliaAPIKey = BuildConfig.ALGOLIA_API_KEY
     private val algoliaIndexName = BuildConfig.ALGOLIA_INDEX_NAME
 
-    val searcher = HitsSearcher(
+    private val searcher = HitsSearcher(
         applicationID = ApplicationID(applicationID),
         apiKey = APIKey(algoliaAPIKey),
         indexName = IndexName(algoliaIndexName)
@@ -52,15 +62,15 @@ class SearchScreenViewModel @Inject constructor(private val repository: WeatherR
 
     // Search Box
     val searchBoxState = SearchBoxState()
-    val searchBoxConnector = SearchBoxConnector(searcher)
+    private val searchBoxConnector = SearchBoxConnector(searcher)
 
     val statsText = StatsTextState()
-    val statsConnector = StatsConnector(searcher)
+    private val statsConnector = StatsConnector(searcher)
 
     // Hits
     val hitsPaginator = Paginator(searcher) { it.deserialize(SearchResult.serializer()) }
 
-    val connections = ConnectionHandler(searchBoxConnector,statsConnector)
+    private val connections = ConnectionHandler(searchBoxConnector, statsConnector)
 
     init {
         connections += searchBoxConnector.connectView(searchBoxState)
@@ -68,42 +78,55 @@ class SearchScreenViewModel @Inject constructor(private val repository: WeatherR
         connections += statsConnector.connectView(statsText, StatsPresenterImpl())
     }
 
-    private val _weatherInfo = MutableLiveData<Weather?>()
-    val weatherInfo = _weatherInfo.asLiveData()
+    var state by mutableStateOf(SearchScreenState())
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading = _isLoading.asLiveData()
+    fun onEvent(event: SearchScreenEvent) {
+        when (event) {
+            is SearchScreenEvent.GetWeather -> {
+                getSearchWeather(event.city)
+            }
+        }
+    }
 
-    private val _dataFetchState = MutableLiveData<Boolean>()
-    val dataFetchState = _dataFetchState.asLiveData()
+    fun getSharedPrefs(): SharedPreferenceHelper {
+        return prefs
+    }
 
     /**
      * Gets the [Weather] information for the user selected location[name]
      * @param name value of the location whose [Weather] data is to be fetched.
      */
-    fun getSearchWeather(name: String) {
-        _isLoading.postValue(true)
-        _weatherInfo.postValue(null)
+    private fun getSearchWeather(name: String) {
+        state = state.copy(isLoading = true)
         viewModelScope.launch {
             when (val result = repository.getSearchWeather(name)) {
                 is Result.Success -> {
-                    _isLoading.value = false
                     if (result.data != null) {
-                        Timber.i("Result ${result.data}")
-                        _dataFetchState.value = true
-                        _weatherInfo.postValue(result.data)
+                        val weatherData = result.data.apply {
+                            this.networkWeatherCondition.temp =
+                                convertKelvinToCelsius(this.networkWeatherCondition.temp)
+                        }
+                        state = state.copy(
+                            weather = weatherData,
+                            isLoading = false,
+                            error = null
+                        )
                     } else {
-                        _weatherInfo.postValue(null)
-                        _dataFetchState.postValue(false)
+                        state = state.copy(
+                            weather = null,
+                            isLoading = false,
+                            error = "No weather data at the moment"
+                        )
                     }
                 }
 
-                is Result.Error -> {
-                    _isLoading.value = false
-                    _dataFetchState.value = false
-                }
+                is Result.Error -> state = state.copy(
+                    weather = null,
+                    isLoading = false,
+                    error = result.exception.toString()
+                )
 
-                else -> {}
+                else -> state = state.copy(isLoading = true, error = null)
             }
         }
     }
