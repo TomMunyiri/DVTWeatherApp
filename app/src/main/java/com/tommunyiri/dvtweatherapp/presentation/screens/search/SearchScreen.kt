@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,12 +44,17 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
         val scope = rememberCoroutineScope()
         val pagingHits = paginator.flow.collectAsLazyPagingItems()
         val listState = rememberLazyListState()
+        val statsText = viewModel.statsText
         SearchBox(
             modifier = Modifier
                 .padding(7.dp)
                 .fillMaxWidth(),
             searchBoxState = searchBoxState,
             onValueChange = { scope.launch { listState.scrollToItem(0) } },
+        )
+        Stats(
+            modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp),
+            stats = statsText.stats
         )
         SearchResultList(
             modifier = Modifier
@@ -120,4 +126,15 @@ fun SearchResultList(
             )
         }
     }
+}
+
+@Composable
+fun Stats(modifier: Modifier = Modifier, stats: String) {
+    Text(
+        fontWeight = FontWeight.SemiBold,
+        modifier = modifier,
+        text = stats,
+        style = MaterialTheme.typography.titleSmall,
+        maxLines = 1
+    )
 }

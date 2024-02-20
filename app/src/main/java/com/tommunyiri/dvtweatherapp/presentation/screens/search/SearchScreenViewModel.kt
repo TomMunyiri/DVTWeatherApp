@@ -5,11 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.algolia.instantsearch.android.paging3.searchbox.connectPaginator
 import com.algolia.instantsearch.android.paging3.Paginator
+import com.algolia.instantsearch.compose.item.StatsTextState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.stats.StatsConnector
+import com.algolia.instantsearch.stats.StatsPresenterImpl
+import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
@@ -50,14 +54,18 @@ class SearchScreenViewModel @Inject constructor(private val repository: WeatherR
     val searchBoxState = SearchBoxState()
     val searchBoxConnector = SearchBoxConnector(searcher)
 
+    val statsText = StatsTextState()
+    val statsConnector = StatsConnector(searcher)
+
     // Hits
     val hitsPaginator = Paginator(searcher) { it.deserialize(SearchResult.serializer()) }
 
-    val connections = ConnectionHandler(searchBoxConnector)
+    val connections = ConnectionHandler(searchBoxConnector,statsConnector)
 
     init {
         connections += searchBoxConnector.connectView(searchBoxState)
         connections += searchBoxConnector.connectPaginator(hitsPaginator)
+        connections += statsConnector.connectView(statsText, StatsPresenterImpl())
     }
 
     private val _weatherInfo = MutableLiveData<Weather?>()
