@@ -51,7 +51,7 @@ fun WeatherBottomSheetContent(weather: Weather, prefs: SharedPreferenceHelper) {
                 contentDescription = "contentDescription",
                 modifier = Modifier
                     .weight(1f)
-                    .padding(top = 40.dp),
+                    .padding(top = 70.dp),
             )
             Image(
                 painterResource(id = R.drawable.ic_big_cloud),
