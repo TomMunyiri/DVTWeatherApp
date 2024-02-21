@@ -2,7 +2,6 @@ package com.tommunyiri.dvtweatherapp.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -25,7 +24,6 @@ import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
-import com.tommunyiri.dvtweatherapp.utils.observeOnce
 import com.tommunyiri.dvtweatherapp.worker.UpdateWeatherWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
