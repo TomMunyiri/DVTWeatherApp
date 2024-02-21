@@ -93,7 +93,7 @@ android {
         }
         debug {
             isMinifyEnabled = false
-            isDebuggable = false
+            isDebuggable = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -222,6 +222,8 @@ dependencies {
     implementation(libs.google.accompanist.permissions)
     //accompanist-swipe-refresh
     implementation(libs.google.accompanist.swipe.refresh)
+    //sweet compose
+    implementation(libs.composable.sweet.toast)
 }
 
 class RoomSchemaArgProvider(

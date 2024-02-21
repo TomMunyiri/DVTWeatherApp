@@ -70,6 +70,8 @@ vico = "1.11.3"
 lifecycleRuntimeKtx = "2.7.0"
 #accompanist for permissions
 google-accompanist = "0.21.1-beta"
+# sweet compose toast
+composable-sweet-toast = "1.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -163,6 +165,8 @@ vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = 
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "google-accompanist" }
 google-accompanist-swipe-refresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "google-accompanist" }
+#sweet compose toast
+composable-sweet-toast = { group = "com.github.TalhaFaki", name = "ComposableSweetToast", version.ref = "composable-sweet-toast" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

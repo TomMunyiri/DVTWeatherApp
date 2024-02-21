@@ -49,8 +49,12 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.algolia.instantsearch.android.paging3.flow
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.tommunyiri.dvtweatherapp.R
+import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
+import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreenEvent
+import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreenState
+import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreenViewModel
 import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
 import com.tommunyiri.dvtweatherapp.ui.theme.rainy
 import com.tommunyiri.dvtweatherapp.ui.theme.sunny
@@ -77,18 +81,8 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
     val state = viewModel.state
     val prefs = viewModel.getSharedPrefs()
 
-    Scaffold(
-        /*floatingActionButton = {
-            ExtendedFloatingActionButton(
-                text = { Text("Show bottom sheet") },
-                icon = { Icon(Icons.Filled.Add, contentDescription = "") },
-                onClick = {
-                    showBottomSheet = true
-                }
-            )
-        }*/
-    ) { contentPadding ->
-        if (state.isLoading) {
+    Scaffold { contentPadding ->
+        if (state.isLoading || pagingHits.itemCount == 0) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -162,7 +156,16 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
                 sheetState = sheetState,
                 containerColor = bottomSheetBackgroundColor
             ) {
-                WeatherBottomSheetContent(weather = weather, prefs = prefs)
+                WeatherBottomSheetContent(weather = weather, prefs = prefs, onFavoriteClicked = {
+                    viewModel.onEvent(
+                        SearchScreenEvent.AddToFavorite(
+                            FavoriteLocation(
+                                it.name, it.networkWeatherCoordinates.lat,
+                                it.networkWeatherCoordinates.lon, it.networkSys.country
+                            )
+                        )
+                    )
+                })
             }
         }
     }

@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.tommunyiri.dvtweatherapp.presentation.navigation.nav.NavItem
-import com.tommunyiri.dvtweatherapp.presentation.screens.FavoritesScreen
+import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreen
 import com.tommunyiri.dvtweatherapp.presentation.screens.home.HomeScreen
 import com.tommunyiri.dvtweatherapp.presentation.screens.search.SearchScreen
 import com.tommunyiri.dvtweatherapp.presentation.screens.SettingsScreen

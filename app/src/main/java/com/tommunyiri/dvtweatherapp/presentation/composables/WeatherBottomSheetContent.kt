@@ -1,6 +1,7 @@
 package com.tommunyiri.dvtweatherapp.presentation.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tommunyiri.dvtweatherapp.R
+import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.WeatherIconGenerator
@@ -32,17 +34,23 @@ import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
  */
 
 @Composable
-fun WeatherBottomSheetContent(weather: Weather, prefs: SharedPreferenceHelper) {
+fun WeatherBottomSheetContent(
+    weather: Weather,
+    prefs: SharedPreferenceHelper,
+    onFavoriteClicked: (weather: Weather) -> Unit
+) {
     Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 40.dp)) {
         // Sheet content
-        Image(
-            painter = painterResource(id = R.drawable.favorite_24),
-            contentDescription = "",
-            alignment = Alignment.TopEnd, modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 15.dp),
-            colorFilter = ColorFilter.tint(Color.White)
-        )
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
+            Image(
+                painter = painterResource(id = R.drawable.favorite_24),
+                contentDescription = "",
+                alignment = Alignment.TopEnd, modifier = Modifier
+                    .padding(end = 15.dp)
+                    .clickable { onFavoriteClicked(weather) },
+                colorFilter = ColorFilter.tint(Color.White)
+            )
+        }
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -51,7 +59,7 @@ fun WeatherBottomSheetContent(weather: Weather, prefs: SharedPreferenceHelper) {
                 contentDescription = "contentDescription",
                 modifier = Modifier
                     .weight(1f)
-                    .padding(top = 70.dp),
+                    .padding(top = 70.dp)
             )
             Image(
                 painterResource(id = R.drawable.ic_big_cloud),

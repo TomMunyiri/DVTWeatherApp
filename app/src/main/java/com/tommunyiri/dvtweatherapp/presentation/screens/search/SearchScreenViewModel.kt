@@ -3,15 +3,14 @@ package com.tommunyiri.dvtweatherapp.presentation.screens.search
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.algolia.instantsearch.android.paging3.searchbox.connectPaginator
 import com.algolia.instantsearch.android.paging3.Paginator
+import com.algolia.instantsearch.android.paging3.searchbox.connectPaginator
 import com.algolia.instantsearch.compose.item.StatsTextState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
-import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.core.connection.ConnectionHandler
+import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.stats.StatsConnector
@@ -25,15 +24,11 @@ import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.SearchResult
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.presentation.screens.home.HomeScreenEvent
-import com.tommunyiri.dvtweatherapp.presentation.screens.home.HomeScreenState
 import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
-import com.tommunyiri.dvtweatherapp.utils.asLiveData
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -47,8 +42,7 @@ import javax.inject.Inject
 class SearchScreenViewModel @Inject constructor(
     private val repository: WeatherRepository,
     private val prefs: SharedPreferenceHelper
-) :
-    ViewModel() {
+) : ViewModel() {
 
     private val applicationID = BuildConfig.ALGOLIA_APP_ID
     private val algoliaAPIKey = BuildConfig.ALGOLIA_API_KEY
@@ -84,6 +78,10 @@ class SearchScreenViewModel @Inject constructor(
         when (event) {
             is SearchScreenEvent.GetWeather -> {
                 getSearchWeather(event.city)
+            }
+
+            is SearchScreenEvent.AddToFavorite -> {
+                saveFavoriteLocation(event.favoriteLocation)
             }
         }
     }
@@ -131,7 +129,7 @@ class SearchScreenViewModel @Inject constructor(
         }
     }
 
-    fun saveFavoriteLocation(favoriteLocation: FavoriteLocation) {
+    private fun saveFavoriteLocation(favoriteLocation: FavoriteLocation) {
         viewModelScope.launch {
             repository.storeFavoriteLocationData(favoriteLocation)
         }

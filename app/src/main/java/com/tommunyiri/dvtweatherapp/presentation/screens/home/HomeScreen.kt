@@ -64,7 +64,6 @@ fun HomeScreen(
         }
     ) {
         state.weather?.let { weather ->
-
             val screenBackgroundColor = when {
                 weather.networkWeatherDescription.toString()
                     .contains("cloud", true) -> cloudy
@@ -230,7 +229,7 @@ fun TopHeader(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(0.dp, 50.dp, 0.dp, 0.dp),
+                    .padding(top = 50.dp),
                 textAlign = TextAlign.Center,
             )
             Text(

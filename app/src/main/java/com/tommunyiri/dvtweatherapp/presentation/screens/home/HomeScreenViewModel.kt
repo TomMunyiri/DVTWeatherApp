@@ -1,6 +1,8 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.home
 
 import android.annotation.SuppressLint
+import android.app.Application
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +10,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
@@ -18,12 +25,15 @@ import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
+import com.tommunyiri.dvtweatherapp.utils.observeOnce
+import com.tommunyiri.dvtweatherapp.worker.UpdateWeatherWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -35,7 +45,8 @@ import javax.inject.Inject
 class HomeScreenViewModel @Inject constructor(
     private val repository: WeatherRepository,
     private val locationLiveData: LocationLiveData,
-    private val prefs: SharedPreferenceHelper
+    private val prefs: SharedPreferenceHelper,
+    private val context: Application
 ) : ViewModel() {
 
     lateinit var location: LocationModel
@@ -52,15 +63,32 @@ class HomeScreenViewModel @Inject constructor(
             fetchLocation().collect { locationValue ->
                 location = locationValue
                 getWeather(location)
+                setupWorkManager()
             }
         }
     }
 
     private fun fetchLocation() = locationLiveData.asFlow().distinctUntilChanged().take(1)
 
-
     fun getSharedPrefs(): SharedPreferenceHelper {
         return prefs
+    }
+
+    private fun setupWorkManager() {
+        val constraint = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val weatherUpdateRequest =
+            PeriodicWorkRequestBuilder<UpdateWeatherWorker>(1, TimeUnit.HOURS)
+                .setConstraints(constraint)
+                .setInitialDelay(10, TimeUnit.MINUTES)
+                .build()
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            "DVT_update_weather_worker",
+            ExistingPeriodicWorkPolicy.UPDATE, weatherUpdateRequest
+        )
     }
 
     fun onEvent(event: HomeScreenEvent) {
