@@ -32,7 +32,6 @@ import com.tommunyiri.dvtweatherapp.domain.model.Wind
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.WeatherIconGenerator
 
-
 /**
  * Created by Tom Munyiri on 18/02/2024.
  * Company: Eclectics International Ltd
@@ -42,7 +41,8 @@ import com.tommunyiri.dvtweatherapp.utils.WeatherIconGenerator
 @Composable
 fun WeatherForecastItem(
     weatherForecast: WeatherForecast,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    prefs: SharedPreferenceHelper
 ) {
     Row(
         modifier = modifier,
@@ -81,7 +81,7 @@ fun WeatherForecastItem(
                 }
                 Text(
                     text = getFormattedTemperature(
-                        weatherForecast.networkWeatherCondition.temp,
+                        weatherForecast.networkWeatherCondition.temp, prefs,
                         LocalContext.current
                     ),
                     fontSize = 16.sp,
@@ -96,20 +96,13 @@ fun WeatherForecastItem(
     }
 }
 
-//@Preview()
-@Composable
-fun WeatherForecastItemPreview() {
-    val weatherForecast = WeatherForecast(
-        1, "Tue, 9:23PM", Wind(12.12, 123),
-        listOf(NetworkWeatherDescription(1L, "main", "Rainy", "")),
-        NetworkWeatherCondition(12.2, 13.5, 45.3, 12.6, 4.12)
-    )
-    WeatherForecastItem(weatherForecast = weatherForecast)
-}
-
-fun getFormattedTemperature(double: Double, context: Context): String {
-    return if (SharedPreferenceHelper.getInstance(context)
-            .getSelectedTemperatureUnit() == context.getString(
+fun getFormattedTemperature(
+    double: Double,
+    prefs: SharedPreferenceHelper,
+    context: Context
+): String {
+    return if (
+        prefs.getSelectedTemperatureUnit() == context.getString(
             R.string.temp_unit_fahrenheit
         )
     )

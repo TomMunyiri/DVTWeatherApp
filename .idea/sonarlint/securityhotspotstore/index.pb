@@ -200,3 +200,5 @@ Xapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/settings/SettingsFr
 gapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/settings/SettingsScreenViewModel.kt,6/f/6f120f00a58f7a00d7d8f629898962ffe2a66977
 Ž
 ^app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/settings/SettingsScreen.kt,9/0/90c712793d5949a20f140d13f70a7f54e31135b2
+“
+capp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/settings/SettingsScreenState.kt,4/a/4aebba91a4185caef034ebcae27429219d5b5708

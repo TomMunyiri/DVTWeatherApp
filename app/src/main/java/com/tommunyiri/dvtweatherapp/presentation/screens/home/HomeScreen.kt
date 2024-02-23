@@ -40,23 +40,16 @@ import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
  * Composable function that represents the home screen of the application.
  */
 @Composable
-fun HomeScreen(
-    viewModel: HomeScreenViewModel = hiltViewModel()
-) {
+fun HomeScreen(viewModel: HomeScreenViewModel = hiltViewModel()) {
     val state = viewModel.state
     val prefs = viewModel.getSharedPrefs()
 
     if (state.isLoading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     }
-    val swipeRefreshState = rememberSwipeRefreshState(
-        isRefreshing = viewModel.state.isLoading
-    )
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = viewModel.state.isLoading)
     SwipeRefresh(
         state = swipeRefreshState,
         onRefresh = {
@@ -107,7 +100,7 @@ fun HomeScreen(
                                 weatherForecast = weatherForecast,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 10.dp)
+                                    .padding(0.dp, 10.dp, 0.dp, 10.dp), prefs
                             )
                         }
                     }
@@ -126,12 +119,6 @@ fun HomeScreen(
         }
     }
 
-}
-
-@Preview
-@Composable
-fun homeScreenPreview() {
-    HomeScreen()
 }
 
 @Composable

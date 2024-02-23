@@ -117,6 +117,15 @@ class SharedPreferenceHelper {
     /**
      * This function saves a [LocationModel]
      */
+    fun saveTemperatureUnit(temperatureUnit: String) {
+        prefs?.edit(commit = true) {
+            putString("unit_key", temperatureUnit)
+        }
+    }
+
+    /**
+     * This function saves a [LocationModel]
+     */
     fun saveLocation(location: LocationModel) {
         prefs?.edit(commit = true) {
             val gson = Gson()
