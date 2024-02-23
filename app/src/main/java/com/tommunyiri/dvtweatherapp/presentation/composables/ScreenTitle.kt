@@ -19,6 +19,6 @@ fun ScreenTitle(text: String) {
     Text(
         text = text,
         style = MaterialTheme.typography.headlineMedium,
-        modifier = Modifier.padding(top = 40.dp, start = 15.dp, end = 20.dp)
+        modifier = Modifier.padding(top = 50.dp, start = 15.dp, end = 20.dp)
     )
 }

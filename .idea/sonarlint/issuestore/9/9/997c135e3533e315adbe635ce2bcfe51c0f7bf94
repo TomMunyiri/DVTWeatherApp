@@ -1,9 +1,2 @@
 
->kotlin:S1128"Remove this unused import.(ºÍ—Ôşÿÿÿÿ8¬«ùëÜ1
-9kotlin:S1128"Remove this unused import.(×§¤¬8¬«ùëÜ1
->kotlin:S1128"Remove this unused import.(Ì­Åõüÿÿÿÿ8¬«ùëÜ1
->kotlin:S1128"Remove this unused import.(û‹û³şÿÿÿÿ8¬«ùëÜ1
-9kotlin:S1128 "Remove this unused import.(ª»¦Û8¬«ùëÜ1
-9kotlin:S1128#"Remove this unused import.(Õ‚ÑÜ8«ƒËûÛ1
->kotlin:S1128+"Remove this unused import.(üÎÛ øÿÿÿÿ8¬«ùëÜ1
-vkotlin:S3776C"RRefactor this method to reduce its Cognitive Complexity from 35 to the 15 allowed.(ûåßÔùÿÿÿÿ8¬ƒËûÛ1
+vkotlin:S3776:"RRefactor this method to reduce its Cognitive Complexity from 35 to the 15 allowed.(ûåßÔùÿÿÿÿ8¬ƒËûÛ1

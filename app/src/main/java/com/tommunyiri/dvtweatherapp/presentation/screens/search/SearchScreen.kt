@@ -1,12 +1,8 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -36,31 +31,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.algolia.instantsearch.android.paging3.flow
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
-import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
-import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreenEvent
-import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreenState
-import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreenViewModel
 import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
 import com.tommunyiri.dvtweatherapp.ui.theme.rainy
 import com.tommunyiri.dvtweatherapp.ui.theme.sunny
-import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
-import com.tommunyiri.dvtweatherapp.utils.WeatherIconGenerator
-import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 import kotlinx.coroutines.launch
 
 /**

@@ -194,3 +194,9 @@ q
 Aapp/src/main/java/com/tommunyiri/dvtweatherapp/utils/Constants.kt,6/7/67a56bbc2f529283e818ac7fd1fca4eafc6255fd
 †
 Vapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/ScreenTitle.kt,b/9/b9033392e3a093e45d8d00a2b6d967b62999a893
+ˆ
+Xapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/settings/SettingsFragment.kt,a/c/ac9bc7c287cd7d4d0b7f439b5346a81f8cbac4b5
+—
+gapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/settings/SettingsScreenViewModel.kt,6/f/6f120f00a58f7a00d7d8f629898962ffe2a66977
+Ž
+^app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/settings/SettingsScreen.kt,9/0/90c712793d5949a20f140d13f70a7f54e31135b2

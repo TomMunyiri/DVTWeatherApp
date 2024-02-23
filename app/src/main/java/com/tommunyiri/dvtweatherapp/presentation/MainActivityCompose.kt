@@ -25,22 +25,13 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.compose.rememberNavController
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
-import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.presentation.screens.MainScreen
 import com.tommunyiri.dvtweatherapp.ui.theme.DVTWeatherAppTheme
-import com.tommunyiri.dvtweatherapp.utils.observeOnce
-import com.tommunyiri.dvtweatherapp.worker.UpdateWeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivityCompose : ComponentActivity() {
