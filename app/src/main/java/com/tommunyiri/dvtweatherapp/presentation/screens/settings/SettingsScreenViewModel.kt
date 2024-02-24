@@ -1,8 +1,11 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.settings
 
+import android.app.Application
+import android.content.Context
+import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +41,7 @@ class SettingsScreenViewModel @Inject constructor(private val prefs: SharedPrefe
         }
     }
 
-    fun setTemperatureUnit(temperatureUnit: String) {
+    fun saveTemperatureUnit(temperatureUnit: String) {
         _settingsScreenState.update { currentState ->
             currentState.copy(
                 temperatureUnit = temperatureUnit
@@ -46,4 +49,36 @@ class SettingsScreenViewModel @Inject constructor(private val prefs: SharedPrefe
         }
         prefs.saveTemperatureUnit(temperatureUnit)
     }
+
+    fun saveTheme(theme: String, context: Context) {
+        _settingsScreenState.update { currentState ->
+            currentState.copy(
+                theme = theme
+            )
+        }
+        prefs.saveThemePref(theme)
+        Log.d("TAG", "saveTheme: $theme")
+        setTheme(theme, context)
+    }
+
+    private fun setTheme(theme: String, context: Context) {
+        when (theme) {
+            context.getString(R.string.light_theme_value) -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_NO
+            )
+
+            context.getString(R.string.dark_theme_value) -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_YES
+            )
+
+            context.getString(R.string.auto_battery_value) -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+            )
+
+            context.getString(R.string.follow_system_value) -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            )
+        }
+    }
+
 }

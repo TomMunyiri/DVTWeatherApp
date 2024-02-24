@@ -1,6 +1,7 @@
 package com.tommunyiri.dvtweatherapp.utils
 
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.material3.MaterialTheme
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
@@ -19,10 +20,14 @@ object ThemeManager {
      */
     fun applyTheme(themePreference: String) {
         when (themePreference) {
-            LIGHT_MODE -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            /*LIGHT_MODE -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             DARK_MODE -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             AUTO_BATTERY_MODE -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-            FOLLOW_SYSTEM_MODE -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            FOLLOW_SYSTEM_MODE -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)*/
+
+            LIGHT_MODE -> MaterialTheme.colo = colors.light
+            DARK_MODE -> MaterialTheme.colors = colors.dark
+            else -> MaterialTheme.colors = colors.system
         }
     }
 }

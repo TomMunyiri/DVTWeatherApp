@@ -100,22 +100,31 @@ class SharedPreferenceHelper {
      * This function gets the value of the cache duration the user set in the
      * Settings Fragment.
      */
-    fun getUserSetCacheDuration() = prefs?.getString("cache_key", "0")
+    fun getUserSetCacheDuration() = prefs?.getString("cache_key", "1000")
 
     /**
      * This function gets the value of the app theme the user set in the
-     * Settings Fragment.
+     * Settings.
      */
-    fun getSelectedThemePref() = prefs?.getString("theme_key", "")
+    fun getSelectedThemePref() = prefs?.getString("theme_key", "System")
+
+    /**
+     * This function saves a [Temp Unit]
+     */
+    fun saveThemePref(theme: String) {
+        prefs?.edit(commit = true) {
+            putString("theme_key", theme)
+        }
+    }
 
     /**
      * This function gets the value of the temperature unit the user set in the
-     * Settings Fragment.
+     * Settings.
      */
-    fun getSelectedTemperatureUnit() = prefs?.getString("unit_key", "")
+    fun getSelectedTemperatureUnit() = prefs?.getString("unit_key", "Celsius/°C")
 
     /**
-     * This function saves a [LocationModel]
+     * This function saves a [Temp Unit]
      */
     fun saveTemperatureUnit(temperatureUnit: String) {
         prefs?.edit(commit = true) {

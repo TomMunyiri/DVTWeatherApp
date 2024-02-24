@@ -111,8 +111,6 @@ Vapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/navigation/nav/NavT
 Qapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/MainScreen.kt,a/2/a247eaafa6b2326a30b75f2bfa3b48d6bb66de76
 é
 ^app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/BottomNavigationBar.kt,3/7/3701afd63f63f5e3aa56e4082534e4be834ab8ca
-Ö
-Uapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/SettingsScreen.kt,3/c/3c55d0c860e5ad9bb4d786c10c9cab6bbfe7dde4
 {
 Kapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/MainActivity.kt,9/a/9a71970a128b44e7b2d0b9f28ee3332a9ff921e8
 p
@@ -202,3 +200,7 @@ gapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/settings/Se
 ^app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/settings/SettingsScreen.kt,9/0/90c712793d5949a20f140d13f70a7f54e31135b2
 ì
 capp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/settings/SettingsScreenState.kt,4/a/4aebba91a4185caef034ebcae27429219d5b5708
+ç
+]app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/SingleSelectDialog.kt,0/9/09956a88e0d8b2fd32480fd0c98be2cc8646da4f
+Ü
+Vapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/RadioButton.kt,f/0/f00af9911db8a8621467a5d5c66cbda292d80440

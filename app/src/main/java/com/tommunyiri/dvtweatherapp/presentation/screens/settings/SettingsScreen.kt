@@ -1,6 +1,8 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.settings
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,10 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,11 +27,52 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.presentation.composables.ScreenTitle
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.tommunyiri.dvtweatherapp.presentation.composables.SingleSelectDialog
 
 @Composable
 fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
     val state by viewModel.settingsScreenState.collectAsStateWithLifecycle()
+    val showTempDialog = remember { mutableStateOf(false) }
+    val showThemeDialog = remember { mutableStateOf(false) }
+    val context= LocalContext.current
+    if (showTempDialog.value) {
+        val temperatureUnits =
+            LocalContext.current.resources.getStringArray(R.array.unit_values_array).toList()
+        val selectedTempUnit =
+            if (state.temperatureUnit == LocalContext.current.getString(R.string.temp_unit_celsius)) 0 else 1
+        SingleSelectDialog(
+            optionsList = temperatureUnits,
+            defaultSelected = selectedTempUnit,
+            onCancelButtonClick = { showTempDialog.value = false },
+            onDismissRequest = { showTempDialog.value = false },
+            onItemSelected = {
+                viewModel.saveTemperatureUnit(it)
+            }
+        )
+    }
+    if (showThemeDialog.value) {
+        val themes =
+            LocalContext.current.resources.getStringArray(R.array.theme_values_array).toList()
+        val selectedTheme =
+            when (state.theme) {
+                LocalContext.current.getString(R.string.light_theme_value) -> 0
+                LocalContext.current.getString(R.string.dark_theme_value) -> 1
+                LocalContext.current.getString(R.string.auto_battery_value) -> 2
+                else -> 3
+            }
+        SingleSelectDialog(
+            optionsList = themes,
+            defaultSelected = selectedTheme,
+            onCancelButtonClick = { showThemeDialog.value = false },
+            onDismissRequest = { showThemeDialog.value = false },
+            onItemSelected = {
+                viewModel.saveTheme(it,context)
+            }
+        )
+    }
     Column(modifier = Modifier.fillMaxSize()) {
         ScreenTitle(text = stringResource(id = R.string.settings))
         CacheDurationPreference(state)
@@ -38,18 +81,13 @@ fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
                 .fillMaxWidth()
                 .width(1.dp)
         )
-        ThemePreference(state)
+        ThemePreference(state, showThemeDialog)
         HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
                 .width(1.dp)
         )
-        TemperatureUnitPreference(state)
-        val c = LocalContext.current.getString(R.string.temp_unit_celsius)
-        val f = LocalContext.current.getString(R.string.temp_unit_fahrenheit)
-        Button(onClick = { viewModel.setTemperatureUnit(c) }) {
-            Text(text = "Click click bang")
-        }
+        TemperatureUnitPreference(state, showTempDialog)
     }
 }
 
@@ -89,10 +127,14 @@ fun CacheDurationPreference(state: SettingsScreenState) {
 }
 
 @Composable
-fun ThemePreference(state: SettingsScreenState) {
+fun ThemePreference(state: SettingsScreenState, showDialog: MutableState<Boolean>) {
     // Theme category
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
+            .clickable(
+                onClick = { showDialog.value = true }
+            )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -124,10 +166,14 @@ fun ThemePreference(state: SettingsScreenState) {
 }
 
 @Composable
-fun TemperatureUnitPreference(state: SettingsScreenState) {
+fun TemperatureUnitPreference(state: SettingsScreenState, showDialog: MutableState<Boolean>) {
     // Unit category
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
+            .clickable(
+                onClick = { showDialog.value = true }
+            )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

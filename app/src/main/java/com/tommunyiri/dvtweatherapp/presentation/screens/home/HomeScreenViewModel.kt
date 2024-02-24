@@ -119,7 +119,7 @@ class HomeScreenViewModel @Inject constructor(
      */
     //fun getWeatherForecast(cityId: Int?) {
     private fun getWeatherForecast(locationModel: LocationModel) {
-        state = state.copy(isLoadingForecast = true)
+        state = state.copy(isLoadingForecast = true, isRefreshing = false)
         viewModelScope.launch {
             when (val result = repository.getForecastWeather(locationModel, false)) {
                 is Result.Success -> {
