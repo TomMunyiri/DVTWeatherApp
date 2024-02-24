@@ -1,6 +1,5 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.settings
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,8 +14,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,10 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.presentation.composables.ScreenTitle
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
+import com.tommunyiri.dvtweatherapp.presentation.composables.SingleInputDialog
 import com.tommunyiri.dvtweatherapp.presentation.composables.SingleSelectDialog
 
 @Composable
@@ -37,7 +37,8 @@ fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
     val state by viewModel.settingsScreenState.collectAsStateWithLifecycle()
     val showTempDialog = remember { mutableStateOf(false) }
     val showThemeDialog = remember { mutableStateOf(false) }
-    val context= LocalContext.current
+    val showCacheDurationDialog = remember { mutableStateOf(false) }
+    val context = LocalContext.current
     if (showTempDialog.value) {
         val temperatureUnits =
             LocalContext.current.resources.getStringArray(R.array.unit_values_array).toList()
@@ -69,13 +70,22 @@ fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
             onCancelButtonClick = { showThemeDialog.value = false },
             onDismissRequest = { showThemeDialog.value = false },
             onItemSelected = {
-                viewModel.saveTheme(it,context)
+                viewModel.saveTheme(it, context)
             }
+        )
+    }
+    if (showCacheDurationDialog.value) {
+        SingleInputDialog(
+            state.cacheDuration.toString(),
+            onSubmitButtonClick = {
+                viewModel.saveCacheDurationPref(it)
+            },
+            onDismissRequest = { showCacheDurationDialog.value = false }
         )
     }
     Column(modifier = Modifier.fillMaxSize()) {
         ScreenTitle(text = stringResource(id = R.string.settings))
-        CacheDurationPreference(state)
+        CacheDurationPreference(state, showCacheDurationDialog)
         HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
@@ -92,10 +102,14 @@ fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun CacheDurationPreference(state: SettingsScreenState) {
+fun CacheDurationPreference(state: SettingsScreenState, showDialog: MutableState<Boolean>) {
     // Cache category
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
+            .clickable(
+                onClick = { showDialog.value = true }
+            )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

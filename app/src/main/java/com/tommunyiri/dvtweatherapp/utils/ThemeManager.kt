@@ -25,9 +25,9 @@ object ThemeManager {
             AUTO_BATTERY_MODE -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
             FOLLOW_SYSTEM_MODE -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)*/
 
-            LIGHT_MODE -> MaterialTheme.colo = colors.light
+            /*LIGHT_MODE -> MaterialTheme.colo = colors.light
             DARK_MODE -> MaterialTheme.colors = colors.dark
-            else -> MaterialTheme.colors = colors.system
+            else -> MaterialTheme.colors = colors.system*/
         }
     }
 }

@@ -103,6 +103,15 @@ class SharedPreferenceHelper {
     fun getUserSetCacheDuration() = prefs?.getString("cache_key", "1000")
 
     /**
+     * This function saves a [Temp Unit]
+     */
+    fun saveCacheDuration(cacheDuration: String) {
+        prefs?.edit(commit = true) {
+            putString("cache_key", cacheDuration)
+        }
+    }
+
+    /**
      * This function gets the value of the app theme the user set in the
      * Settings.
      */

@@ -50,6 +50,15 @@ class SettingsScreenViewModel @Inject constructor(private val prefs: SharedPrefe
         prefs.saveTemperatureUnit(temperatureUnit)
     }
 
+    fun saveCacheDurationPref(cacheDuration: String) {
+        _settingsScreenState.update { currentState ->
+            currentState.copy(
+                cacheDuration = cacheDuration
+            )
+        }
+        prefs.saveCacheDuration(cacheDuration)
+    }
+
     fun saveTheme(theme: String, context: Context) {
         _settingsScreenState.update { currentState ->
             currentState.copy(

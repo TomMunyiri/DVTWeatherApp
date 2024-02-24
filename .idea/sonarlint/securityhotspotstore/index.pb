@@ -204,3 +204,5 @@ capp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/settings/Se
 ]app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/SingleSelectDialog.kt,0/9/09956a88e0d8b2fd32480fd0c98be2cc8646da4f
 †
 Vapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/RadioButton.kt,f/0/f00af9911db8a8621467a5d5c66cbda292d80440
+Œ
+\app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/SingleInputDialog.kt,d/8/d86ce7f03e8a0ef8e409765706f09f5956f0fa08
