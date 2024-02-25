@@ -24,4 +24,5 @@ abstract class DataSourcesModule {
 
     @Binds
     abstract fun bindRemoteDataSource(remoteDataSourceImpl: WeatherRemoteDataSourceImpl): WeatherRemoteDataSource
+
 }

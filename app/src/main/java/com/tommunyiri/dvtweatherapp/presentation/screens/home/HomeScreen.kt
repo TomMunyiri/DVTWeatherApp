@@ -58,7 +58,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel = hiltViewModel()) {
     ) {
         state.weather?.let { weather ->
             val screenBackgroundColor = getBackgroundColor(weather)
-
+            prefs.saveCityId(weather.cityId)
             Column(
                 modifier = Modifier
                     .background(screenBackgroundColor)
@@ -166,8 +166,6 @@ fun TopHeader(
     viewModel: HomeScreenViewModel
 ) {
     val painterResource = getBackgroundImage(weather)
-
-    weather?.cityId?.let { prefs.saveCityId(it) }
 
     Box(
         modifier = Modifier

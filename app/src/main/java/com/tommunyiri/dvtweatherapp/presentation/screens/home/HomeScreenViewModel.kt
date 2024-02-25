@@ -11,13 +11,14 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
-import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.domain.usecases.GetSharedPreferencesUseCase
+import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
 import com.tommunyiri.dvtweatherapp.utils.Result
-import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.asLiveData
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
@@ -42,9 +43,9 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val repository: WeatherRepository,
     private val locationLiveData: LocationLiveData,
-    private val prefs: SharedPreferenceHelper,
+    private val getPrefsUseCase: GetSharedPreferencesUseCase,
+    private val weatherUseCases: WeatherUseCases,
     private val context: Application
 ) : ViewModel() {
 
@@ -66,29 +67,6 @@ class HomeScreenViewModel @Inject constructor(
                 setupWorkManager()
             }
         }
-    }
-
-    private fun fetchLocation() = locationLiveData.asFlow().distinctUntilChanged().take(1)
-
-    fun getSharedPrefs(): SharedPreferenceHelper {
-        return prefs
-    }
-
-    private fun setupWorkManager() {
-        val constraint = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        val weatherUpdateRequest =
-            PeriodicWorkRequestBuilder<UpdateWeatherWorker>(1, TimeUnit.HOURS)
-                .setConstraints(constraint)
-                .setInitialDelay(10, TimeUnit.MINUTES)
-                .build()
-
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "DVT_update_weather_worker",
-            ExistingPeriodicWorkPolicy.UPDATE, weatherUpdateRequest
-        )
     }
 
     fun onEvent(event: HomeScreenEvent) {
@@ -124,7 +102,7 @@ class HomeScreenViewModel @Inject constructor(
         //state = state.copy(isLoadingForecast = true, isRefreshing = false)
         setIsWeatherForecastLoading()
         viewModelScope.launch {
-            when (val result = repository.getForecastWeather(locationModel, false)) {
+            when (val result = weatherUseCases.getWeatherForecast(locationModel, false)) {
                 is Result.Success -> {
                     if (!result.data.isNullOrEmpty()) {
                         val forecasts = result.data
@@ -162,7 +140,7 @@ class HomeScreenViewModel @Inject constructor(
     private fun refreshForecastData(locationModel: LocationModel) {
         setIsWeatherForecastLoading()
         viewModelScope.launch {
-            when (val result = repository.getForecastWeather(locationModel, true)) {
+            when (val result = weatherUseCases.getWeatherForecast(locationModel, true)) {
                 is Result.Success -> {
                     if (result.data != null) {
                         val forecast = result.data.onEach { forecast ->
@@ -177,8 +155,8 @@ class HomeScreenViewModel @Inject constructor(
                                 error = null
                             )
                         }
-                        repository.deleteForecastData()
-                        repository.storeForecastData(forecast)
+                        weatherUseCases.deleteWeatherForecast.invoke()
+                        weatherUseCases.storeWeatherForecast.invoke(forecast)
                     } else {
                         refreshForecastData(locationModel)
                     }
@@ -205,7 +183,7 @@ class HomeScreenViewModel @Inject constructor(
      */
     private fun getWeather(locationModel: LocationModel) {
         viewModelScope.launch {
-            when (val result = repository.getWeather(locationModel, false)) {
+            when (val result = weatherUseCases.getWeather(locationModel, false)) {
                 is Result.Success -> {
                     if (result.data != null) {
                         val weather = result.data
@@ -244,7 +222,7 @@ class HomeScreenViewModel @Inject constructor(
     private fun refreshWeather(locationModel: LocationModel = location) {
         setIsWeatherLoading()
         viewModelScope.launch {
-            when (val result = repository.getWeather(locationModel, true)) {
+            when (val result = weatherUseCases.getWeather(locationModel, true)) {
                 is Result.Success -> {
                     if (result.data != null) {
                         val weather = result.data.apply {
@@ -259,8 +237,8 @@ class HomeScreenViewModel @Inject constructor(
                             currentState.copy(isLoading = false, weather = weather, error = null)
                         }
                         refreshForecastData(locationModel)
-                        repository.deleteWeatherData()
-                        repository.storeWeatherData(weather)
+                        weatherUseCases.deleteWeatherData.invoke()
+                        weatherUseCases.storeWeatherData.invoke(weather)
                     } else {
                         _homeScreenState.update { currentState ->
                             currentState.copy(isLoading = false, error = "No weather data")
@@ -295,5 +273,28 @@ class HomeScreenViewModel @Inject constructor(
                 isRefreshing = false
             )
         }
+    }
+
+    private fun fetchLocation() = locationLiveData.asFlow().distinctUntilChanged().take(1)
+
+    fun getSharedPrefs(): SharedPreferenceHelper {
+        return getPrefsUseCase.invoke()
+    }
+
+    private fun setupWorkManager() {
+        val constraint = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val weatherUpdateRequest =
+            PeriodicWorkRequestBuilder<UpdateWeatherWorker>(1, TimeUnit.HOURS)
+                .setConstraints(constraint)
+                .setInitialDelay(10, TimeUnit.MINUTES)
+                .build()
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            "DVT_update_weather_worker",
+            ExistingPeriodicWorkPolicy.UPDATE, weatherUpdateRequest
+        )
     }
 }

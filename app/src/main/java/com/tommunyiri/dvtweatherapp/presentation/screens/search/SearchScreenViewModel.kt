@@ -17,12 +17,12 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.tommunyiri.dvtweatherapp.BuildConfig
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.SearchResult
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
-import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
 import com.tommunyiri.dvtweatherapp.utils.Result
-import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +41,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
-    private val repository: WeatherRepository,
+    private val weatherUseCases: WeatherUseCases,
     private val prefs: SharedPreferenceHelper
 ) : ViewModel() {
 
@@ -106,7 +106,7 @@ class SearchScreenViewModel @Inject constructor(
             currentState.copy(isLoading = true)
         }
         viewModelScope.launch {
-            when (val result = repository.getSearchWeather(name)) {
+            when (val result = weatherUseCases.getSearchWeather.invoke(name)) {
                 is Result.Success -> {
                     if (result.data != null) {
                         val weatherData = result.data.apply {
@@ -148,7 +148,7 @@ class SearchScreenViewModel @Inject constructor(
 
     private fun saveFavoriteLocation(favoriteLocation: FavoriteLocation) {
         viewModelScope.launch {
-            repository.storeFavoriteLocationData(favoriteLocation)
+            weatherUseCases.saveFavoriteLocation.invoke(favoriteLocation)
         }
     }
 

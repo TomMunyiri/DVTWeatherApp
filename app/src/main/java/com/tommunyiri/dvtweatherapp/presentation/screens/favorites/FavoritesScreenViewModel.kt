@@ -2,10 +2,11 @@ package com.tommunyiri.dvtweatherapp.presentation.screens.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tommunyiri.dvtweatherapp.domain.model.Weather
-import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.domain.model.Weather
+import com.tommunyiri.dvtweatherapp.domain.usecases.GetSharedPreferencesUseCase
+import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
+import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,8 +23,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class FavoritesScreenViewModel @Inject constructor(
-    private val repository: WeatherRepository,
-    private val prefs: SharedPreferenceHelper
+    private val weatherUseCases: WeatherUseCases,
+    private val prefs: GetSharedPreferencesUseCase
 ) : ViewModel() {
 
     private val _favoritesScreenState = MutableStateFlow(FavoritesScreenState())
@@ -61,7 +62,7 @@ class FavoritesScreenViewModel @Inject constructor(
     private fun getFavoriteLocations() {
         setLoading()
         viewModelScope.launch {
-            when (val result = repository.getFavoriteLocations()) {
+            when (val result = weatherUseCases.getFavoriteLocations.invoke()) {
                 is Result.Success -> {
                     if (!result.data.isNullOrEmpty()) {
                         _favoritesScreenState.update { currentState ->
@@ -101,7 +102,7 @@ class FavoritesScreenViewModel @Inject constructor(
     private fun getSearchWeather(name: String) {
         setLoading()
         viewModelScope.launch {
-            when (val result = repository.getSearchWeather(name)) {
+            when (val result = weatherUseCases.getSearchWeather.invoke(name)) {
                 is Result.Success -> {
                     if (result.data != null) {
                         val weatherData = result.data.apply {
@@ -144,7 +145,7 @@ class FavoritesScreenViewModel @Inject constructor(
     private fun deleteFavoriteLocation(name: String) {
         setLoading()
         viewModelScope.launch {
-            when (val result = repository.deleteFavoriteLocation(name)) {
+            when (val result = weatherUseCases.deleteFavoriteLocation.invoke(name)) {
                 is Result.Success -> {
                     if (result.data != null) {
                         _favoritesScreenState.update { currentState ->
@@ -190,7 +191,7 @@ class FavoritesScreenViewModel @Inject constructor(
     }
 
     fun getSharedPrefs(): SharedPreferenceHelper {
-        return prefs
+        return prefs.invoke()
     }
 
 }
