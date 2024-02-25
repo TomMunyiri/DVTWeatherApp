@@ -16,7 +16,7 @@ import com.tommunyiri.dvtweatherapp.presentation.screens.settings.SettingsScreen
  * @param navController The navigation controller used for handling navigation between screens.
  */
 @Composable
-fun NavigationScreens(navController: NavHostController) {
+fun MainNavigationScreens(navController: NavHostController) {
     NavHost(
         navController,
         startDestination = NavItem.Home.path

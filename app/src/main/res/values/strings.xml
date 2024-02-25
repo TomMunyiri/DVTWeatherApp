@@ -77,4 +77,13 @@
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="enter_cache_duration">Enter Cache Duration</string>
+    <string name="removed_from_favorites">Removed from favorites</string>
+    <string name="error_removing_from_favorites">Error removing from favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="small_cloud">Small cloud image</string>
+    <string name="big_cloud">Big cloud image</string>
+    <string name="weather_bottom_sheet_bg_image">Weather bottom sheet background image</string>
+    <string name="humidity_icon">Humidity icon</string>
+    <string name="pressure_icon">Pressure icon</string>
+    <string name="wind_speed_icon">Wind speed icon</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +12,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -29,22 +27,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.algolia.instantsearch.android.paging3.flow
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
+import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
-import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
-import com.tommunyiri.dvtweatherapp.ui.theme.rainy
-import com.tommunyiri.dvtweatherapp.ui.theme.sunny
+import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getBackgroundColor
 import kotlinx.coroutines.launch
 
 /**
@@ -62,17 +59,12 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
     val pagingHits = paginator.flow.collectAsLazyPagingItems()
     val listState = rememberLazyListState()
     val statsText = viewModel.statsText
-    val state = viewModel.state
+    val state by viewModel.searchScreenState.collectAsStateWithLifecycle()
     val prefs = viewModel.getSharedPrefs()
 
     Scaffold { contentPadding ->
         if (state.isLoading || pagingHits.itemCount == 0) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
+            LoadingIndicator()
         }
         Column(modifier = Modifier.padding(top = 45.dp, bottom = 80.dp)) {
             SearchBox(
@@ -98,7 +90,7 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
                                 .padding(14.dp)
                                 .clickable {
                                     viewModel.apply {
-                                        viewModel.state = state.copy(weather = null)
+                                        viewModel.onEvent(SearchScreenEvent.ResetWeather)
                                         onEvent(
                                             SearchScreenEvent.GetWeather(
                                                 searchItem.name
@@ -120,22 +112,11 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
         }
 
         state.weather?.let { weather ->
-            val bottomSheetBackgroundColor = when {
-                weather.networkWeatherDescription.toString()
-                    .contains("cloud", true) -> cloudy
-
-                weather.networkWeatherDescription.toString().contains("rain", true) ||
-                        weather.networkWeatherDescription.toString().contains("snow", true)
-                        || weather.networkWeatherDescription.toString().contains("mist", true)
-                        || weather.networkWeatherDescription.toString()
-                    .contains("haze", true) -> rainy
-
-                else -> sunny
-            }
+            val bottomSheetBackgroundColor = getBackgroundColor(weather)
             ModalBottomSheet(
                 onDismissRequest = {
                     showBottomSheet = false
-                    viewModel.state = state.copy(weather = null)
+                    viewModel.onEvent(SearchScreenEvent.ResetWeather)
                 },
                 sheetState = sheetState,
                 containerColor = bottomSheetBackgroundColor
@@ -157,8 +138,7 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
 
 @Composable
 fun SearchBox(
-    modifier: Modifier = Modifier,
-    searchBoxState: SearchBoxState = SearchBoxState(),
+    modifier: Modifier = Modifier, searchBoxState: SearchBoxState = SearchBoxState(),
     onValueChange: (String) -> Unit = {}
 ) {
     OutlinedTextField(

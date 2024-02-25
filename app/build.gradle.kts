@@ -224,6 +224,8 @@ dependencies {
     implementation(libs.google.accompanist.swipe.refresh)
     //sweet compose
     implementation(libs.composable.sweet.toast)
+    //lottie compose
+    implementation(libs.lottie.compose)
 }
 
 class RoomSchemaArgProvider(

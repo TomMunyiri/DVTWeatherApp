@@ -10,4 +10,6 @@ sealed class FavoritesScreenEvent {
     data class RemoveFromFavorite(val favoriteLocationName: String) : FavoritesScreenEvent()
     data class GetWeather(val city: String) : FavoritesScreenEvent()
     data object GetFavorites : FavoritesScreenEvent()
+    data object ResetWeather : FavoritesScreenEvent()
+    data object ResetDeleteFavoriteResult : FavoritesScreenEvent()
 }

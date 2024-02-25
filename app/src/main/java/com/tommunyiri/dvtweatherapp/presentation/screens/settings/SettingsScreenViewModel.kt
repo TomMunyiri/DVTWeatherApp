@@ -1,8 +1,6 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.settings
 
-import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import com.tommunyiri.dvtweatherapp.R
@@ -13,7 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-
 
 /**
  * Created by Tom Munyiri on 22/02/2024.
@@ -66,7 +63,6 @@ class SettingsScreenViewModel @Inject constructor(private val prefs: SharedPrefe
             )
         }
         prefs.saveThemePref(theme)
-        Log.d("TAG", "saveTheme: $theme")
         setTheme(theme, context)
     }
 

@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,10 +22,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tommunyiri.dvtweatherapp.R
-import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
-import com.tommunyiri.dvtweatherapp.utils.WeatherIconGenerator
+import com.tommunyiri.dvtweatherapp.utils.WeatherUtils
+import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getFormattedTemperature
 import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 
 
@@ -45,7 +46,7 @@ fun WeatherBottomSheetContent(
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
             Image(
                 painter = painterResource(id = R.drawable.favorite_24),
-                contentDescription = "",
+                contentDescription = stringResource(id = R.string.add_to_favorites),
                 alignment = Alignment.TopEnd, modifier = Modifier
                     .padding(end = 15.dp)
                     .clickable { onFavoriteClicked(weather) },
@@ -57,14 +58,14 @@ fun WeatherBottomSheetContent(
         ) {
             Image(
                 painterResource(id = R.drawable.ic_cloud),
-                contentDescription = "contentDescription",
+                contentDescription = stringResource(id = R.string.small_cloud),
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 70.dp)
             )
             Image(
                 painterResource(id = R.drawable.ic_big_cloud),
-                contentDescription = "contentDescription",
+                contentDescription = stringResource(id = R.string.big_cloud),
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 30.dp),
@@ -73,11 +74,11 @@ fun WeatherBottomSheetContent(
         Column {
             Image(
                 painterResource(
-                    id = WeatherIconGenerator.getWeatherIcon(
+                    id = WeatherUtils.getWeatherIcon(
                         weather.networkWeatherDescription.toString().lowercase()
                     )
                 ),
-                contentDescription = "contentDescription",
+                contentDescription = stringResource(id = R.string.weather_bottom_sheet_bg_image),
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(50.dp)
@@ -94,12 +95,7 @@ fun WeatherBottomSheetContent(
                 textAlign = TextAlign.Center,
             )
             Text(
-                text = if (prefs.getSelectedTemperatureUnit() == stringResource(R.string.temp_unit_fahrenheit)) weather.networkWeatherCondition.temp.let {
-                    convertCelsiusToFahrenheit(it)
-                }.toString() + stringResource(R.string.temp_symbol_fahrenheit) else
-                    weather.networkWeatherCondition.temp.toString() + stringResource(
-                        R.string.temp_symbol_celsius
-                    ),
+                text = getFormattedTemperature(prefs, weather, LocalContext.current),
                 color = Color.White,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Normal,
@@ -126,15 +122,13 @@ fun WeatherBottomSheetContent(
                 Column(modifier = Modifier.weight(1f)) {
                     Image(
                         painterResource(id = R.drawable.ic_humidity),
-                        contentDescription = "contentDescription",
+                        contentDescription = stringResource(id = R.string.humidity_icon),
                         modifier = Modifier
                             .fillMaxWidth(),
                     )
                     Text(
                         text = "${stringResource(id = R.string.humidity)}\n${weather.networkWeatherCondition.humidity}${
-                            stringResource(
-                                id = R.string.humidity_symbol
-                            )
+                            stringResource(id = R.string.humidity_symbol)
                         }",
                         color = Color.White,
                         fontSize = 15.sp,
@@ -147,15 +141,13 @@ fun WeatherBottomSheetContent(
                 Column(modifier = Modifier.weight(1f)) {
                     Image(
                         painterResource(id = R.drawable.ic_pressure),
-                        contentDescription = "contentDescription",
+                        contentDescription = stringResource(id = R.string.pressure_icon),
                         modifier = Modifier
                             .fillMaxWidth(),
                     )
                     Text(
                         text = "${stringResource(id = R.string.pressure)}\n${weather.networkWeatherCondition.pressure}${
-                            stringResource(
-                                id = R.string.pressure_symbol
-                            )
+                            stringResource(id = R.string.pressure_symbol)
                         }",
                         color = Color.White,
                         fontSize = 15.sp,
@@ -168,15 +160,13 @@ fun WeatherBottomSheetContent(
                 Column(modifier = Modifier.weight(1f)) {
                     Image(
                         painterResource(id = R.drawable.ic_wind),
-                        contentDescription = "contentDescription",
+                        contentDescription = stringResource(id = R.string.wind_speed_icon),
                         modifier = Modifier
                             .fillMaxWidth(),
                     )
                     Text(
                         text = "${stringResource(id = R.string.wind_speed)}\n${weather.wind.speed}${
-                            stringResource(
-                                id = R.string.wind_speed_symbol
-                            )
+                            stringResource(id = R.string.wind_speed_symbol)
                         }",
                         color = Color.White,
                         fontSize = 15.sp,

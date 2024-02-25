@@ -12,44 +12,44 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
+import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherForecastItem
-import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
-import com.tommunyiri.dvtweatherapp.ui.theme.rainy
-import com.tommunyiri.dvtweatherapp.ui.theme.sunny
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
-import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
+import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getBackgroundColor
+import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getBackgroundImage
+import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getFormattedTemperature
 
 /**
  * Composable function that represents the home screen of the application.
  */
 @Composable
 fun HomeScreen(viewModel: HomeScreenViewModel = hiltViewModel()) {
-    val state = viewModel.state
+    val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
     val prefs = viewModel.getSharedPrefs()
 
     if (state.isLoading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
+        LoadingIndicator()
     }
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = viewModel.state.isLoading)
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = state.isRefreshing)
     SwipeRefresh(
         state = swipeRefreshState,
         onRefresh = {
@@ -57,18 +57,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel = hiltViewModel()) {
         }
     ) {
         state.weather?.let { weather ->
-            val screenBackgroundColor = when {
-                weather.networkWeatherDescription.toString()
-                    .contains("cloud", true) -> cloudy
-
-                weather.networkWeatherDescription.toString().contains("rain", true) ||
-                        weather.networkWeatherDescription.toString().contains("snow", true)
-                        || weather.networkWeatherDescription.toString().contains("mist", true)
-                        || weather.networkWeatherDescription.toString()
-                    .contains("haze", true) -> rainy
-
-                else -> sunny
-            }
+            val screenBackgroundColor = getBackgroundColor(weather)
 
             Column(
                 modifier = Modifier
@@ -114,7 +103,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel = hiltViewModel()) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = state.error,
+                text = state.error.toString(),
             )
         }
     }
@@ -129,13 +118,11 @@ fun TempSection(weather: Weather?, prefs: SharedPreferenceHelper) {
             .padding(16.dp)
     ) {
         Text(
-            text = if (prefs.getSelectedTemperatureUnit() == stringResource(R.string.temp_unit_fahrenheit)) weather?.networkWeatherCondition?.tempMin?.let {
-                convertCelsiusToFahrenheit(it)
-            }
-                .toString() + stringResource(R.string.temp_symbol_fahrenheit) + stringResource(R.string.min) else
-                weather?.networkWeatherCondition?.tempMin.toString() + stringResource(R.string.temp_symbol_celsius) + stringResource(
-                    R.string.min
-                ),
+            text = getFormattedTemperature(
+                prefs,
+                weather,
+                LocalContext.current
+            ) + stringResource(id = R.string.min),
             color = Color.White,
             fontSize = 20.sp,
             modifier = Modifier
@@ -144,13 +131,11 @@ fun TempSection(weather: Weather?, prefs: SharedPreferenceHelper) {
             textAlign = TextAlign.Start,
         )
         Text(
-            text = if (prefs.getSelectedTemperatureUnit() == stringResource(R.string.temp_unit_fahrenheit)) weather?.networkWeatherCondition?.temp?.let {
-                convertCelsiusToFahrenheit(it)
-            }
-                .toString() + stringResource(R.string.temp_symbol_fahrenheit) + stringResource(R.string.current) else
-                weather?.networkWeatherCondition?.temp.toString() + stringResource(R.string.temp_symbol_celsius) + stringResource(
-                    R.string.current
-                ),
+            text = getFormattedTemperature(
+                prefs,
+                weather,
+                LocalContext.current
+            ) + stringResource(id = R.string.current),
             color = Color.White,
             fontSize = 20.sp,
             modifier = Modifier
@@ -159,13 +144,11 @@ fun TempSection(weather: Weather?, prefs: SharedPreferenceHelper) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = if (prefs.getSelectedTemperatureUnit() == stringResource(R.string.temp_unit_fahrenheit)) weather?.networkWeatherCondition?.tempMax?.let {
-                convertCelsiusToFahrenheit(it)
-            }
-                .toString() + stringResource(R.string.temp_symbol_fahrenheit) + stringResource(R.string.max) else
-                weather?.networkWeatherCondition?.tempMax.toString() + stringResource(R.string.temp_symbol_celsius) + stringResource(
-                    R.string.max
-                ),
+            text = getFormattedTemperature(
+                prefs,
+                weather,
+                LocalContext.current
+            ) + stringResource(id = R.string.max),
             color = Color.White,
             fontSize = 20.sp,
             modifier = Modifier
@@ -182,18 +165,7 @@ fun TopHeader(
     prefs: SharedPreferenceHelper,
     viewModel: HomeScreenViewModel
 ) {
-    val painterResource = when {
-        weather?.networkWeatherDescription.toString()
-            .contains("cloud", true) -> R.drawable.forest_cloudy
-
-        weather?.networkWeatherDescription.toString().contains("rain", true) ||
-                weather?.networkWeatherDescription.toString().contains("snow", true)
-                || weather?.networkWeatherDescription.toString().contains("mist", true)
-                || weather?.networkWeatherDescription.toString()
-            .contains("haze", true) -> R.drawable.forest_rainy
-
-        else -> R.drawable.forest_sunny
-    }
+    val painterResource = getBackgroundImage(weather)
 
     weather?.cityId?.let { prefs.saveCityId(it) }
 
@@ -230,12 +202,7 @@ fun TopHeader(
                 textAlign = TextAlign.Center,
             )
             Text(
-                text = if (prefs.getSelectedTemperatureUnit() == stringResource(R.string.temp_unit_fahrenheit)) weather?.networkWeatherCondition?.temp?.let {
-                    convertCelsiusToFahrenheit(it)
-                }.toString() + stringResource(R.string.temp_symbol_fahrenheit) else
-                    weather?.networkWeatherCondition?.temp.toString() + stringResource(
-                        R.string.temp_symbol_celsius
-                    ),
+                text = getFormattedTemperature(prefs, weather, LocalContext.current),
                 color = Color.White,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Normal,

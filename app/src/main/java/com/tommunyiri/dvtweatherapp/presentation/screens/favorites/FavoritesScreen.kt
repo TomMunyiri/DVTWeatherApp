@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme.typography
@@ -22,9 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -35,14 +34,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.talhafaki.composablesweettoast.util.SweetToastUtil.SweetError
 import com.talhafaki.composablesweettoast.util.SweetToastUtil.SweetSuccess
 import com.tommunyiri.dvtweatherapp.R
+import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.ScreenTitle
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
-import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
-import com.tommunyiri.dvtweatherapp.ui.theme.rainy
-import com.tommunyiri.dvtweatherapp.ui.theme.sunny
+import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getBackgroundColor
 
 /**
  * Composable function that represents the list screen of the application.
@@ -53,7 +52,7 @@ fun FavoritesScreen(
     viewModel: FavoritesScreenViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-    val state = viewModel.state
+    val state by viewModel.favoritesScreenState.collectAsStateWithLifecycle()
     var lifecycleEvent by remember { mutableStateOf(Lifecycle.Event.ON_ANY) }
     val prefs = viewModel.getSharedPrefs()
 
@@ -79,28 +78,13 @@ fun FavoritesScreen(
     LaunchedEffect(lifecycleEvent) {
         if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
             viewModel.onEvent(FavoritesScreenEvent.GetFavorites)
-            viewModel.state = viewModel.state.copy(deleteFavoriteResult = null)
+            viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
         }
     }
 
-    Scaffold(
-        /*floatingActionButton = {
-            ExtendedFloatingActionButton(
-                text = { Text("Show bottom sheet") },
-                icon = { Icon(Icons.Filled.Add, contentDescription = "") },
-                onClick = {
-                    showBottomSheet = true
-                }
-            )
-        }*/
-    ) { contentPadding ->
+    Scaffold { contentPadding ->
         if (state.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
+            LoadingIndicator()
         }
         Column(modifier = Modifier.fillMaxSize()) {
             ScreenTitle(text = stringResource(id = R.string.favorite))
@@ -120,7 +104,7 @@ fun FavoritesScreen(
                                     .padding(14.dp)
                                     .clickable {
                                         viewModel.apply {
-                                            viewModel.state = state.copy(weather = null)
+                                            onEvent(FavoritesScreenEvent.ResetWeather)
                                             onEvent(FavoritesScreenEvent.GetWeather(favoriteLocation.name))
                                         }
                                     },
@@ -151,22 +135,11 @@ fun FavoritesScreen(
             }
         }
         state.weather?.let { weather ->
-            val bottomSheetBackgroundColor = when {
-                weather.networkWeatherDescription.toString()
-                    .contains("cloud", true) -> cloudy
-
-                weather.networkWeatherDescription.toString().contains("rain", true) ||
-                        weather.networkWeatherDescription.toString().contains("snow", true)
-                        || weather.networkWeatherDescription.toString().contains("mist", true)
-                        || weather.networkWeatherDescription.toString()
-                    .contains("haze", true) -> rainy
-
-                else -> sunny
-            }
+            val bottomSheetBackgroundColor = getBackgroundColor(weather)
             ModalBottomSheet(
                 onDismissRequest = {
                     showBottomSheet = false
-                    viewModel.state = state.copy(weather = null)
+                    viewModel.onEvent(FavoritesScreenEvent.ResetWeather)
                 },
                 sheetState = sheetState,
                 containerColor = bottomSheetBackgroundColor
@@ -181,10 +154,10 @@ fun FavoritesScreen(
             if (it == 1) {
                 showBottomSheet = false
                 openDialogSuccess = true
-                viewModel.state = viewModel.state.copy(deleteFavoriteResult = null)
+                viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
             } else if (it == 0) {
                 openDialogError = true
-                viewModel.state = viewModel.state.copy(deleteFavoriteResult = null)
+                viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
             }
         }
     }
@@ -192,7 +165,7 @@ fun FavoritesScreen(
     if (openDialogSuccess) {
         openDialogSuccess = false
         SweetSuccess(
-            message = "Removed from favorites",
+            message = stringResource(id = R.string.removed_from_favorites),
             duration = Toast.LENGTH_SHORT,
             padding = PaddingValues(top = 16.dp),
             contentAlignment = Alignment.TopCenter
@@ -201,7 +174,7 @@ fun FavoritesScreen(
     if (openDialogError) {
         openDialogError = false
         SweetError(
-            message = "Error removing from favorites",
+            message = stringResource(id = R.string.error_removing_from_favorites),
             duration = Toast.LENGTH_SHORT,
             padding = PaddingValues(top = 16.dp),
             contentAlignment = Alignment.TopCenter

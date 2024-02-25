@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.tommunyiri.dvtweatherapp.presentation.composables.BottomNavigationBar
-import com.tommunyiri.dvtweatherapp.presentation.navigation.NavigationScreens
+import com.tommunyiri.dvtweatherapp.presentation.navigation.MainNavigationScreens
 
 /**
  * Composable function that represents the main screen of the application.
@@ -25,6 +25,6 @@ fun MainScreen(navController: NavHostController) {
             )
         }
     }) {
-        NavigationScreens(navController = navController)
+        MainNavigationScreens(navController = navController)
     }
 }

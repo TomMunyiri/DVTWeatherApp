@@ -18,6 +18,7 @@ import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreenState
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
 import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
@@ -26,8 +27,12 @@ import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
 import com.tommunyiri.dvtweatherapp.worker.UpdateWeatherWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -47,8 +52,9 @@ class HomeScreenViewModel @Inject constructor(
     private val context: Application
 ) : ViewModel() {
 
+    private val _homeScreenState = MutableStateFlow(HomeScreenState())
+    val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
     lateinit var location: LocationModel
-    var state by mutableStateOf(HomeScreenState())
     private val _weather = MutableLiveData<Weather?>()
     val weather = _weather.asLiveData()
 
@@ -56,7 +62,7 @@ class HomeScreenViewModel @Inject constructor(
 
     init {
         currentSystemTime()
-        state = state.copy(isLoading = true)
+        setIsWeatherLoading()
         viewModelScope.launch {
             fetchLocation().collect { locationValue ->
                 location = locationValue
@@ -101,7 +107,7 @@ class HomeScreenViewModel @Inject constructor(
             }
 
             HomeScreenEvent.GetForecast -> {
-                state = state.copy(isLoadingForecast = true)
+                setIsWeatherForecastLoading()
                 viewModelScope.launch {
                     fetchLocation().collect { locationValue ->
                         location = locationValue
@@ -119,17 +125,20 @@ class HomeScreenViewModel @Inject constructor(
      */
     //fun getWeatherForecast(cityId: Int?) {
     private fun getWeatherForecast(locationModel: LocationModel) {
-        state = state.copy(isLoadingForecast = true, isRefreshing = false)
+        //state = state.copy(isLoadingForecast = true, isRefreshing = false)
+        setIsWeatherForecastLoading()
         viewModelScope.launch {
             when (val result = repository.getForecastWeather(locationModel, false)) {
                 is Result.Success -> {
                     if (!result.data.isNullOrEmpty()) {
                         val forecasts = result.data
-                        state = state.copy(
-                            isLoadingForecast = false,
-                            weatherForecastList = forecasts,
-                            error = null
-                        )
+                        _homeScreenState.update { currentState ->
+                            currentState.copy(
+                                isLoadingForecast = false,
+                                weatherForecastList = forecasts,
+                                error = null
+                            )
+                        }
                     } else {
                         refreshForecastData(location)
                         //refreshForecastData(cityId)
@@ -137,11 +146,17 @@ class HomeScreenViewModel @Inject constructor(
                 }
 
                 is Result.Loading ->
-                    state = state.copy(isLoadingForecast = true, error = null)
+                    _homeScreenState.update { currentState ->
+                        currentState.copy(isLoadingForecast = true, error = null)
+                    }
 
                 is Result.Error ->
-                    state =
-                        state.copy(isLoadingForecast = false, error = result.exception.toString())
+                    _homeScreenState.update { currentState ->
+                        currentState.copy(
+                            isLoadingForecast = false,
+                            error = result.exception.toString()
+                        )
+                    }
 
             }
         }
@@ -149,7 +164,7 @@ class HomeScreenViewModel @Inject constructor(
 
     //fun refreshForecastData(cityId: Int?) {
     private fun refreshForecastData(locationModel: LocationModel) {
-        state = state.copy(isLoadingForecast = true)
+        setIsWeatherForecastLoading()
         viewModelScope.launch {
             when (val result = repository.getForecastWeather(locationModel, true)) {
                 is Result.Success -> {
@@ -159,11 +174,13 @@ class HomeScreenViewModel @Inject constructor(
                                 convertKelvinToCelsius(forecast.networkWeatherCondition.temp)
                             forecast.date = forecast.date.formatDate().toString()
                         }
-                        state = state.copy(
-                            isLoadingForecast = false,
-                            weatherForecastList = forecast,
-                            error = null
-                        )
+                        _homeScreenState.update { currentState ->
+                            currentState.copy(
+                                isLoadingForecast = false,
+                                weatherForecastList = forecast,
+                                error = null
+                            )
+                        }
                         repository.deleteForecastData()
                         repository.storeForecastData(forecast)
                     } else {
@@ -171,10 +188,16 @@ class HomeScreenViewModel @Inject constructor(
                     }
                 }
 
-                is Result.Error -> state =
-                    state.copy(isLoadingForecast = false, error = result.exception.toString())
+                is Result.Error -> _homeScreenState.update { currentState ->
+                    currentState.copy(
+                        isLoadingForecast = false,
+                        error = result.exception.toString()
+                    )
+                }
 
-                is Result.Loading -> state = state.copy(isLoadingForecast = true, error = null)
+                is Result.Loading -> _homeScreenState.update { currentState ->
+                    currentState.copy(isLoadingForecast = true, error = null)
+                }
             }
         }
     }
@@ -190,17 +213,22 @@ class HomeScreenViewModel @Inject constructor(
                 is Result.Success -> {
                     if (result.data != null) {
                         val weather = result.data
-                        state = state.copy(isLoading = false, weather = weather, error = null)
+                        _homeScreenState.update { currentState ->
+                            currentState.copy(isLoading = false, weather = weather, error = null)
+                        }
                         getWeatherForecast(locationModel)
                     } else {
                         refreshWeather(locationModel)
                     }
                 }
 
-                is Result.Error ->
-                    state = state.copy(isLoading = false, error = result.exception.toString())
+                is Result.Error -> _homeScreenState.update { currentState ->
+                    currentState.copy(isLoading = false, error = result.exception.toString())
+                }
 
-                is Result.Loading -> state = state.copy(isLoading = true, error = null)
+                is Result.Loading -> _homeScreenState.update { currentState ->
+                    currentState.copy(isLoading = true, error = null)
+                }
             }
         }
     }
@@ -218,7 +246,7 @@ class HomeScreenViewModel @Inject constructor(
      * This enables the [Weather] for the current [location] to be received.
      */
     private fun refreshWeather(locationModel: LocationModel = location) {
-        state = state.copy(isLoading = true)
+        setIsWeatherLoading()
         viewModelScope.launch {
             when (val result = repository.getWeather(locationModel, true)) {
                 is Result.Success -> {
@@ -231,20 +259,45 @@ class HomeScreenViewModel @Inject constructor(
                             this.networkWeatherCondition.tempMin =
                                 convertKelvinToCelsius(this.networkWeatherCondition.tempMin)
                         }
-                        state = state.copy(isLoading = false, weather = weather, error = null)
+                        _homeScreenState.update { currentState ->
+                            currentState.copy(isLoading = false, weather = weather, error = null)
+                        }
                         refreshForecastData(locationModel)
                         repository.deleteWeatherData()
                         repository.storeWeatherData(weather)
                     } else {
-                        state = state.copy(isLoading = false, error = "No weather data")
+                        _homeScreenState.update { currentState ->
+                            currentState.copy(isLoading = false, error = "No weather data")
+                        }
                     }
                 }
 
-                is Result.Error ->
-                    state = state.copy(isLoading = false, error = result.exception.toString())
+                is Result.Error -> _homeScreenState.update { currentState ->
+                    currentState.copy(isLoading = false, error = result.exception.toString())
+                }
 
-                is Result.Loading -> state = state.copy(isLoading = true)
+                is Result.Loading -> _homeScreenState.update { currentState ->
+                    currentState.copy(isLoading = true)
+                }
             }
+        }
+    }
+
+    private fun setIsWeatherLoading() {
+        _homeScreenState.update { currentState ->
+            currentState.copy(
+                isLoading = true,
+                isRefreshing = true
+            )
+        }
+    }
+
+    private fun setIsWeatherForecastLoading() {
+        _homeScreenState.update { currentState ->
+            currentState.copy(
+                isLoadingForecast = true,
+                isRefreshing = false
+            )
         }
     }
 }

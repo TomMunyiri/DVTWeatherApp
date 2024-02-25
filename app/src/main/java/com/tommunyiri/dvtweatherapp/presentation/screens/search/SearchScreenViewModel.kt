@@ -1,8 +1,5 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.algolia.instantsearch.android.paging3.Paginator
@@ -28,6 +25,10 @@ import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,6 +44,9 @@ class SearchScreenViewModel @Inject constructor(
     private val repository: WeatherRepository,
     private val prefs: SharedPreferenceHelper
 ) : ViewModel() {
+
+    private val _searchScreenState = MutableStateFlow(SearchScreenState())
+    val searchScreenState: StateFlow<SearchScreenState> = _searchScreenState.asStateFlow()
 
     private val applicationID = BuildConfig.ALGOLIA_APP_ID
     private val algoliaAPIKey = BuildConfig.ALGOLIA_API_KEY
@@ -72,8 +76,6 @@ class SearchScreenViewModel @Inject constructor(
         connections += statsConnector.connectView(statsText, StatsPresenterImpl())
     }
 
-    var state by mutableStateOf(SearchScreenState())
-
     fun onEvent(event: SearchScreenEvent) {
         when (event) {
             is SearchScreenEvent.GetWeather -> {
@@ -82,6 +84,11 @@ class SearchScreenViewModel @Inject constructor(
 
             is SearchScreenEvent.AddToFavorite -> {
                 saveFavoriteLocation(event.favoriteLocation)
+            }
+
+            //resets previously searched weather when bottom sheet is closed
+            is SearchScreenEvent.ResetWeather -> _searchScreenState.update { currentState ->
+                currentState.copy(weather = null)
             }
         }
     }
@@ -95,7 +102,9 @@ class SearchScreenViewModel @Inject constructor(
      * @param name value of the location whose [Weather] data is to be fetched.
      */
     private fun getSearchWeather(name: String) {
-        state = state.copy(isLoading = true)
+        _searchScreenState.update { currentState ->
+            currentState.copy(isLoading = true)
+        }
         viewModelScope.launch {
             when (val result = repository.getSearchWeather(name)) {
                 is Result.Success -> {
@@ -104,27 +113,35 @@ class SearchScreenViewModel @Inject constructor(
                             this.networkWeatherCondition.temp =
                                 convertKelvinToCelsius(this.networkWeatherCondition.temp)
                         }
-                        state = state.copy(
-                            weather = weatherData,
-                            isLoading = false,
-                            error = null
-                        )
+                        _searchScreenState.update { currentState ->
+                            currentState.copy(
+                                weather = weatherData,
+                                isLoading = false,
+                                error = null
+                            )
+                        }
                     } else {
-                        state = state.copy(
-                            weather = null,
-                            isLoading = false,
-                            error = "No weather data at the moment"
-                        )
+                        _searchScreenState.update { currentState ->
+                            currentState.copy(
+                                weather = null,
+                                isLoading = false,
+                                error = "No weather data at the moment"
+                            )
+                        }
                     }
                 }
 
-                is Result.Error -> state = state.copy(
-                    weather = null,
-                    isLoading = false,
-                    error = result.exception.toString()
-                )
+                is Result.Error -> _searchScreenState.update { currentState ->
+                    currentState.copy(
+                        weather = null,
+                        isLoading = false,
+                        error = result.exception.toString()
+                    )
+                }
 
-                else -> state = state.copy(isLoading = true, error = null)
+                else -> _searchScreenState.update { currentState ->
+                    currentState.copy(isLoading = true, error = null)
+                }
             }
         }
     }

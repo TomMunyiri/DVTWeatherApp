@@ -1,8 +1,5 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.favorites
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
@@ -11,6 +8,10 @@ import com.tommunyiri.dvtweatherapp.utils.Result
 import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,9 +24,10 @@ import javax.inject.Inject
 class FavoritesScreenViewModel @Inject constructor(
     private val repository: WeatherRepository,
     private val prefs: SharedPreferenceHelper
-) :
-    ViewModel() {
-    var state by mutableStateOf(FavoritesScreenState())
+) : ViewModel() {
+
+    private val _favoritesScreenState = MutableStateFlow(FavoritesScreenState())
+    val favoritesScreenState: StateFlow<FavoritesScreenState> = _favoritesScreenState.asStateFlow()
 
     init {
         getFavoriteLocations()
@@ -44,34 +46,50 @@ class FavoritesScreenViewModel @Inject constructor(
             is FavoritesScreenEvent.GetWeather -> {
                 getSearchWeather(event.city)
             }
+
+            //resets previously searched weather when bottom sheet is closed
+            is FavoritesScreenEvent.ResetWeather -> _favoritesScreenState.update { currentState ->
+                currentState.copy(weather = null)
+            }
+
+            is FavoritesScreenEvent.ResetDeleteFavoriteResult -> _favoritesScreenState.update { currentState ->
+                currentState.copy(deleteFavoriteResult = null)
+            }
         }
     }
 
     private fun getFavoriteLocations() {
-        state = state.copy(isLoading = true)
+        setLoading()
         viewModelScope.launch {
             when (val result = repository.getFavoriteLocations()) {
                 is Result.Success -> {
-                    state = if (!result.data.isNullOrEmpty()) {
-                        state.copy(
-                            isLoading = false,
-                            favoriteLocationsList = result.data,
-                            error = null
-                        )
+                    if (!result.data.isNullOrEmpty()) {
+                        _favoritesScreenState.update { currentState ->
+                            currentState.copy(
+                                isLoading = false,
+                                favoriteLocationsList = result.data,
+                                error = null
+                            )
+                        }
                     } else {
-                        state.copy(
-                            isLoading = false,
-                            favoriteLocationsList = emptyList(),
-                            error = null
-                        )
+                        _favoritesScreenState.update { currentState ->
+                            currentState.copy(
+                                isLoading = false,
+                                favoriteLocationsList = emptyList(),
+                                error = null
+                            )
+                        }
                     }
                 }
 
                 is Result.Loading ->
-                    state = state.copy(isLoading = true, error = null)
+                    _favoritesScreenState.update { currentState ->
+                        currentState.copy(isLoading = true, error = null)
+                    }
 
-                is Result.Error -> state =
-                    state.copy(isLoading = false, error = result.exception.toString())
+                is Result.Error -> _favoritesScreenState.update { currentState ->
+                    currentState.copy(isLoading = false, error = result.exception.toString())
+                }
             }
         }
     }
@@ -81,7 +99,7 @@ class FavoritesScreenViewModel @Inject constructor(
      * @param name value of the location whose [Weather] data is to be fetched.
      */
     private fun getSearchWeather(name: String) {
-        state = state.copy(isLoading = true)
+        setLoading()
         viewModelScope.launch {
             when (val result = repository.getSearchWeather(name)) {
                 is Result.Success -> {
@@ -90,64 +108,85 @@ class FavoritesScreenViewModel @Inject constructor(
                             this.networkWeatherCondition.temp =
                                 convertKelvinToCelsius(this.networkWeatherCondition.temp)
                         }
-                        state = state.copy(
-                            weather = weatherData,
-                            isLoading = false,
-                            error = null
-                        )
+                        _favoritesScreenState.update { currentState ->
+                            currentState.copy(
+                                weather = weatherData,
+                                isLoading = false,
+                                error = null
+                            )
+                        }
                     } else {
-                        state = state.copy(
-                            weather = null,
-                            isLoading = false,
-                            error = "No weather data at the moment"
-                        )
+                        _favoritesScreenState.update { currentState ->
+                            currentState.copy(
+                                weather = null,
+                                isLoading = false,
+                                error = "No weather data at the moment"
+                            )
+                        }
                     }
                 }
 
-                is Result.Error -> state = state.copy(
-                    weather = null,
-                    isLoading = false,
-                    error = result.exception.toString()
-                )
+                is Result.Error -> _favoritesScreenState.update { currentState ->
+                    currentState.copy(
+                        weather = null,
+                        isLoading = false,
+                        error = result.exception.toString()
+                    )
+                }
 
-                is Result.Loading -> state = state.copy(isLoading = true, error = null)
+                is Result.Loading -> _favoritesScreenState.update { currentState ->
+                    currentState.copy(isLoading = true, error = null)
+                }
             }
         }
     }
 
     private fun deleteFavoriteLocation(name: String) {
-        state = state.copy(isLoading = true)
+        setLoading()
         viewModelScope.launch {
             when (val result = repository.deleteFavoriteLocation(name)) {
                 is Result.Success -> {
                     if (result.data != null) {
-                        state = state.copy(
-                            deleteFavoriteResult = result.data,
-                            isLoading = false,
-                            error = null
-                        )
+                        _favoritesScreenState.update { currentState ->
+                            currentState.copy(
+                                deleteFavoriteResult = result.data,
+                                isLoading = false,
+                                error = null
+                            )
+                        }
                         getFavoriteLocations()
                     }
                 }
 
-                is Result.Loading -> state =
-                    state.copy(isLoading = true, error = null, deleteFavoriteResult = null)
+                is Result.Loading -> _favoritesScreenState.update { currentState ->
+                    currentState.copy(isLoading = true, error = null, deleteFavoriteResult = null)
+                }
 
-                is Result.Error -> state = state.copy(
-                    deleteFavoriteResult = 0,
-                    weather = null,
-                    isLoading = false,
-                    error = result.exception.toString()
-                )
+                is Result.Error -> _favoritesScreenState.update { currentState ->
+                    currentState.copy(
+                        deleteFavoriteResult = 0,
+                        weather = null,
+                        isLoading = false,
+                        error = result.exception.toString()
+                    )
+                }
 
                 null -> {}
             }
         }
     }
 
+    private fun setLoading() {
+        _favoritesScreenState.update { currentSate ->
+            currentSate.copy(isLoading = true)
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
-        state = state.copy(favoriteLocationsList = null)
+        _favoritesScreenState.update { currentState ->
+            currentState.copy(favoriteLocationsList = null)
+        }
     }
 
     fun getSharedPrefs(): SharedPreferenceHelper {
