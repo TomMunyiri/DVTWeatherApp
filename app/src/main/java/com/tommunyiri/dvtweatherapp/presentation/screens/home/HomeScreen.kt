@@ -34,9 +34,9 @@ import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherForecastItem
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
-import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getBackgroundColor
-import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getBackgroundImage
-import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getFormattedTemperature
+import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
+import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundImage
+import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getFormattedTemperature
 
 /**
  * Composable function that represents the home screen of the application.

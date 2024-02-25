@@ -41,7 +41,7 @@ import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.ScreenTitle
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
-import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getBackgroundColor
+import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
 
 /**
  * Composable function that represents the list screen of the application.

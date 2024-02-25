@@ -202,3 +202,9 @@ t
 Dapp/src/main/java/com/tommunyiri/dvtweatherapp/utils/WeatherUtils.kt,5/4/548c6504234b857a94d4b31caa562358a083dd95
 ó
 gapp/src/main/java/com/tommunyiri/dvtweatherapp/data/sources/local/preferences/SharedPreferenceHelper.kt,1/8/183442bf0bbe43c0354f374d678e076f14a08944
+Ñ
+Tapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/BaseBottomSheetDialog.kt,0/6/06398a613a2cae20bb9ef2faf1b54d9dc02a4b6b
+{
+Kapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/BaseFragment.kt,5/c/5c3c235e30f86cd376d98047a6b28abb8a8d12a5
+Å
+Qapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/utils/WeatherUtils.kt,2/7/278c3d40303104f968c67ca22f9b408d51f28504

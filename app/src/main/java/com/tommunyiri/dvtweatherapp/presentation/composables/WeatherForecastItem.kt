@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
-import com.tommunyiri.dvtweatherapp.utils.WeatherUtils
-import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getFormattedTemperature
+import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils
+import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getFormattedTemperature
 
 /**
  * Created by Tom Munyiri on 18/02/2024.
