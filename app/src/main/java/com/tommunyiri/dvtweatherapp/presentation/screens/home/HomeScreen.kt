@@ -33,7 +33,7 @@ import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherForecastItem
-import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getBackgroundColor
 import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getBackgroundImage
 import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getFormattedTemperature

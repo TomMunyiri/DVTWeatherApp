@@ -1,9 +1,9 @@
 package com.tommunyiri.dvtweatherapp.di.module
 
-import com.tommunyiri.dvtweatherapp.data.local.WeatherLocalDataSource
-import com.tommunyiri.dvtweatherapp.data.local.WeatherLocalDataSourceImpl
-import com.tommunyiri.dvtweatherapp.data.remote.WeatherRemoteDataSource
-import com.tommunyiri.dvtweatherapp.data.remote.WeatherRemoteDataSourceImpl
+import com.tommunyiri.dvtweatherapp.data.sources.local.database.WeatherLocalDataSource
+import com.tommunyiri.dvtweatherapp.data.sources.local.database.WeatherLocalDataSourceImpl
+import com.tommunyiri.dvtweatherapp.data.sources.remote.WeatherRemoteDataSource
+import com.tommunyiri.dvtweatherapp.data.sources.remote.WeatherRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

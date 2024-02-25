@@ -1,6 +1,5 @@
 package com.tommunyiri.dvtweatherapp.presentation.composables
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,9 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
-import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.WeatherUtils
 import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getFormattedTemperature
 

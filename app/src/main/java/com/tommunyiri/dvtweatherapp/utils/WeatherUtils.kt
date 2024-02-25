@@ -3,8 +3,8 @@ package com.tommunyiri.dvtweatherapp.utils
 import android.content.Context
 import android.widget.ImageView
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import com.tommunyiri.dvtweatherapp.R
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
 import com.tommunyiri.dvtweatherapp.ui.theme.rainy

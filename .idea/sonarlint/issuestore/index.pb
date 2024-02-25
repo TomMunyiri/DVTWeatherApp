@@ -63,8 +63,6 @@ Eapp/src/main/java/com/tommunyiri/dvtweatherapp/di/key/ViewModelKey.kt,8/0/8078
 Kapp/src/main/java/com/tommunyiri/dvtweatherapp/di/scope/DispatcherScopes.kt,2/6/2624c5ef4b7a73a552f95aea2918a5afc01af0c0
 |
 Lapp/src/main/java/com/tommunyiri/dvtweatherapp/di/module/DispatcherModule.kt,8/0/8081f2bb2d5ca1263b40481d11caf54ec00425f7
-~
-Napp/src/main/java/com/tommunyiri/dvtweatherapp/utils/SharedPreferenceHelper.kt,5/a/5ab1cab9a509cd1f2dd448ad16f1642c97a91e6e
 z
 Japp/src/main/java/com/tommunyiri/dvtweatherapp/di/module/DatabaseModule.kt,e/d/ed90f1091eae628c3fa0c92c6012cb23217b8ce7
 }
@@ -75,14 +73,10 @@ x
 Happ/src/main/java/com/tommunyiri/dvtweatherapp/utils/LocationLiveData.kt,5/5/552eba7cd74f8670e936953fcb93258fc684f825
 Ñ
 Tapp/src/main/java/com/tommunyiri/dvtweatherapp/utils/UserInteractionAwareCallback.kt,4/b/4b1647cce260c88a0ee95317033ea3ce2f2087d0
-|
-Lapp/src/main/java/com/tommunyiri/dvtweatherapp/utils/WeatherIconGenerator.kt,f/6/f6d5ae5aeb03208e09d0da3fc9286637be8518a2
 n
 >app/src/main/java/com/tommunyiri/dvtweatherapp/utils/Result.kt,7/0/70c04558c9d0da0927cbb9b4463dc8523f03fd22
 k
 ;app/src/test/java/com/tommunyiri/dvtweatherapp/TestUtils.kt,6/b/6bc99351d5562b8e718a40def4aa420d277252ac
-ù
-mapp/src/main/java/com/tommunyiri/dvtweatherapp/utils/typeconverters/ListNetworkWeatherDescriptionConverter.kt,8/e/8e9032e30548c3b5d3c573b723b615f7d4d26f05
 á
 Wapp/src/main/java/com/tommunyiri/dvtweatherapp/data/repository/WeatherRepositoryImpl.kt,8/f/8f9a03da6199cb165c3a986632697d1cf6e4bbfb
 Ä
@@ -97,8 +91,6 @@ w
 Gapp/src/main/java/com/tommunyiri/dvtweatherapp/ui/theme/SpDimensions.kt,f/0/f026cf0495d29a00678e78a7931946e192d306a5
 p
 @app/src/main/java/com/tommunyiri/dvtweatherapp/ui/theme/Color.kt,f/e/fec1f65c943d808fecce8f31e66fe571423f01c3
-ã
-[app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/navigation/NavigationScreens.kt,3/a/3a0eae4f883ad740da295cf49e9d03145d78284d
 Ç
 Rapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/navigation/nav/Item.kt,0/c/0cf0b155a595b973f9cf605a231a82b52a5d4df0
 Ö
@@ -123,8 +115,6 @@ Napp/src/main/java/com/tommunyiri/dvtweatherapp/domain/model/WeatherForecast.kt
 ^app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/WeatherForecastItem.kt,3/8/38e28de9940fab22dfd92a97e2b1f71219c3c888
 Ü
 Vapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/model/NetworkWeatherCondition.kt,2/1/21ebc88f522faa4feb321a707bd918eb5e9fe00b
-à
-Xapp/src/main/java/com/tommunyiri/dvtweatherapp/data/mapper/WeatherForecastMapperLocal.kt,4/7/47c82f66027ef8de071e4e406c6fbec2535bba5f
 s
 Capp/src/main/java/com/tommunyiri/dvtweatherapp/domain/model/Wind.kt,a/8/a875e427fcf6baa803625b485bf5b6179b120353
 à
@@ -186,8 +176,6 @@ iapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/favorites/F
 `app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/screens/favorites/FavoritesScreen.kt,4/0/409028af55f8cb8aa0064ea5fbe89d678ff2ee4c
 â
 Yapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/favorite/FavoritesFragment.kt,5/4/54585947c11becd1016d723eeba9ff13f668fe8e
-x
-Happ/src/main/java/com/tommunyiri/dvtweatherapp/data/mapper/BaseMapper.kt,1/1/119676cf9262d93b201aa67805bf2b24edd96a7b
 q
 Aapp/src/main/java/com/tommunyiri/dvtweatherapp/utils/Constants.kt,6/7/67a56bbc2f529283e818ac7fd1fca4eafc6255fd
 Ü
@@ -212,3 +200,5 @@ _app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/navigation/MainNavi
 [app/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/LoadingIndicator.kt,1/3/139f91df88f5c4df5ff89da3149088ae51e22ba5
 t
 Dapp/src/main/java/com/tommunyiri/dvtweatherapp/utils/WeatherUtils.kt,5/4/548c6504234b857a94d4b31caa562358a083dd95
+ó
+gapp/src/main/java/com/tommunyiri/dvtweatherapp/data/sources/local/preferences/SharedPreferenceHelper.kt,1/8/183442bf0bbe43c0354f374d678e076f14a08944

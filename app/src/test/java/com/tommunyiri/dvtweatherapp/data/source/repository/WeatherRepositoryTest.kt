@@ -3,8 +3,8 @@ package com.tommunyiri.dvtweatherapp.data.source.repository
 import com.tommunyiri.dvtweatherapp.MainCoroutineRule
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
-import com.tommunyiri.dvtweatherapp.data.local.WeatherLocalDataSource
-import com.tommunyiri.dvtweatherapp.data.remote.WeatherRemoteDataSource
+import com.tommunyiri.dvtweatherapp.data.sources.local.database.WeatherLocalDataSource
+import com.tommunyiri.dvtweatherapp.data.sources.remote.WeatherRemoteDataSource
 import com.tommunyiri.dvtweatherapp.data.repository.WeatherRepositoryImpl
 import com.tommunyiri.dvtweatherapp.dummyLocation
 import com.tommunyiri.dvtweatherapp.fakeDbWeatherEntity

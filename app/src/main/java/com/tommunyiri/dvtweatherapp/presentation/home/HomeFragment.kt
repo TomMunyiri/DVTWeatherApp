@@ -30,7 +30,7 @@ import com.tommunyiri.dvtweatherapp.presentation.BaseFragment
 import com.tommunyiri.dvtweatherapp.presentation.MainActivity
 import com.tommunyiri.dvtweatherapp.utils.GPS_REQUEST_CHECK_SETTINGS
 import com.tommunyiri.dvtweatherapp.utils.GpsUtil
-import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 import com.tommunyiri.dvtweatherapp.utils.makeGone
 import com.tommunyiri.dvtweatherapp.utils.makeVisible

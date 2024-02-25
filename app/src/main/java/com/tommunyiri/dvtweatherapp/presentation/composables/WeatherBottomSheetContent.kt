@@ -23,10 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
-import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.utils.WeatherUtils
 import com.tommunyiri.dvtweatherapp.utils.WeatherUtils.Companion.getFormattedTemperature
-import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 
 
 /**

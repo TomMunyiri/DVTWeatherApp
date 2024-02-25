@@ -5,7 +5,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.tommunyiri.dvtweatherapp.BuildConfig
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
-import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides

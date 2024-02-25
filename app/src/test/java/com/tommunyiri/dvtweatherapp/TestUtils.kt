@@ -10,8 +10,8 @@ import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherForecast
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.domain.model.Wind
-import com.tommunyiri.dvtweatherapp.data.local.entity.DBWeather
-import com.tommunyiri.dvtweatherapp.data.local.entity.DBWeatherForecast
+import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeather
+import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeatherForecast
 
 
 /**
