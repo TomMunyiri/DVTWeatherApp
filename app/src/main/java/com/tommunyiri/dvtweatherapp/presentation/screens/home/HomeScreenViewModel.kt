@@ -2,7 +2,6 @@ package com.tommunyiri.dvtweatherapp.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
@@ -19,7 +18,6 @@ import com.tommunyiri.dvtweatherapp.domain.usecases.GetSharedPreferencesUseCase
 import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
 import com.tommunyiri.dvtweatherapp.utils.Result
-import com.tommunyiri.dvtweatherapp.utils.asLiveData
 import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.utils.formatDate
 import com.tommunyiri.dvtweatherapp.worker.UpdateWeatherWorker
@@ -52,8 +50,6 @@ class HomeScreenViewModel @Inject constructor(
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
     lateinit var location: LocationModel
-    private val _weather = MutableLiveData<Weather?>()
-    val weather = _weather.asLiveData()
 
     val time = currentSystemTime()
 
