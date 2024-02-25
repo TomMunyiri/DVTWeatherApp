@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.tommunyiri.dvtweatherapp.data.source.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 
 
 /**

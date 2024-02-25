@@ -1,17 +1,17 @@
 package com.tommunyiri.dvtweatherapp
 
-import com.tommunyiri.dvtweatherapp.data.model.LocationModel
-import com.tommunyiri.dvtweatherapp.data.model.NetworkSys
-import com.tommunyiri.dvtweatherapp.data.model.NetworkWeather
-import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherCondition
-import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherCoordinates
-import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherDescription
-import com.tommunyiri.dvtweatherapp.data.model.NetworkWeatherForecast
-import com.tommunyiri.dvtweatherapp.data.model.Weather
-import com.tommunyiri.dvtweatherapp.data.model.WeatherForecast
-import com.tommunyiri.dvtweatherapp.data.model.Wind
-import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeather
-import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
+import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
+import com.tommunyiri.dvtweatherapp.domain.model.NetworkSys
+import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeather
+import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherCondition
+import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherCoordinates
+import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherDescription
+import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherForecast
+import com.tommunyiri.dvtweatherapp.domain.model.Weather
+import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
+import com.tommunyiri.dvtweatherapp.domain.model.Wind
+import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeather
+import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeatherForecast
 
 
 /**
@@ -23,7 +23,7 @@ import com.tommunyiri.dvtweatherapp.data.source.local.entity.DBWeatherForecast
 val fakeDbWeatherEntity = DBWeather(
     1,
     123,
-    "Lagos",
+    "Nairobi",
     Wind(32.5, 24),
     listOf(NetworkWeatherDescription(1L, "Main", "Cloudy", "icon")),
     NetworkWeatherCondition(324.43, 1234.32, 32.5, 34.4, 34.6),
@@ -44,7 +44,7 @@ val dummyLocation = LocationModel(12.2, 23.4)
 val fakeNetworkWeather = NetworkWeather(
     1,
     123,
-    "Lagos",
+    "Nairobi",
     Wind(32.5, 24),
     listOf(NetworkWeatherDescription(1L, "Main", "Cloudy", "icon")),
     NetworkWeatherCondition(324.43, 1234.32, 32.5, 34.4, 34.6),
@@ -65,7 +65,7 @@ val fakeNetworkWeatherForecast = NetworkWeatherForecast(
 val fakeWeather = Weather(
     1,
     123,
-    "Lagos",
+    "Nairobi",
     Wind(32.5, 24),
     listOf(NetworkWeatherDescription(1L, "Main", "Cloudy", "cloud")),
     NetworkWeatherCondition(324.43, 1234.32, 32.5, 45.4, 124.9),

@@ -12,7 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.tommunyiri.dvtweatherapp.R
-import com.tommunyiri.dvtweatherapp.ui.MainActivity
+import com.tommunyiri.dvtweatherapp.presentation.MainActivity
 import timber.log.Timber
 
 
@@ -36,7 +36,7 @@ class NotificationHelper(private val message: String, private val context: Conte
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
+            ) != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
         ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions

@@ -5,7 +5,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.tommunyiri.dvtweatherapp.BuildConfig
 import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
-import com.tommunyiri.dvtweatherapp.utils.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -18,7 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-
 
 /**
  * Created by Tom Munyiri on 19/01/2024.

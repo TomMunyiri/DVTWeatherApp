@@ -1,9 +1,9 @@
 package com.tommunyiri.dvtweatherapp.di.module
 
-import com.tommunyiri.dvtweatherapp.data.source.local.WeatherLocalDataSource
-import com.tommunyiri.dvtweatherapp.data.source.local.WeatherLocalDataSourceImpl
-import com.tommunyiri.dvtweatherapp.data.source.remote.WeatherRemoteDataSource
-import com.tommunyiri.dvtweatherapp.data.source.remote.WeatherRemoteDataSourceImpl
+import com.tommunyiri.dvtweatherapp.data.sources.local.database.WeatherLocalDataSource
+import com.tommunyiri.dvtweatherapp.data.sources.local.database.WeatherLocalDataSourceImpl
+import com.tommunyiri.dvtweatherapp.data.sources.remote.WeatherRemoteDataSource
+import com.tommunyiri.dvtweatherapp.data.sources.remote.WeatherRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -24,4 +24,5 @@ abstract class DataSourcesModule {
 
     @Binds
     abstract fun bindRemoteDataSource(remoteDataSourceImpl: WeatherRemoteDataSourceImpl): WeatherRemoteDataSource
+
 }

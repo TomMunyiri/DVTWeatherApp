@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0-alpha14"
+agp = "8.4.0-alpha10"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -16,7 +16,7 @@ sonarqubeGradlePlugin = "3.1.1"
 # Firebase Services
 firebaseCrashlytics = "18.6.0"
 firebaseAnalytics = "21.5.0"
-gradle = "8.1.4"
+gradle = "8.4.0-alpha10"
 googleServices = "4.4.0"
 firebaseCrashlyticsGradle = "2.9.9"
 #work manager
@@ -41,18 +41,39 @@ swiperefreshlayout = "1.1.0"
 #lifecycle
 lifecycle = "2.7.0"
 #algolia search
-algolia = "2.11.1"
+algolia = "3.3.0"
+algolia-instantsearch-compose = "3.3.0"
+algolia-instantsearch-android-paging3 = "3.3.0"
+algoliasearch-client-kotlin = "2.1.3"
 #paging
 paging = "3.2.1"
 #ktlint
 ktlint = "10.2.1"
 #google-maps
 google-maps = "18.2.0"
-
 #unit-testing
 mockito = "4.0.0"
 hamcrest = "1.3"
 roboelectric = "4.6"
+#jetpack-compose
+coil-compose = "2.4.0"
+hilt-navigation-compose = "1.1.0"
+navigation-compose = "2.7.7"
+activity-compose = "1.7.2"
+compose-bom = "2023.09.00"
+paging-compose = "3.2.1"
+material-icons-extended = "1.6.1"
+material3-window-size = "1.2.0"
+runtime-livedata = "1.6.1"
+ui-text-google-fonts = "1.6.1"
+vico = "1.11.3"
+lifecycleRuntimeKtx = "2.7.0"
+#accompanist for permissions
+google-accompanist = "0.21.1-beta"
+# sweet compose toast
+composable-sweet-toast = "1.0.1"
+#lottie-compose-animation
+lottie-compose = "5.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -71,8 +92,8 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
 firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
-#work manager
 sonarqube-gradle-plugin = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin", version.ref = "sonarqubeGradlePlugin" }
+#work manager
 work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
 # Include optional testing library if needed
 work-testing = { group = "androidx.work", name = "work-testing", version.ref = "workManager" }
@@ -106,16 +127,50 @@ androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "s
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
 #algolia search
 algolia = { group = "com.algolia", name = "instantsearch-android", version.ref = "algolia" }
+algolia-instantsearch-compose = { group = "com.algolia", name = "instantsearch-compose", version.ref = "algolia-instantsearch-compose" }
+algolia-instantsearch-android-paging3 = { group = "com.algolia", name = "instantsearch-android-paging3", version.ref = "algolia-instantsearch-android-paging3" }
+#algoliasearch-client-kotlin = { group = "com.algolia", name = "algoliasearch-client-kotlin", version.ref = "algoliasearch-client-kotlin" }
+
 #paging
 androidx-paging = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
 #google-maps
 google-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "google-maps" }
-
 #unit-testing
 room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 hamcrest = { group = "org.hamcrest", name = "hamcrest-all", version.ref = "hamcrest" }
 roboelectric = { group = "org.robolectric", name = "robolectric", version.ref = "roboelectric" }
+#jetpack-compose
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-icons-extended" }
+androidx-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3-window-size" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
+androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging-compose" }
+androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtime-livedata" }
+androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "ui-text-google-fonts" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+ui = { group = "androidx.compose.ui", name = "ui" }
+ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+material3 = { group = "androidx.compose.material3", name = "material3" }
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "google-accompanist" }
+google-accompanist-swipe-refresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "google-accompanist" }
+#sweet compose toast
+composable-sweet-toast = { group = "com.github.TalhaFaki", name = "ComposableSweetToast", version.ref = "composable-sweet-toast" }
+#lottie-compose
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie-compose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

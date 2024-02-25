@@ -1,0 +1,15 @@
+package com.tommunyiri.dvtweatherapp.domain.usecases
+
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
+
+
+/**
+ * Created by Tom Munyiri on 25/02/2024.
+ * Company: Eclectics International Ltd
+ * Email: munyiri.thomas@eclectics.io
+ */
+class GetSharedPreferencesUseCase {
+    operator fun invoke(): SharedPreferenceHelper {
+        return SharedPreferenceHelper()
+    }
+}

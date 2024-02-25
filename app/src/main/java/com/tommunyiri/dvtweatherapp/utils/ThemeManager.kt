@@ -1,6 +1,7 @@
 package com.tommunyiri.dvtweatherapp.utils
 
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.material3.MaterialTheme
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
