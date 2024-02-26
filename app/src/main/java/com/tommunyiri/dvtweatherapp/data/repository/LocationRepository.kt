@@ -1,45 +1,30 @@
-package com.tommunyiri.dvtweatherapp.utils
+package com.tommunyiri.dvtweatherapp.data.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
-import androidx.lifecycle.LiveData
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 
 /**
- * Created by Tom Munyiri on 19/01/2024.
+ * Created by Tom Munyiri on 26/02/2024.
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-
-class LocationLiveData(context: Context) : LiveData<LocationModel>() {
-
+class LocationRepository(context: Context) {
     private var fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-    override fun onInactive() {
-        super.onInactive()
-        fusedLocationClient.removeLocationUpdates(locationCallback)
-    }
+    private val _locationStateFlow = MutableStateFlow<LocationModel?>(null)
+    val locationStateFlow: Flow<LocationModel?> = _locationStateFlow
 
     @SuppressLint("MissingPermission")
-    override fun onActive() {
-        super.onActive()
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                location?.also {
-                    setLocationData(it)
-                }
-            }
-        startLocationUpdates()
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun startLocationUpdates() {
+    fun startLocationUpdates() {
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationCallback,
@@ -49,18 +34,21 @@ class LocationLiveData(context: Context) : LiveData<LocationModel>() {
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            locationResult ?: return
-            for (location in locationResult.locations) {
-                setLocationData(location)
+            locationResult.locations.forEach {
+                setLocationData(it)
             }
         }
     }
 
     private fun setLocationData(location: Location) {
-        value = LocationModel(
+        _locationStateFlow.value = LocationModel(
             longitude = location.longitude,
             latitude = location.latitude
         )
+    }
+
+    fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
     companion object {

@@ -222,3 +222,15 @@ Tapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/TopAppB
 Xapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/PrimaryButton.kt,8/5/850a72e30eeaa6f91f70a7b26072165422f9d9c3
 í
 bapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/navigation/WeatherScreenDestination.kt,4/2/426e9dd9e991c3bba39fb6d242d351782403f672
+t
+Dapp/src/main/java/com/tommunyiri/dvtweatherapp/utils/LocationFlow.kt,f/5/f5f18b58cb5d103b99336262e1512a14a477e363
+Ñ
+Tapp/src/main/java/com/tommunyiri/dvtweatherapp/data/repository/LocationRepository.kt,1/8/18b75d66a0b707e4c25389ff2b8793803396d5cb
+Ñ
+Tapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/GetLocationUseCase.kt,b/9/b9222a948cdfd3d6a7111acc2341cceaa71292d4
+
+Oapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/utils/TemperatureUtils.kt,b/2/b25e5c5c38b4798f7a70fc16b841b6b6d83e839b
+Ö
+Uapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/utils/TemperatureUtils.kt,4/b/4b490d85eabbb1b290c1cd81288bc3ea156c6e17
+Å
+Qapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/utils/ExtensionFunctions.kt,2/b/2bbe06491883128a791d4e768c356035ea6924a0

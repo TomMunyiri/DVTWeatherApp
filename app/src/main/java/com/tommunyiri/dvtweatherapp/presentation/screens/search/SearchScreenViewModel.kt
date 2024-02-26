@@ -23,7 +23,6 @@ import com.tommunyiri.dvtweatherapp.domain.model.SearchResult
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
 import com.tommunyiri.dvtweatherapp.utils.Result
-import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -109,13 +108,9 @@ class SearchScreenViewModel @Inject constructor(
             when (val result = weatherUseCases.getSearchWeather.invoke(name)) {
                 is Result.Success -> {
                     if (result.data != null) {
-                        val weatherData = result.data.apply {
-                            this.networkWeatherCondition.temp =
-                                convertKelvinToCelsius(this.networkWeatherCondition.temp)
-                        }
                         _searchScreenState.update { currentState ->
                             currentState.copy(
-                                weather = weatherData,
+                                weather = result.data,
                                 isLoading = false,
                                 error = null
                             )

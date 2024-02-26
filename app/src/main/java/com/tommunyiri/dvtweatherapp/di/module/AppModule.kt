@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.tommunyiri.dvtweatherapp.BuildConfig
-import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
+import com.tommunyiri.dvtweatherapp.data.repository.LocationRepository
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import dagger.Lazy
 import dagger.Module
@@ -41,8 +41,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideLocationLiveData(context: Context): LocationLiveData {
-        return LocationLiveData(context)
+    fun provideLocationRepository(context: Context): LocationRepository {
+        return LocationRepository(context)
     }
 
     @Provides
@@ -95,7 +95,7 @@ class AppModule {
                     .addQueryParameter("appid", BuildConfig.API_KEY)
                     .build()
 
-                Timber.d( "Started making network call")
+                Timber.d("Started making network call")
 
                 val requestBuilder = original.newBuilder()
                     .url(url)

@@ -9,7 +9,6 @@ import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
 import com.tommunyiri.dvtweatherapp.ui.theme.rainy
 import com.tommunyiri.dvtweatherapp.ui.theme.sunny
-import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
 
 /**
  * Created by Tom Munyiri on 20/01/2024.

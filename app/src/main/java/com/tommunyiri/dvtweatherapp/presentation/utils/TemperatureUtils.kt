@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.utils
+package com.tommunyiri.dvtweatherapp.presentation.utils
 
 import java.text.DecimalFormat
 
@@ -14,12 +14,6 @@ import java.text.DecimalFormat
  * converting it to a [Double] then subtracting 273 from it.
  * @param number the number to be converted to Celsius.
  */
-fun convertKelvinToCelsius(number: Number): Double {
-    return DecimalFormat().run {
-        applyPattern(".##")
-        parse(format(number.toDouble().minus(273))).toDouble()
-    }
-}
 
 fun convertCelsiusToFahrenheit(celsius: Double): Double {
     return DecimalFormat().run {
