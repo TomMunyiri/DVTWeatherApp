@@ -123,6 +123,7 @@ class HomeScreenViewModel @Inject constructor(
                 is Result.Error ->
                     _homeScreenState.update { currentState ->
                         currentState.copy(
+                            isRefreshing = false,
                             isLoadingForecast = false,
                             error = result.exception.toString()
                         )
@@ -152,6 +153,7 @@ class HomeScreenViewModel @Inject constructor(
 
                 is Result.Error -> _homeScreenState.update { currentState ->
                     currentState.copy(
+                        isRefreshing = false,
                         isLoadingForecast = false,
                         error = result.exception.toString()
                     )
@@ -185,7 +187,11 @@ class HomeScreenViewModel @Inject constructor(
                 }
 
                 is Result.Error -> _homeScreenState.update { currentState ->
-                    currentState.copy(isLoading = false, error = result.exception.toString())
+                    currentState.copy(
+                        isRefreshing = false,
+                        isLoading = false,
+                        error = result.exception.toString()
+                    )
                 }
 
                 is Result.Loading -> _homeScreenState.update { currentState ->
@@ -221,7 +227,7 @@ class HomeScreenViewModel @Inject constructor(
                 }
 
                 is Result.Error -> _homeScreenState.update { currentState ->
-                    currentState.copy(isLoading = false, error = result.exception.toString())
+                    currentState.copy(isRefreshing = false, isLoading = false, error = result.exception.toString())
                 }
 
                 is Result.Loading -> _homeScreenState.update { currentState ->
