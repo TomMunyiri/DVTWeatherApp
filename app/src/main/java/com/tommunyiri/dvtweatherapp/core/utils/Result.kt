@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.utils
+package com.tommunyiri.dvtweatherapp.core.utils
 
 
 /**

@@ -234,3 +234,15 @@ Oapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/utils/TemperatureUtils.kt
 Uapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/utils/TemperatureUtils.kt,4/b/4b490d85eabbb1b290c1cd81288bc3ea156c6e17
 Å
 Qapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/utils/ExtensionFunctions.kt,2/b/2bbe06491883128a791d4e768c356035ea6924a0
+o
+?app/src/main/java/com/tommunyiri/dvtweatherapp/ui/theme/Type.kt,6/7/67412218f572fb064fa7ec8baa45fcd57ea0c035
+r
+Bapp/src/main/java/com/tommunyiri/dvtweatherapp/core/theme/Theme.kt,b/5/b5cb8659d10067ff64f8aa62b96efb3900b9a050
+u
+Eapp/src/main/java/com/tommunyiri/dvtweatherapp/core/ui/theme/Color.kt,3/0/30ddec9e3608bca7b3d896b6eba98255b746a7a0
+t
+Dapp/src/main/java/com/tommunyiri/dvtweatherapp/core/ui/theme/Type.kt,2/a/2a52ae7368576393ac1ab038311df3e599799fe2
+u
+Eapp/src/main/java/com/tommunyiri/dvtweatherapp/core/ui/theme/Theme.kt,3/b/3b45551563b78f00081c6c97f3e102e6ac6b3a63
+|
+Lapp/src/main/java/com/tommunyiri/dvtweatherapp/core/DVTWeatherApplication.kt,0/f/0f7946583b183ccd80c9870b0ade315e559085d5

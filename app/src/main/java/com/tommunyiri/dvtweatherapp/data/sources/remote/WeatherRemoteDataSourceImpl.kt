@@ -4,8 +4,8 @@ import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeather
 import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherForecast
 import com.tommunyiri.dvtweatherapp.data.sources.remote.retrofit.WeatherApiService
-import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
-import com.tommunyiri.dvtweatherapp.utils.Result
+import com.tommunyiri.dvtweatherapp.core.di.scope.IoDispatcher
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

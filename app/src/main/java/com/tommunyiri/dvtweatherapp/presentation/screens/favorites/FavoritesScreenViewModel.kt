@@ -6,7 +6,7 @@ import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPrefere
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.usecases.GetSharedPreferencesUseCase
 import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
-import com.tommunyiri.dvtweatherapp.utils.Result
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,11 +1,11 @@
-package com.tommunyiri.dvtweatherapp.worker
+package com.tommunyiri.dvtweatherapp.core.worker
 
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.utils.NotificationHelper
-import com.tommunyiri.dvtweatherapp.utils.Result.Success
+import com.tommunyiri.dvtweatherapp.core.utils.NotificationHelper
+import com.tommunyiri.dvtweatherapp.core.utils.Result.Success
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 
 /**

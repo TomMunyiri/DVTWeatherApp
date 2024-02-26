@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.di.module
+package com.tommunyiri.dvtweatherapp.core.di.module
 
 import android.app.Application
 import android.content.Context

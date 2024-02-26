@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.di.scope
+package com.tommunyiri.dvtweatherapp.core.di.scope
 
 import javax.inject.Qualifier
 

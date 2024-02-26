@@ -33,7 +33,7 @@ import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.presentation.screens.MainScreen
-import com.tommunyiri.dvtweatherapp.ui.theme.DVTWeatherAppTheme
+import com.tommunyiri.dvtweatherapp.core.ui.theme.DVTWeatherAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

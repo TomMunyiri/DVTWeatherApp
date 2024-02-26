@@ -1,12 +1,13 @@
-package com.tommunyiri.dvtweatherapp
+package com.tommunyiri.dvtweatherapp.core
 
 import android.app.Application
 import android.util.Log
 import androidx.preference.PreferenceManager
 import androidx.work.Configuration
+import com.tommunyiri.dvtweatherapp.BuildConfig
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.utils.ThemeManager
-import com.tommunyiri.dvtweatherapp.worker.MyWorkerFactory
+import com.tommunyiri.dvtweatherapp.core.utils.ThemeManager
+import com.tommunyiri.dvtweatherapp.core.worker.MyWorkerFactory
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject

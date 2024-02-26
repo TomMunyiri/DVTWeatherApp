@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.di.module
+package com.tommunyiri.dvtweatherapp.core.di.module
 
 import com.tommunyiri.dvtweatherapp.data.sources.remote.retrofit.WeatherApiService
 import dagger.Module

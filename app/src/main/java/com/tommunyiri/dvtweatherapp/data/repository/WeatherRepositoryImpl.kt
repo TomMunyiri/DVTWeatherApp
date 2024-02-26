@@ -6,7 +6,7 @@ import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.WeatherLocalDataSource
 import com.tommunyiri.dvtweatherapp.data.sources.remote.WeatherRemoteDataSource
-import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
+import com.tommunyiri.dvtweatherapp.core.di.scope.IoDispatcher
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 import com.tommunyiri.dvtweatherapp.data.mappers.FavoriteLocationListMapperLocal
 import com.tommunyiri.dvtweatherapp.data.mappers.FavoriteLocationMapperLocal
@@ -14,7 +14,7 @@ import com.tommunyiri.dvtweatherapp.data.mappers.WeatherForecastMapperLocal
 import com.tommunyiri.dvtweatherapp.data.mappers.WeatherForecastMapperRemote
 import com.tommunyiri.dvtweatherapp.data.mappers.WeatherMapperLocal
 import com.tommunyiri.dvtweatherapp.data.mappers.WeatherMapperRemote
-import com.tommunyiri.dvtweatherapp.utils.Result
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

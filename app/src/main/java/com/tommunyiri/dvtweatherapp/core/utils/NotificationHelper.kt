@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.utils
+package com.tommunyiri.dvtweatherapp.core.utils
 
 import android.Manifest
 import android.app.NotificationChannel

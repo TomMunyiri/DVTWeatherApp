@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.worker
+package com.tommunyiri.dvtweatherapp.core.worker
 
 import android.content.Context
 import androidx.work.ListenableWorker

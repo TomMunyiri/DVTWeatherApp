@@ -3,7 +3,7 @@ package com.tommunyiri.dvtweatherapp.data.sources.remote
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeather
 import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherForecast
-import com.tommunyiri.dvtweatherapp.utils.Result
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 
 
 /**

@@ -1,8 +1,8 @@
-package com.tommunyiri.dvtweatherapp.di.module
+package com.tommunyiri.dvtweatherapp.core.di.module
 
-import com.tommunyiri.dvtweatherapp.di.scope.DefaultDispatcher
-import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
-import com.tommunyiri.dvtweatherapp.di.scope.MainDispatcher
+import com.tommunyiri.dvtweatherapp.core.di.scope.DefaultDispatcher
+import com.tommunyiri.dvtweatherapp.core.di.scope.IoDispatcher
+import com.tommunyiri.dvtweatherapp.core.di.scope.MainDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
