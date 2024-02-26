@@ -38,13 +38,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.talhafaki.composablesweettoast.util.SweetToastUtil.SweetError
 import com.talhafaki.composablesweettoast.util.SweetToastUtil.SweetSuccess
 import com.tommunyiri.dvtweatherapp.R
+import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.ScreenTitle
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
 
 /**
- * Composable function that represents the list screen of the application.
+ * Composable function that represents the favorites list screen of the application.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,6 +68,8 @@ fun FavoritesScreen(
             if (event == Lifecycle.Event.ON_START) {
                 lifecycleEvent = event
                 viewModel.onEvent(FavoritesScreenEvent.GetFavorites)
+            } else if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
+                viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
             }
         }
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
@@ -78,7 +81,6 @@ fun FavoritesScreen(
     LaunchedEffect(lifecycleEvent) {
         if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
             viewModel.onEvent(FavoritesScreenEvent.GetFavorites)
-            viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
         }
     }
 
@@ -90,34 +92,10 @@ fun FavoritesScreen(
             ScreenTitle(text = stringResource(id = R.string.favorite))
             state.favoriteLocationsList?.let { favoriteLocationsList ->
                 if (favoriteLocationsList.isNotEmpty()) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 80.dp),
-                    ) {
-                        items(favoriteLocationsList.size) { i ->
-                            val favoriteLocation = favoriteLocationsList[i]
-                            Text(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .fillMaxWidth()
-                                    .padding(14.dp)
-                                    .clickable {
-                                        viewModel.apply {
-                                            onEvent(FavoritesScreenEvent.ResetWeather)
-                                            onEvent(FavoritesScreenEvent.GetWeather(favoriteLocation.name))
-                                        }
-                                    },
-                                text = "${favoriteLocation.name}, ${favoriteLocation.country}",
-                                style = typography.bodyMedium
-                            )
-                            HorizontalDivider(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .width(1.dp)
-                            )
-                        }
-                    }
+                    FavoriteLocationsList(
+                        favoriteLocationsList = favoriteLocationsList,
+                        viewModel = viewModel
+                    )
                 } else {
                     Box(
                         modifier = Modifier
@@ -179,5 +157,40 @@ fun FavoritesScreen(
             padding = PaddingValues(top = 16.dp),
             contentAlignment = Alignment.TopCenter
         )
+    }
+}
+
+@Composable
+fun FavoriteLocationsList(
+    favoriteLocationsList: List<FavoriteLocation>,
+    viewModel: FavoritesScreenViewModel
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 80.dp),
+    ) {
+        items(favoriteLocationsList.size) { i ->
+            val favoriteLocation = favoriteLocationsList[i]
+            Text(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(14.dp)
+                    .clickable {
+                        viewModel.apply {
+                            onEvent(FavoritesScreenEvent.ResetWeather)
+                            onEvent(FavoritesScreenEvent.GetWeather(favoriteLocation.name))
+                        }
+                    },
+                text = "${favoriteLocation.name}, ${favoriteLocation.country}",
+                style = typography.bodyMedium
+            )
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .width(1.dp)
+            )
+        }
     }
 }

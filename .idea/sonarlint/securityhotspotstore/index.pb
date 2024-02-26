@@ -200,8 +200,6 @@ Yapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/GetSearchWeather
 Qapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/WeatherUseCases.kt,1/1/11aba4dc32ef10517e66f89f4fa4d81215822871
 è
 _app/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/DeleteFavoriteLocationUseCase.kt,f/d/fdd05e6c7679eedc8972141237b9e9e15d75234c
-å
-\app/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/GetFavoriteLocationUseCase.kt,1/5/15e875e2573276e64add4ad04aa926e65c39c1bb
 ç
 ]app/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/GetFavoriteLocationsUseCase.kt,2/9/292b88110beed6f451aa76d1ee4c11244adf5524
 é
