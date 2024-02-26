@@ -9,8 +9,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,7 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -46,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RequestPermissions()
+                    CheckPermissions()
                 }
             }
         }
@@ -55,7 +61,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun RequestPermissions() {
+fun CheckPermissions() {
     val permissionsState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         rememberMultiplePermissionsState(
             permissions = listOf(
@@ -89,70 +95,41 @@ fun RequestPermissions() {
                 }
             }
         )
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            permissionsState.permissions.forEach { perm ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    when (perm.permission) {
+        permissionsState.permissions.forEach { perm ->
+            when {
+                perm.hasPermission -> {
+                    val navController = rememberNavController()
+                    MainScreen(navController)
+                }
 
-                        Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION -> {
-                            when {
-                                perm.hasPermission -> {
-                                    //Text(text = "Location permission accepted")
-                                    val navController = rememberNavController()
-                                    MainScreen(navController)
-                                }
-
-                                perm.shouldShowRationale -> {
-                                    Text(
-                                        text = "Permissions are needed" +
-                                                "to access weather information of your area"
-                                    )
-                                }
-
-                                perm.isPermanentlyDenied() -> {
-                                    Text(
-                                        text = "Permissions were permanently" +
-                                                "denied. You can enable them in the app" +
-                                                "settings."
-                                    )
-                                }
-                            }
-                        }
+                perm.shouldShowRationale -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(25.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = stringResource(id = R.string.location_permission_desc)
+                        )
                     }
-                } else {
-                    when (perm.permission) {
-                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION -> {
-                            when {
-                                perm.hasPermission -> {
-                                    //Text(text = "Location permission accepted")
-                                    val navController = rememberNavController()
-                                    MainScreen(navController)
-                                }
+                }
 
-                                perm.shouldShowRationale -> {
-                                    Text(
-                                        text = "Location permission is needed" +
-                                                "to access weather information of your area"
-                                    )
-                                }
-
-                                perm.isPermanentlyDenied() -> {
-                                    Text(
-                                        text = "Location permission was permanently" +
-                                                "denied. You can enable it in the app" +
-                                                "settings."
-                                    )
-                                }
-                            }
-                        }
+                perm.isPermanentlyDenied() -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(25.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = stringResource(id = R.string.permissions_permanently_denied)
+                        )
                     }
                 }
             }
-
         }
     } else {
         val navController = rememberNavController()
