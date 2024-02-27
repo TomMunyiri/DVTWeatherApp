@@ -11,5 +11,6 @@ import com.tommunyiri.dvtweatherapp.domain.model.Weather
 data class SearchScreenState(
     val weather: Weather? = null,
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val addToFavoriteResult: Int? = null
 )

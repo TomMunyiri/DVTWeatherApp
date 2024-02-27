@@ -1,8 +1,10 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,25 +25,33 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.algolia.instantsearch.android.paging3.flow
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
+import com.talhafaki.composablesweettoast.util.SweetToastUtil
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
+import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreenEvent
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
 import kotlinx.coroutines.launch
 
@@ -50,7 +60,10 @@ import kotlinx.coroutines.launch
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
+fun SearchScreen(
+    viewModel: SearchScreenViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -63,10 +76,45 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
     val state by viewModel.searchScreenState.collectAsStateWithLifecycle()
     val prefs = viewModel.getSharedPrefs()
 
+    var openDialogSuccess by remember { mutableStateOf(false) }
+    var openDialogError by remember { mutableStateOf(false) }
+
+    DisposableEffect(lifecycleOwner) {
+        val lifecycleObserver = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
+                viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
+        }
+    }
+
 
     if (state.isLoading || pagingHits.itemCount == 0) {
         LoadingIndicator()
     }
+
+    if (openDialogSuccess) {
+        openDialogSuccess = false
+        SweetToastUtil.SweetSuccess(
+            message = stringResource(id = R.string.added_to_favorites),
+            duration = Toast.LENGTH_SHORT,
+            padding = PaddingValues(top = 16.dp),
+            contentAlignment = Alignment.TopCenter
+        )
+    }
+    if (openDialogError) {
+        openDialogError = false
+        SweetToastUtil.SweetError(
+            message = stringResource(id = R.string.error_adding_to_favorites),
+            duration = Toast.LENGTH_SHORT,
+            padding = PaddingValues(top = 16.dp),
+            contentAlignment = Alignment.TopCenter
+        )
+    }
+
     Column(modifier = Modifier.padding(top = 45.dp, bottom = 80.dp)) {
         SearchBox(
             modifier = Modifier
@@ -136,6 +184,17 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
                         )
                     )
                 })
+            }
+        }
+
+        state.addToFavoriteResult?.let {
+            if (it > 0) {
+                showBottomSheet = false
+                openDialogSuccess = true
+                viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
+            } else {
+                openDialogError = true
+                viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
             }
         }
     }

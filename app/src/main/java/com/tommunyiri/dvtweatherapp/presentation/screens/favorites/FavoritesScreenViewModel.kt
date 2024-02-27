@@ -29,7 +29,7 @@ import javax.inject.Inject
 class FavoritesScreenViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
     private val weatherUseCases: WeatherUseCases,
-    private val prefs: GetSharedPreferencesUseCase
+    private val getPrefsUseCase: GetSharedPreferencesUseCase
 ) : ViewModel() {
 
     private val _favoritesScreenState = MutableStateFlow(FavoritesScreenState())
@@ -197,7 +197,7 @@ class FavoritesScreenViewModel @Inject constructor(
     }
 
     fun getSharedPrefs(): SharedPreferenceHelper {
-        return prefs.invoke()
+        return getPrefsUseCase.invoke()
     }
 
     private fun getCurrentLocation() {

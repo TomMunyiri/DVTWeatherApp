@@ -79,6 +79,8 @@
     <string name="enter_cache_duration">Enter Cache Duration</string>
     <string name="removed_from_favorites">Removed from favorites</string>
     <string name="error_removing_from_favorites">Error removing from favorites</string>
+    <string name="added_to_favorites">Added to favorites</string>
+    <string name="error_adding_to_favorites">Error adding to favorites</string>
     <string name="add_to_favorites">Add to favorites</string>
     <string name="small_cloud">Small cloud image</string>
     <string name="big_cloud">Big cloud image</string>

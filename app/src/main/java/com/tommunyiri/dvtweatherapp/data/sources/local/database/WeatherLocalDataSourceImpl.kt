@@ -44,9 +44,9 @@ class WeatherLocalDataSourceImpl @Inject constructor(
         weatherDao.deleteAllWeatherForecast()
     }
 
-    override suspend fun saveFavoriteLocation(favoriteLocation: DBFavoriteLocation) =
+    override suspend fun saveFavoriteLocation(favoriteLocation: DBFavoriteLocation): List<Long> =
         withContext(ioDispatcher) {
-            weatherDao.insertFavoriteCity(favoriteLocation)
+            return@withContext weatherDao.insertFavoriteCity(favoriteLocation)
         }
 
     override suspend fun getFavoriteLocations(): List<DBFavoriteLocation> =

@@ -22,7 +22,7 @@ interface WeatherLocalDataSource {
 
     suspend fun deleteForecastWeather()
 
-    suspend fun saveFavoriteLocation(favoriteLocation: DBFavoriteLocation)
+    suspend fun saveFavoriteLocation(favoriteLocation: DBFavoriteLocation): List<Long>
 
     suspend fun getFavoriteLocations(): List<DBFavoriteLocation>?
 
