@@ -12,15 +12,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.tommunyiri.dvtweatherapp.R
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 
 /**
  * Created by Tom Munyiri on 23/02/2024.
@@ -37,7 +39,7 @@ fun SingleSelectDialog(
     onDismissRequest: () -> Unit
 ) {
 
-    val selectedOption = mutableStateOf(defaultSelected)
+    var selectedOption by rememberSaveable { mutableIntStateOf(defaultSelected) }
 
     Dialog(onDismissRequest = { onDismissRequest.invoke() }) {
         Surface(
@@ -53,10 +55,10 @@ fun SingleSelectDialog(
                     items(optionsList.size) { i ->
                         SingleItemDialogRadioButton(
                             optionsList[i],
-                            optionsList[selectedOption.value]
+                            optionsList[selectedOption]
                         ) { selectedValue ->
                             onItemSelected.invoke(selectedValue)
-                            selectedOption.value = optionsList.indexOf(selectedValue)
+                            selectedOption = optionsList.indexOf(selectedValue)
                             onDismissRequest.invoke()
                         }
                     }
@@ -69,7 +71,7 @@ fun SingleSelectDialog(
                         text = stringResource(id = R.string.cancel),
                         modifier = Modifier
                             .clickable(onClick = {
-                                onCancelButtonClick.invoke(selectedOption.value)
+                                onCancelButtonClick.invoke(selectedOption)
                                 onDismissRequest.invoke()
                             })
                             .padding(10.dp)

@@ -39,7 +39,7 @@ fun SingleItemDialogRadioButton(text: String, selectedValue: String, onClickList
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(start = 16.dp, top = 13.dp)
+            modifier = Modifier.padding(start = 16.dp, top = 14.dp)
         )
     }
 }
