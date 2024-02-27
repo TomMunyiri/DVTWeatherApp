@@ -144,8 +144,8 @@ fun FavoritesScreen(
                 Modifier.padding(top = 15.dp, start = 15.dp, end = 20.dp)
             )
             state.favoriteLocationsList?.let { favoriteLocationsList ->
-                when {
-                    favoriteLocationsList.isNotEmpty() ->
+                when (favoriteLocationsList.isNotEmpty()) {
+                    true ->
                         if (showMap) {
                             FavoriteLocationsMap(favoriteLocationsList, viewModel, currentLocation)
                         } else {
