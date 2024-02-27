@@ -29,7 +29,7 @@ sonarqube {
     val sonarqubeToken = properties.getProperty("SONAR_TOKEN")
     val sonarqubeUrl = properties.getProperty("SONAR_HOST_URL")
     properties {
-        //TODO Read sensitive data from properties file
+        // TODO Read sensitive data from properties file
         property("sonar.projectKey", "DVT-Weather-App")
         property("sonar.projectName", "DVT Weather App")
         property("sonar.host.url", sonarqubeUrl)
@@ -173,7 +173,7 @@ dependencies {
     implementation(libs.algolia)
     implementation(libs.algolia.instantsearch.compose)
     implementation(libs.algolia.instantsearch.android.paging3)
-    //implementation(libs.algoliasearch.client.kotlin)
+    // implementation(libs.algoliasearch.client.kotlin)
     // paging
     implementation(libs.androidx.paging)
     // google-maps
@@ -186,7 +186,7 @@ dependencies {
     testImplementation(libs.hamcrest)
     // roboelectric
     testImplementation(libs.roboelectric)
-    //jetpack-compose
+    // jetpack-compose
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
     implementation(libs.androidx.material3.window.size)
@@ -204,15 +204,15 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.runtime.livedata)
-    //accompanist-permissions
+    // accompanist-permissions
     implementation(libs.google.accompanist.permissions)
-    //accompanist-swipe-refresh
+    // accompanist-swipe-refresh
     implementation(libs.google.accompanist.swipe.refresh)
-    //sweet compose
+    // sweet compose
     implementation(libs.composable.sweet.toast)
-    //lottie compose
+    // lottie compose
     implementation(libs.lottie.compose)
-    //maps compose
+    // maps compose
     implementation(libs.maps.compose)
 }
 
