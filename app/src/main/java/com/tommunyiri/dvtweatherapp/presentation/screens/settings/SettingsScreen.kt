@@ -73,24 +73,6 @@ fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
             onDismissRequest = { showThemeDialog.value = false },
             onItemSelected = {
                 viewModel.saveTheme(it, context)
-                val localTheme = compositionLocalOf { false }
-                when (it) {
-                    context.getString(R.string.light_theme_value) -> AppCompatDelegate.setDefaultNightMode(
-                        AppCompatDelegate.MODE_NIGHT_NO
-                    )
-
-                    context.getString(R.string.dark_theme_value) -> AppCompatDelegate.setDefaultNightMode(
-                        AppCompatDelegate.MODE_NIGHT_YES
-                    )
-
-                    context.getString(R.string.auto_battery_value) -> AppCompatDelegate.setDefaultNightMode(
-                        AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-                    )
-
-                    context.getString(R.string.follow_system_value) -> AppCompatDelegate.setDefaultNightMode(
-                        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                    )
-                }
             }
         )
     }

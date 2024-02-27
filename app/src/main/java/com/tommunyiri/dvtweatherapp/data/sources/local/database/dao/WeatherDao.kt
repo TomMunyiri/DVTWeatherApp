@@ -37,7 +37,7 @@ interface WeatherDao {
     suspend fun deleteAllWeatherForecast()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavoriteCity(vararg city: DBFavoriteLocation)
+    suspend fun insertFavoriteCity(vararg city: DBFavoriteLocation): List<Long>
 
     @Query("SELECT * FROM favorite_locations_table ORDER BY name ASC")
     suspend fun getAllFavoriteLocations(): List<DBFavoriteLocation>

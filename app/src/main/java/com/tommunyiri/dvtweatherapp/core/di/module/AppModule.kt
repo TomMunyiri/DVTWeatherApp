@@ -77,8 +77,7 @@ class AppModule {
     @Singleton
     fun provideRetrofitBuilder(
         client: Lazy<OkHttpClient>,
-        converterFactory: GsonConverterFactory,
-        context: Context
+        converterFactory: GsonConverterFactory
     ): Retrofit {
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)

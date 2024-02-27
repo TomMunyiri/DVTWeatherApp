@@ -12,4 +12,5 @@ sealed class SearchScreenEvent {
     data class GetWeather(val city: String) : SearchScreenEvent()
     data class AddToFavorite(val favoriteLocation: FavoriteLocation) : SearchScreenEvent()
     data object ResetWeather : SearchScreenEvent()
+    data object ResetAddToFavoriteResult : SearchScreenEvent()
 }

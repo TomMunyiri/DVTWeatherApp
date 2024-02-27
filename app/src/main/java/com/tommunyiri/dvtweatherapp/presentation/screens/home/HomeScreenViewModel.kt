@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -54,7 +56,7 @@ class HomeScreenViewModel @Inject constructor(
         currentSystemTime()
         setIsWeatherLoading()
         locationRepository.startLocationUpdates()
-        locationRepository.locationStateFlow
+        locationRepository.locationStateFlow.take(2)
             .onEach { locationValue ->
                 if (locationValue != null) {
                     location = locationValue
@@ -68,7 +70,7 @@ class HomeScreenViewModel @Inject constructor(
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
             is HomeScreenEvent.Refresh -> {
-                locationRepository.locationStateFlow
+                locationRepository.locationStateFlow.take(1)
                     .onEach { locationValue ->
                         if (locationValue != null) {
                             location = locationValue
@@ -80,7 +82,7 @@ class HomeScreenViewModel @Inject constructor(
 
             HomeScreenEvent.GetForecast -> {
                 setIsWeatherForecastLoading()
-                locationRepository.locationStateFlow
+                locationRepository.locationStateFlow.take(1)
                     .onEach { locationValue ->
                         if (locationValue != null) {
                             location = locationValue
@@ -227,7 +229,11 @@ class HomeScreenViewModel @Inject constructor(
                 }
 
                 is Result.Error -> _homeScreenState.update { currentState ->
-                    currentState.copy(isRefreshing = false, isLoading = false, error = result.exception.toString())
+                    currentState.copy(
+                        isRefreshing = false,
+                        isLoading = false,
+                        error = result.exception.toString()
+                    )
                 }
 
                 is Result.Loading -> _homeScreenState.update { currentState ->

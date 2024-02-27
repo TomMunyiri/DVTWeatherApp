@@ -137,10 +137,12 @@ class WeatherRepositoryImpl @Inject constructor(
         localDataSource.deleteForecastWeather()
     }
 
-    override suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation) =
+    override suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation): Result<List<Long>> =
         withContext(ioDispatcher) {
             val mapper = FavoriteLocationMapperLocal()
-            localDataSource.saveFavoriteLocation(mapper.transformToDto(favoriteLocation))
+            val storeFavoriteLocationResult =
+                localDataSource.saveFavoriteLocation(mapper.transformToDto(favoriteLocation))
+            Result.Success(storeFavoriteLocationResult)
         }
 
     override suspend fun getFavoriteLocations(): Result<List<FavoriteLocation>?> =

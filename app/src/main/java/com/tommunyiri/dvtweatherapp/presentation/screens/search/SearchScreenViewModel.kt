@@ -1,5 +1,6 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.algolia.instantsearch.android.paging3.Paginator
@@ -12,18 +13,18 @@ import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.StatsConnector
-import com.algolia.instantsearch.stats.StatsPresenterImpl
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.tommunyiri.dvtweatherapp.BuildConfig
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.SearchResult
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
+import com.tommunyiri.dvtweatherapp.domain.usecases.GetSharedPreferencesUseCase
 import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
-import com.tommunyiri.dvtweatherapp.core.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,7 +43,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
     private val weatherUseCases: WeatherUseCases,
-    private val prefs: SharedPreferenceHelper
+    private val getPrefsUseCase: GetSharedPreferencesUseCase
 ) : ViewModel() {
 
     private val _searchScreenState = MutableStateFlow(SearchScreenState())
@@ -90,11 +91,15 @@ class SearchScreenViewModel @Inject constructor(
             is SearchScreenEvent.ResetWeather -> _searchScreenState.update { currentState ->
                 currentState.copy(weather = null)
             }
+
+            is SearchScreenEvent.ResetAddToFavoriteResult -> _searchScreenState.update { currentState ->
+                currentState.copy(addToFavoriteResult = null)
+            }
         }
     }
 
     fun getSharedPrefs(): SharedPreferenceHelper {
-        return prefs
+        return getPrefsUseCase.invoke()
     }
 
     /**
@@ -143,8 +148,40 @@ class SearchScreenViewModel @Inject constructor(
     }
 
     private fun saveFavoriteLocation(favoriteLocation: FavoriteLocation) {
+        setLoading()
         viewModelScope.launch {
-            weatherUseCases.saveFavoriteLocation.invoke(favoriteLocation)
+            when (val result = weatherUseCases.saveFavoriteLocation.invoke(favoriteLocation)) {
+                is Result.Error -> _searchScreenState.update { currentState ->
+                    currentState.copy(
+                        addToFavoriteResult = 0,
+                        isLoading = false,
+                        error = result.exception.toString()
+                    )
+                }
+
+                is Result.Loading -> _searchScreenState.update { currentState ->
+                    currentState.copy(isLoading = true, error = null, addToFavoriteResult = null)
+                }
+
+                is Result.Success -> if (result.data != null) {
+                    Log.d("TAG", "saveFavoriteLocation: ${result.data}")
+                    _searchScreenState.update { currentState ->
+                        currentState.copy(
+                            addToFavoriteResult = result.data[0].toInt(),
+                            isLoading = false,
+                            error = null
+                        )
+                    }
+                }
+
+                null -> TODO()
+            }
+        }
+    }
+
+    private fun setLoading() {
+        _searchScreenState.update { currentSate ->
+            currentSate.copy(isLoading = true)
         }
     }
 

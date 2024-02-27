@@ -10,8 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ViewList
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -35,10 +40,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberMarkerState
 import com.talhafaki.composablesweettoast.util.SweetToastUtil.SweetError
 import com.talhafaki.composablesweettoast.util.SweetToastUtil.SweetSuccess
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
+import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.ScreenTitle
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
@@ -54,6 +67,7 @@ fun FavoritesScreen(
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
     val state by viewModel.favoritesScreenState.collectAsStateWithLifecycle()
+    val currentLocation by viewModel.location.collectAsStateWithLifecycle()
     var lifecycleEvent by remember { mutableStateOf(Lifecycle.Event.ON_ANY) }
     val prefs = viewModel.getSharedPrefs()
 
@@ -62,6 +76,8 @@ fun FavoritesScreen(
 
     var openDialogSuccess by remember { mutableStateOf(false) }
     var openDialogError by remember { mutableStateOf(false) }
+
+    var showMap by remember { mutableStateOf(false) }
 
     DisposableEffect(lifecycleOwner) {
         val lifecycleObserver = LifecycleEventObserver { _, event ->
@@ -84,23 +100,41 @@ fun FavoritesScreen(
         }
     }
 
-    Scaffold { contentPadding ->
+    Scaffold(floatingActionButton = {
+        FloatingActionButton(
+            onClick = { showMap = !showMap },
+            modifier = Modifier.padding(bottom = 80.dp)
+        ) {
+            if (showMap) {
+                Icon(Icons.AutoMirrored.Filled.ViewList, contentDescription = "List")
+            } else {
+                Icon(Icons.Default.Map, contentDescription = "Map")
+            }
+        }
+    }) { contentPadding ->
         if (state.isLoading) {
             LoadingIndicator()
         }
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(contentPadding)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+        ) {
             ScreenTitle(
                 text = stringResource(id = R.string.favorite),
                 Modifier.padding(top = 15.dp, start = 15.dp, end = 20.dp)
             )
             state.favoriteLocationsList?.let { favoriteLocationsList ->
                 if (favoriteLocationsList.isNotEmpty()) {
-                    FavoriteLocationsList(
-                        favoriteLocationsList = favoriteLocationsList,
-                        viewModel = viewModel
-                    )
+                    if (showMap) {
+                        FavoriteLocationsMap(favoriteLocationsList, viewModel, currentLocation)
+                    } else {
+                        FavoriteLocationsList(
+                            favoriteLocationsList = favoriteLocationsList,
+                            viewModel = viewModel
+                        )
+                    }
+
                 } else {
                     Box(
                         modifier = Modifier
@@ -130,7 +164,7 @@ fun FavoritesScreen(
                 WeatherBottomSheetContent(weather = weather, prefs = prefs, onFavoriteClicked = {
                     viewModel.onEvent(FavoritesScreenEvent.RemoveFromFavorite(it.name))
                     showBottomSheet = false
-                })
+                }, false)
             }
         }
         state.deleteFavoriteResult?.let {
@@ -195,6 +229,41 @@ fun FavoriteLocationsList(
                 modifier = Modifier
                     .fillMaxWidth()
                     .width(1.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun FavoriteLocationsMap(
+    favoriteLocationsList: List<FavoriteLocation>,
+    viewModel: FavoritesScreenViewModel, currentLocation: LocationModel
+) {
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(
+            LatLng(currentLocation.latitude, currentLocation.longitude), 3f
+        )
+    }
+    GoogleMap(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 0.dp, end = 0.dp, top = 10.dp, bottom = 80.dp),
+        cameraPositionState = cameraPositionState
+    ) {
+        favoriteLocationsList.forEach { favoriteLocation ->
+            val markerState = rememberMarkerState(
+                position = LatLng(favoriteLocation.lat, favoriteLocation.lon)
+            )
+            Marker(
+                state = markerState,
+                title = "${favoriteLocation.name}, ${favoriteLocation.country}",
+                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE),
+                onInfoWindowClick = {
+                    viewModel.apply {
+                        onEvent(FavoritesScreenEvent.ResetWeather)
+                        onEvent(FavoritesScreenEvent.GetWeather(favoriteLocation.name))
+                    }
+                }
             )
         }
     }

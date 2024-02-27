@@ -2,6 +2,7 @@ package com.tommunyiri.dvtweatherapp.domain.usecases
 
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 
 /**
  * Created by Tom Munyiri on 25/02/2024.
@@ -9,7 +10,7 @@ import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
  * Email: munyiri.thomas@eclectics.io
  */
 class SaveFavoriteLocationUseCase(private val weatherRepository: WeatherRepository) {
-    suspend operator fun invoke(favoriteLocation: FavoriteLocation) {
-        weatherRepository.storeFavoriteLocationData(favoriteLocation)
+    suspend operator fun invoke(favoriteLocation: FavoriteLocation): Result<List<Long>>? {
+        return weatherRepository.storeFavoriteLocationData(favoriteLocation)
     }
 }
