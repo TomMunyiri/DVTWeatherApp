@@ -1,9 +1,6 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.settings
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
-import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,34 +53,13 @@ class SettingsScreenViewModel @Inject constructor(private val prefs: SharedPrefe
         prefs.saveCacheDuration(cacheDuration)
     }
 
-    fun saveTheme(theme: String, context: Context) {
+    fun saveTheme(theme: String) {
         _settingsScreenState.update { currentState ->
             currentState.copy(
                 theme = theme
             )
         }
         prefs.saveThemePref(theme)
-        setTheme(theme, context)
-    }
-
-    private fun setTheme(theme: String, context: Context) {
-        when (theme) {
-            context.getString(R.string.light_theme_value) -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_NO
-            )
-
-            context.getString(R.string.dark_theme_value) -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_YES
-            )
-
-            context.getString(R.string.auto_battery_value) -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-            )
-
-            context.getString(R.string.follow_system_value) -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            )
-        }
     }
 
 }

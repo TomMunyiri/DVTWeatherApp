@@ -18,7 +18,7 @@ import com.tommunyiri.dvtweatherapp.presentation.navigation.MainNavigationScreen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(navController: NavHostController,onThemeUpdated: () -> Unit) {
     Scaffold(bottomBar = {
         BottomAppBar(containerColor = Color.Transparent) {
             BottomNavigationBar(
@@ -26,6 +26,6 @@ fun MainScreen(navController: NavHostController) {
             )
         }
     }) {
-        MainNavigationScreens(navController = navController)
+        MainNavigationScreens(navController = navController,onThemeUpdated)
     }
 }

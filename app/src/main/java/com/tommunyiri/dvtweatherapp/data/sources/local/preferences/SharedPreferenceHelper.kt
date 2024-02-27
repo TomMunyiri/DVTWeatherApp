@@ -115,7 +115,7 @@ class SharedPreferenceHelper {
      * This function gets the value of the app theme the user set in the
      * Settings.
      */
-    fun getSelectedThemePref() = prefs?.getString("theme_key", "System")
+    fun getSelectedThemePref() = prefs?.getString("theme_key", "Light")
 
     /**
      * This function saves a [Temp Unit]

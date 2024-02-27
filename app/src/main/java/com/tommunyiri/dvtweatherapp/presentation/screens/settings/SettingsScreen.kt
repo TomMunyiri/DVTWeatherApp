@@ -1,6 +1,5 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.settings
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,12 +33,14 @@ import com.tommunyiri.dvtweatherapp.presentation.composables.SingleInputDialog
 import com.tommunyiri.dvtweatherapp.presentation.composables.SingleSelectDialog
 
 @Composable
-fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
+fun SettingsScreen(
+    onThemeUpdated: () -> Unit,
+    viewModel: SettingsScreenViewModel = hiltViewModel()
+) {
     val state by viewModel.settingsScreenState.collectAsStateWithLifecycle()
     val showTempDialog = remember { mutableStateOf(false) }
     val showThemeDialog = remember { mutableStateOf(false) }
     val showCacheDurationDialog = remember { mutableStateOf(false) }
-    val context = LocalContext.current
     if (showTempDialog.value) {
         val temperatureUnits =
             LocalContext.current.resources.getStringArray(R.array.unit_values_array).toList()
@@ -62,9 +62,7 @@ fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
         val selectedTheme =
             when (state.theme) {
                 LocalContext.current.getString(R.string.light_theme_value) -> 0
-                LocalContext.current.getString(R.string.dark_theme_value) -> 1
-                LocalContext.current.getString(R.string.auto_battery_value) -> 2
-                else -> 3
+                else -> 1
             }
         SingleSelectDialog(
             optionsList = themes,
@@ -72,7 +70,8 @@ fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
             onCancelButtonClick = { showThemeDialog.value = false },
             onDismissRequest = { showThemeDialog.value = false },
             onItemSelected = {
-                viewModel.saveTheme(it, context)
+                viewModel.saveTheme(it)
+                onThemeUpdated.invoke()
             }
         )
     }

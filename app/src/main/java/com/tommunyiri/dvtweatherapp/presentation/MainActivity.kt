@@ -16,6 +16,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,24 +36,31 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.tommunyiri.dvtweatherapp.R
-import com.tommunyiri.dvtweatherapp.presentation.screens.MainScreen
 import com.tommunyiri.dvtweatherapp.core.ui.theme.DVTWeatherAppTheme
+import com.tommunyiri.dvtweatherapp.core.utils.ThemeManager
+import com.tommunyiri.dvtweatherapp.presentation.screens.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity() : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_DVTWeatherApp)
         enableEdgeToEdge()
+        val isDarkMode = theme?.let { ThemeManager.getTheme(this) }
         setContent {
-            DVTWeatherAppTheme {
+            var darkModeState by remember { mutableStateOf(isDarkMode) }
+            DVTWeatherAppTheme(darkTheme = darkModeState ?: false) {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CheckPermissions()
+                    CheckPermissions(onThemeUpdated = {
+                        darkModeState?.let {
+                            darkModeState = !it
+                        }
+                    })
                 }
             }
         }
@@ -58,7 +69,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CheckPermissions() {
+fun CheckPermissions(onThemeUpdated: () -> Unit) {
     val permissionsState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         rememberMultiplePermissionsState(
             permissions = listOf(
@@ -96,7 +107,7 @@ fun CheckPermissions() {
             when {
                 perm.hasPermission -> {
                     val navController = rememberNavController()
-                    MainScreen(navController)
+                    MainScreen(navController, onThemeUpdated)
                 }
 
                 perm.shouldShowRationale -> {
@@ -130,7 +141,7 @@ fun CheckPermissions() {
         }
     } else {
         val navController = rememberNavController()
-        MainScreen(navController)
+        MainScreen(navController, onThemeUpdated)
     }
 }
 
@@ -140,7 +151,7 @@ fun MainScreenPreview() {
     val navController = rememberNavController()
     DVTWeatherAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            MainScreen(navController = navController)
+            //MainScreen(navController = navController)
         }
     }
 }

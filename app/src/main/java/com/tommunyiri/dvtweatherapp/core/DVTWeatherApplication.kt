@@ -2,12 +2,10 @@ package com.tommunyiri.dvtweatherapp.core
 
 import android.app.Application
 import android.util.Log
-import androidx.preference.PreferenceManager
 import androidx.work.Configuration
 import com.tommunyiri.dvtweatherapp.BuildConfig
-import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.core.utils.ThemeManager
 import com.tommunyiri.dvtweatherapp.core.worker.MyWorkerFactory
+import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,16 +23,6 @@ class DVTWeatherApplication() : Application(), Configuration.Provider {
         super.onCreate()
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        }
-        initTheme()
-    }
-
-    private fun initTheme() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        runCatching {
-            ThemeManager.applyTheme(requireNotNull(preferences.getString("theme_key", "")))
-        }.onFailure { exception ->
-            Timber.e("Theme Manager: $exception")
         }
     }
 

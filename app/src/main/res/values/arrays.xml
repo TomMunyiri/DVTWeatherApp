@@ -10,8 +10,6 @@
     <string-array name="theme_values_array">
         <item>@string/light_theme_value</item>
         <item>@string/dark_theme_value</item>
-        <item>@string/auto_battery_value</item>
-        <item>@string/follow_system_value</item>
     </string-array>
 
     <string-array name="unit_values_array">
