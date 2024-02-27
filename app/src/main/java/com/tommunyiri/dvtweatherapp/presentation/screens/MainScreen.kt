@@ -15,6 +15,7 @@ import com.tommunyiri.dvtweatherapp.presentation.navigation.MainNavigationScreen
  * @param navController The navigation controller used for handling navigation between screens.
  */
 
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navController: NavHostController) {

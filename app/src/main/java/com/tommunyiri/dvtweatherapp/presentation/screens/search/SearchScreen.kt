@@ -1,6 +1,7 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -62,52 +63,56 @@ fun SearchScreen(viewModel: SearchScreenViewModel = hiltViewModel()) {
     val state by viewModel.searchScreenState.collectAsStateWithLifecycle()
     val prefs = viewModel.getSharedPrefs()
 
-    Scaffold { contentPadding ->
-        if (state.isLoading || pagingHits.itemCount == 0) {
-            LoadingIndicator()
-        }
-        Column(modifier = Modifier.padding(top = 45.dp, bottom = 80.dp)) {
-            SearchBox(
-                modifier = Modifier
-                    .padding(7.dp)
-                    .fillMaxWidth(),
-                searchBoxState = searchBoxState,
-                onValueChange = { scope.launch { listState.scrollToItem(0) } },
-            )
-            Stats(
-                modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp),
-                stats = statsText.stats
-            )
 
-            LazyColumn(modifier = Modifier.fillMaxSize(), listState) {
-                items(pagingHits.itemCount) { item ->
-                    val searchItem = pagingHits[item]
-                    if (searchItem != null) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .fillMaxWidth()
-                                .padding(14.dp)
-                                .clickable {
-                                    viewModel.apply {
-                                        viewModel.onEvent(SearchScreenEvent.ResetWeather)
-                                        onEvent(
-                                            SearchScreenEvent.GetWeather(
-                                                searchItem.name
-                                            )
-                                        )
-                                    }
-                                },
-                            text = "${searchItem.name}, ${searchItem.country}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                    HorizontalDivider(
+    if (state.isLoading || pagingHits.itemCount == 0) {
+        LoadingIndicator()
+    }
+    Column(modifier = Modifier.padding(top = 45.dp, bottom = 80.dp)) {
+        SearchBox(
+            modifier = Modifier
+                .padding(7.dp)
+                .fillMaxWidth(),
+            searchBoxState = searchBoxState,
+            onValueChange = { scope.launch { listState.scrollToItem(0) } },
+        )
+        Stats(
+            modifier = Modifier.padding(
+                start = 15.dp,
+                end = 15.dp,
+                top = 5.dp,
+                bottom = 5.dp
+            ),
+            stats = statsText.stats
+        )
+
+        LazyColumn(modifier = Modifier.fillMaxSize(), listState) {
+            items(pagingHits.itemCount) { item ->
+                val searchItem = pagingHits[item]
+                if (searchItem != null) {
+                    Text(
                         modifier = Modifier
+                            .fillMaxSize()
                             .fillMaxWidth()
-                            .width(1.dp)
+                            .padding(14.dp)
+                            .clickable {
+                                viewModel.apply {
+                                    viewModel.onEvent(SearchScreenEvent.ResetWeather)
+                                    onEvent(
+                                        SearchScreenEvent.GetWeather(
+                                            searchItem.name
+                                        )
+                                    )
+                                }
+                            },
+                        text = "${searchItem.name}, ${searchItem.country}",
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .width(1.dp)
+                )
             }
         }
 

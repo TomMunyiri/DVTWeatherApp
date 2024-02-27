@@ -1,5 +1,6 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.settings
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -71,6 +73,24 @@ fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
             onDismissRequest = { showThemeDialog.value = false },
             onItemSelected = {
                 viewModel.saveTheme(it, context)
+                val localTheme = compositionLocalOf { false }
+                when (it) {
+                    context.getString(R.string.light_theme_value) -> AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_NO
+                    )
+
+                    context.getString(R.string.dark_theme_value) -> AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_YES
+                    )
+
+                    context.getString(R.string.auto_battery_value) -> AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                    )
+
+                    context.getString(R.string.follow_system_value) -> AppCompatDelegate.setDefaultNightMode(
+                        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                    )
+                }
             }
         )
     }
@@ -84,7 +104,10 @@ fun SettingsScreen(viewModel: SettingsScreenViewModel = hiltViewModel()) {
         )
     }
     Column(modifier = Modifier.fillMaxSize()) {
-        ScreenTitle(text = stringResource(id = R.string.settings))
+        ScreenTitle(
+            text = stringResource(id = R.string.settings),
+            Modifier.padding(top = 50.dp, start = 15.dp, end = 20.dp)
+        )
         CacheDurationPreference(state, showCacheDurationDialog)
         HorizontalDivider(
             modifier = Modifier

@@ -1,7 +1,7 @@
 package com.tommunyiri.dvtweatherapp.domain.usecases
 
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.utils.Result
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 
 
 /**

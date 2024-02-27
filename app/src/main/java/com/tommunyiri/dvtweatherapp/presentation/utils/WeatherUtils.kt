@@ -6,10 +6,9 @@ import androidx.compose.ui.graphics.Color
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
-import com.tommunyiri.dvtweatherapp.ui.theme.cloudy
-import com.tommunyiri.dvtweatherapp.ui.theme.rainy
-import com.tommunyiri.dvtweatherapp.ui.theme.sunny
-import com.tommunyiri.dvtweatherapp.utils.convertCelsiusToFahrenheit
+import com.tommunyiri.dvtweatherapp.core.ui.theme.cloudy
+import com.tommunyiri.dvtweatherapp.core.ui.theme.rainy
+import com.tommunyiri.dvtweatherapp.core.ui.theme.sunny
 
 /**
  * Created by Tom Munyiri on 20/01/2024.

@@ -4,7 +4,7 @@ import com.tommunyiri.dvtweatherapp.data.sources.local.database.dao.WeatherDao
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeatherForecast
-import com.tommunyiri.dvtweatherapp.di.scope.IoDispatcher
+import com.tommunyiri.dvtweatherapp.core.di.scope.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

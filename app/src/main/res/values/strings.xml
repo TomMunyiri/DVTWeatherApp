@@ -86,4 +86,9 @@
     <string name="humidity_icon">Humidity icon</string>
     <string name="pressure_icon">Pressure icon</string>
     <string name="wind_speed_icon">Wind speed icon</string>
+    <string name="grant_permissions">Grant Location Permissions</string>
+    <string name="location_permission_desc">DVT Weather App requires location permissions to show weather information for your location. Please grant permissions to use this app.</string>
+    <string name="nav_icon_content_desc">Navigate back</string>
+    <string name="get_started">Get Started</string>
+    <string name="permissions_permanently_denied">Permissions were permanently denied. You can enable them in the app settings.</string>
 </resources>

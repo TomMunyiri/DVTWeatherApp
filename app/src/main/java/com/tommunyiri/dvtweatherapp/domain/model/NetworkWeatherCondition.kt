@@ -2,7 +2,7 @@ package com.tommunyiri.dvtweatherapp.domain.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created by Tom Munyiri on 18/01/2024.

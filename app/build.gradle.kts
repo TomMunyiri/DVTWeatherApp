@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import java.util.Properties
 
 plugins {
@@ -39,11 +38,8 @@ sonarqube {
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.token", sonarqubeToken)
         property(
-            "sonar.coverage.exclusions", "**/*Test*/**,' +\n" +
-                    "                '*.json,' +\n" +
-                    "                '**/*test*/**,' +\n" +
-                    "                '**/.gradle/**,' +\n" +
-                    "                '**/R.class"
+            "sonar.coverage.exclusions",
+            "**/*Test*/**,' +\n" + "                '*.json,' +\n" + "                '**/*test*/**,' +\n" + "                '**/.gradle/**,' +\n" + "                '**/R.class"
         )
     }
 }
@@ -72,9 +68,7 @@ android {
         buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
         buildConfigField("String", "ALGOLIA_API_KEY", properties.getProperty("ALGOLIA_API_KEY"))
         buildConfigField(
-            "String",
-            "ALGOLIA_INDEX_NAME",
-            properties.getProperty("ALGOLIA_INDEX_NAME")
+            "String", "ALGOLIA_INDEX_NAME", properties.getProperty("ALGOLIA_INDEX_NAME")
         )
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
         vectorDrawables {
@@ -87,16 +81,14 @@ android {
             isMinifyEnabled = false
             isDebuggable = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
         debug {
             isMinifyEnabled = false
             isDebuggable = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -128,7 +120,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -229,9 +220,7 @@ dependencies {
 }
 
 class RoomSchemaArgProvider(
-    @get:InputDirectory
-    @get:PathSensitive(PathSensitivity.RELATIVE)
-    val schemaDir: File
+    @get:InputDirectory @get:PathSensitive(PathSensitivity.RELATIVE) val schemaDir: File
 ) : CommandLineArgumentProvider {
     override fun asArguments(): Iterable<String> {
         return listOf("room.schemaLocation=${schemaDir.path}")

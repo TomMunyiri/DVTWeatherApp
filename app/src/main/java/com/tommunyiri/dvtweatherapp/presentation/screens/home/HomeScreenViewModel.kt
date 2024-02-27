@@ -3,30 +3,27 @@ package com.tommunyiri.dvtweatherapp.presentation.screens.home
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.tommunyiri.dvtweatherapp.data.repository.LocationRepository
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.domain.usecases.GetSharedPreferencesUseCase
 import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
-import com.tommunyiri.dvtweatherapp.utils.LocationLiveData
-import com.tommunyiri.dvtweatherapp.utils.Result
-import com.tommunyiri.dvtweatherapp.utils.convertKelvinToCelsius
-import com.tommunyiri.dvtweatherapp.utils.formatDate
-import com.tommunyiri.dvtweatherapp.worker.UpdateWeatherWorker
+import com.tommunyiri.dvtweatherapp.core.utils.Result
+import com.tommunyiri.dvtweatherapp.core.worker.UpdateWeatherWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -41,7 +38,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val locationLiveData: LocationLiveData,
+    private val locationRepository: LocationRepository,
     private val getPrefsUseCase: GetSharedPreferencesUseCase,
     private val weatherUseCases: WeatherUseCases,
     private val context: Application
@@ -56,34 +53,41 @@ class HomeScreenViewModel @Inject constructor(
     init {
         currentSystemTime()
         setIsWeatherLoading()
-        viewModelScope.launch {
-            fetchLocation().collect { locationValue ->
-                location = locationValue
-                getWeather(location)
-                setupWorkManager()
+        locationRepository.startLocationUpdates()
+        locationRepository.locationStateFlow
+            .onEach { locationValue ->
+                if (locationValue != null) {
+                    location = locationValue
+                    getWeather(location)
+                    setupWorkManager()
+                }
             }
-        }
+            .launchIn(viewModelScope)
     }
 
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
             is HomeScreenEvent.Refresh -> {
-                viewModelScope.launch {
-                    fetchLocation().collect { locationValue ->
-                        location = locationValue
-                        refreshWeather(location)
+                locationRepository.locationStateFlow
+                    .onEach { locationValue ->
+                        if (locationValue != null) {
+                            location = locationValue
+                            refreshWeather(location)
+                        }
                     }
-                }
+                    .launchIn(viewModelScope)
             }
 
             HomeScreenEvent.GetForecast -> {
                 setIsWeatherForecastLoading()
-                viewModelScope.launch {
-                    fetchLocation().collect { locationValue ->
-                        location = locationValue
-                        getWeatherForecast(location)
+                locationRepository.locationStateFlow
+                    .onEach { locationValue ->
+                        if (locationValue != null) {
+                            location = locationValue
+                            getWeatherForecast(location)
+                        }
                     }
-                }
+                    .launchIn(viewModelScope)
             }
         }
     }
@@ -93,25 +97,21 @@ class HomeScreenViewModel @Inject constructor(
      * if the result is null, it gets from the remote source.
      * @see refreshForecastData
      */
-    //fun getWeatherForecast(cityId: Int?) {
     private fun getWeatherForecast(locationModel: LocationModel) {
-        //state = state.copy(isLoadingForecast = true, isRefreshing = false)
         setIsWeatherForecastLoading()
         viewModelScope.launch {
             when (val result = weatherUseCases.getWeatherForecast(locationModel, false)) {
                 is Result.Success -> {
                     if (!result.data.isNullOrEmpty()) {
-                        val forecasts = result.data
                         _homeScreenState.update { currentState ->
                             currentState.copy(
                                 isLoadingForecast = false,
-                                weatherForecastList = forecasts,
+                                weatherForecastList = result.data,
                                 error = null
                             )
                         }
                     } else {
                         refreshForecastData(location)
-                        //refreshForecastData(cityId)
                     }
                 }
 
@@ -123,6 +123,7 @@ class HomeScreenViewModel @Inject constructor(
                 is Result.Error ->
                     _homeScreenState.update { currentState ->
                         currentState.copy(
+                            isRefreshing = false,
                             isLoadingForecast = false,
                             error = result.exception.toString()
                         )
@@ -132,27 +133,19 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-    //fun refreshForecastData(cityId: Int?) {
     private fun refreshForecastData(locationModel: LocationModel) {
         setIsWeatherForecastLoading()
         viewModelScope.launch {
             when (val result = weatherUseCases.getWeatherForecast(locationModel, true)) {
                 is Result.Success -> {
                     if (result.data != null) {
-                        val forecast = result.data.onEach { forecast ->
-                            forecast.networkWeatherCondition.temp =
-                                convertKelvinToCelsius(forecast.networkWeatherCondition.temp)
-                            forecast.date = forecast.date.formatDate().toString()
-                        }
                         _homeScreenState.update { currentState ->
                             currentState.copy(
                                 isLoadingForecast = false,
-                                weatherForecastList = forecast,
+                                weatherForecastList = result.data,
                                 error = null
                             )
                         }
-                        weatherUseCases.deleteWeatherForecast.invoke()
-                        weatherUseCases.storeWeatherForecast.invoke(forecast)
                     } else {
                         refreshForecastData(locationModel)
                     }
@@ -160,6 +153,7 @@ class HomeScreenViewModel @Inject constructor(
 
                 is Result.Error -> _homeScreenState.update { currentState ->
                     currentState.copy(
+                        isRefreshing = false,
                         isLoadingForecast = false,
                         error = result.exception.toString()
                     )
@@ -193,7 +187,11 @@ class HomeScreenViewModel @Inject constructor(
                 }
 
                 is Result.Error -> _homeScreenState.update { currentState ->
-                    currentState.copy(isLoading = false, error = result.exception.toString())
+                    currentState.copy(
+                        isRefreshing = false,
+                        isLoading = false,
+                        error = result.exception.toString()
+                    )
                 }
 
                 is Result.Loading -> _homeScreenState.update { currentState ->
@@ -201,14 +199,6 @@ class HomeScreenViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    fun currentSystemTime(): String {
-        val currentTime = System.currentTimeMillis()
-        val date = Date(currentTime)
-        val dateFormat = SimpleDateFormat("EEEE MMM d, hh:mm aaa")
-        return dateFormat.format(date)
     }
 
     /**
@@ -221,20 +211,14 @@ class HomeScreenViewModel @Inject constructor(
             when (val result = weatherUseCases.getWeather(locationModel, true)) {
                 is Result.Success -> {
                     if (result.data != null) {
-                        val weather = result.data.apply {
-                            this.networkWeatherCondition.temp =
-                                convertKelvinToCelsius(this.networkWeatherCondition.temp)
-                            this.networkWeatherCondition.tempMax =
-                                convertKelvinToCelsius(this.networkWeatherCondition.tempMax)
-                            this.networkWeatherCondition.tempMin =
-                                convertKelvinToCelsius(this.networkWeatherCondition.tempMin)
-                        }
                         _homeScreenState.update { currentState ->
-                            currentState.copy(isLoading = false, weather = weather, error = null)
+                            currentState.copy(
+                                isLoading = false,
+                                weather = result.data,
+                                error = null
+                            )
                         }
                         refreshForecastData(locationModel)
-                        weatherUseCases.deleteWeatherData.invoke()
-                        weatherUseCases.storeWeatherData.invoke(weather)
                     } else {
                         _homeScreenState.update { currentState ->
                             currentState.copy(isLoading = false, error = "No weather data")
@@ -243,7 +227,7 @@ class HomeScreenViewModel @Inject constructor(
                 }
 
                 is Result.Error -> _homeScreenState.update { currentState ->
-                    currentState.copy(isLoading = false, error = result.exception.toString())
+                    currentState.copy(isRefreshing = false, isLoading = false, error = result.exception.toString())
                 }
 
                 is Result.Loading -> _homeScreenState.update { currentState ->
@@ -271,10 +255,21 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-    private fun fetchLocation() = locationLiveData.asFlow().distinctUntilChanged().take(1)
-
     fun getSharedPrefs(): SharedPreferenceHelper {
         return getPrefsUseCase.invoke()
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun currentSystemTime(): String {
+        val currentTime = System.currentTimeMillis()
+        val date = Date(currentTime)
+        val dateFormat = SimpleDateFormat("EEEE MMM d, hh:mm aaa")
+        return dateFormat.format(date)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        locationRepository.stopLocationUpdates()
     }
 
     private fun setupWorkManager() {
