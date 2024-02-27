@@ -74,6 +74,8 @@ google-accompanist = "0.21.1-beta"
 composable-sweet-toast = "1.0.1"
 #lottie-compose-animation
 lottie-compose = "5.2.0"
+#google-maps-compose
+maps-compose = "4.3.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -171,6 +173,8 @@ google-accompanist-swipe-refresh = { group = "com.google.accompanist", name = "a
 composable-sweet-toast = { group = "com.github.TalhaFaki", name = "ComposableSweetToast", version.ref = "composable-sweet-toast" }
 #lottie-compose
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie-compose" }
+#google-maps-compose
+maps-compose = { group = "com.google.maps.android",name = "maps-compose", version.ref = "maps-compose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

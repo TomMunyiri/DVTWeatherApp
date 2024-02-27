@@ -7,10 +7,15 @@ import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.usecases.GetSharedPreferencesUseCase
 import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
 import com.tommunyiri.dvtweatherapp.core.utils.Result
+import com.tommunyiri.dvtweatherapp.data.repository.LocationRepository
+import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
+import com.tommunyiri.dvtweatherapp.presentation.screens.home.HomeScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,6 +27,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class FavoritesScreenViewModel @Inject constructor(
+    private val locationRepository: LocationRepository,
     private val weatherUseCases: WeatherUseCases,
     private val prefs: GetSharedPreferencesUseCase
 ) : ViewModel() {
@@ -29,8 +35,12 @@ class FavoritesScreenViewModel @Inject constructor(
     private val _favoritesScreenState = MutableStateFlow(FavoritesScreenState())
     val favoritesScreenState: StateFlow<FavoritesScreenState> = _favoritesScreenState.asStateFlow()
 
+    private val _location = MutableStateFlow(LocationModel(0.00, 0.00))
+    val location: StateFlow<LocationModel> = _location.asStateFlow()
+
     init {
         getFavoriteLocations()
+        getCurrentLocation()
     }
 
     fun onEvent(event: FavoritesScreenEvent) {
@@ -183,10 +193,22 @@ class FavoritesScreenViewModel @Inject constructor(
         _favoritesScreenState.update { currentState ->
             currentState.copy(favoriteLocationsList = null)
         }
+        locationRepository.stopLocationUpdates()
     }
 
     fun getSharedPrefs(): SharedPreferenceHelper {
         return prefs.invoke()
+    }
+
+    private fun getCurrentLocation() {
+        locationRepository.startLocationUpdates()
+        locationRepository.locationStateFlow
+            .onEach { locationValue ->
+                if (locationValue != null) {
+                    _location.update { locationValue }
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
 }
