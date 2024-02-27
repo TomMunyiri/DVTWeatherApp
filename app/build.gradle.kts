@@ -189,10 +189,6 @@ dependencies {
     //jetpack-compose
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
-    implementation(libs.coil.compose)
-    implementation(libs.vico.compose)
-    implementation(libs.vico.compose.m3)
-    implementation(libs.vico.core)
     implementation(libs.androidx.material3.window.size)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
@@ -208,7 +204,6 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.runtime.livedata)
-    implementation(libs.androidx.ui.text.google.fonts)
     //accompanist-permissions
     implementation(libs.google.accompanist.permissions)
     //accompanist-swipe-refresh
