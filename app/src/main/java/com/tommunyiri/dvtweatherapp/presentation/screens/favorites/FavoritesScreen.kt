@@ -1,10 +1,8 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.favorites
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -47,13 +45,12 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
-import com.talhafaki.composablesweettoast.util.SweetToastUtil.SweetError
-import com.talhafaki.composablesweettoast.util.SweetToastUtil.SweetSuccess
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.ScreenTitle
+import com.tommunyiri.dvtweatherapp.presentation.composables.SweetToast
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
 
@@ -76,6 +73,7 @@ fun FavoritesScreen(
 
     var openDialogSuccess by remember { mutableStateOf(false) }
     var openDialogError by remember { mutableStateOf(false) }
+    var openDialogErrorState by remember { mutableStateOf(false) }
 
     var showMap by remember { mutableStateOf(false) }
 
@@ -86,6 +84,10 @@ fun FavoritesScreen(
                 viewModel.onEvent(FavoritesScreenEvent.GetFavorites)
             } else if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
                 viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
+                viewModel.onEvent(FavoritesScreenEvent.ClearError)
+                openDialogError = false
+                openDialogSuccess = false
+                openDialogErrorState = false
             }
         }
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
@@ -100,21 +102,38 @@ fun FavoritesScreen(
         }
     }
 
+    if (openDialogSuccess) {
+        openDialogSuccess = false
+        SweetToast(text = stringResource(id = R.string.removed_from_favorites), success = true)
+    }
+    if (openDialogError) {
+        openDialogError = false
+        SweetToast(
+            text = stringResource(id = R.string.error_removing_from_favorites),
+            success = false
+        )
+    }
+
+    if (state.error != null) {
+        openDialogErrorState = true
+        SweetToast(text = state.error.toString(), success = false)
+    }
+
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = { showMap = !showMap },
             modifier = Modifier.padding(bottom = 80.dp)
         ) {
-            if (showMap) {
+            if (showMap)
                 Icon(Icons.AutoMirrored.Filled.ViewList, contentDescription = "List")
-            } else {
+            else
                 Icon(Icons.Default.Map, contentDescription = "Map")
-            }
         }
     }) { contentPadding ->
         if (state.isLoading) {
             LoadingIndicator()
         }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -125,29 +144,30 @@ fun FavoritesScreen(
                 Modifier.padding(top = 15.dp, start = 15.dp, end = 20.dp)
             )
             state.favoriteLocationsList?.let { favoriteLocationsList ->
-                if (favoriteLocationsList.isNotEmpty()) {
-                    if (showMap) {
-                        FavoriteLocationsMap(favoriteLocationsList, viewModel, currentLocation)
-                    } else {
-                        FavoriteLocationsList(
-                            favoriteLocationsList = favoriteLocationsList,
-                            viewModel = viewModel
-                        )
-                    }
+                when {
+                    favoriteLocationsList.isNotEmpty() ->
+                        if (showMap) {
+                            FavoriteLocationsMap(favoriteLocationsList, viewModel, currentLocation)
+                        } else {
+                            FavoriteLocationsList(
+                                favoriteLocationsList = favoriteLocationsList,
+                                viewModel = viewModel
+                            )
+                        }
 
-                } else {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(bottom = 80.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.zero_favorites_text),
-                            style = typography.titleMedium,
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                    else ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(bottom = 80.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.zero_favorites_text),
+                                style = typography.titleMedium,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                 }
             }
         }
@@ -168,34 +188,19 @@ fun FavoritesScreen(
             }
         }
         state.deleteFavoriteResult?.let {
-            if (it == 1) {
-                showBottomSheet = false
-                openDialogSuccess = true
-                viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
-            } else if (it == 0) {
-                openDialogError = true
-                viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
+            when (it) {
+                1 -> {
+                    showBottomSheet = false
+                    openDialogSuccess = true
+                    viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
+                }
+
+                0 -> {
+                    openDialogError = true
+                    viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
+                }
             }
         }
-    }
-
-    if (openDialogSuccess) {
-        openDialogSuccess = false
-        SweetSuccess(
-            message = stringResource(id = R.string.removed_from_favorites),
-            duration = Toast.LENGTH_SHORT,
-            padding = PaddingValues(top = 16.dp),
-            contentAlignment = Alignment.TopCenter
-        )
-    }
-    if (openDialogError) {
-        openDialogError = false
-        SweetError(
-            message = stringResource(id = R.string.error_removing_from_favorites),
-            duration = Toast.LENGTH_SHORT,
-            padding = PaddingValues(top = 16.dp),
-            contentAlignment = Alignment.TopCenter
-        )
     }
 }
 

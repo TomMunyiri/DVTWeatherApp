@@ -1,9 +1,7 @@
 package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -29,7 +27,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -44,10 +41,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.algolia.instantsearch.android.paging3.flow
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
-import com.talhafaki.composablesweettoast.util.SweetToastUtil
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
+import com.tommunyiri.dvtweatherapp.presentation.composables.SweetToast
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
 import kotlinx.coroutines.launch
@@ -80,6 +77,9 @@ fun SearchScreen(
         val lifecycleObserver = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
                 viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
+                viewModel.onEvent(SearchScreenEvent.ClearError)
+                openDialogError = false
+                openDialogSuccess = false
             }
         }
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
@@ -93,23 +93,18 @@ fun SearchScreen(
         LoadingIndicator()
     }
 
+    if (state.error != null) {
+        openDialogError = true
+        SweetToast(text = state.error.toString(), success = false)
+    }
+
     if (openDialogSuccess) {
         openDialogSuccess = false
-        SweetToastUtil.SweetSuccess(
-            message = stringResource(id = R.string.added_to_favorites),
-            duration = Toast.LENGTH_SHORT,
-            padding = PaddingValues(top = 16.dp),
-            contentAlignment = Alignment.TopCenter
-        )
+        SweetToast(text = stringResource(id = R.string.added_to_favorites), success = true)
     }
     if (openDialogError) {
         openDialogError = false
-        SweetToastUtil.SweetError(
-            message = stringResource(id = R.string.error_adding_to_favorites),
-            duration = Toast.LENGTH_SHORT,
-            padding = PaddingValues(top = 16.dp),
-            contentAlignment = Alignment.TopCenter
-        )
+        SweetToast(text = stringResource(id = R.string.error_adding_to_favorites), success = false)
     }
 
     Column(modifier = Modifier.padding(top = 45.dp, bottom = 80.dp)) {
@@ -133,7 +128,7 @@ fun SearchScreen(
         LazyColumn(modifier = Modifier.fillMaxSize(), listState) {
             items(pagingHits.itemCount) { item ->
                 val searchItem = pagingHits[item]
-                if (searchItem != null) {
+                searchItem?.let {
                     Text(
                         modifier = Modifier
                             .fillMaxSize()

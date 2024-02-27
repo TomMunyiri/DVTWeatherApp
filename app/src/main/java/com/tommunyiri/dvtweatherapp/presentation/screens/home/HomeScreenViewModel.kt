@@ -80,7 +80,7 @@ class HomeScreenViewModel @Inject constructor(
                     .launchIn(viewModelScope)
             }
 
-            HomeScreenEvent.GetForecast -> {
+            is HomeScreenEvent.GetForecast -> {
                 setIsWeatherForecastLoading()
                 locationRepository.locationStateFlow.take(1)
                     .onEach { locationValue ->
@@ -90,6 +90,12 @@ class HomeScreenViewModel @Inject constructor(
                         }
                     }
                     .launchIn(viewModelScope)
+            }
+
+            is HomeScreenEvent.ClearError -> _homeScreenState.update { currentState ->
+                currentState.copy(
+                    error = null
+                )
             }
         }
     }

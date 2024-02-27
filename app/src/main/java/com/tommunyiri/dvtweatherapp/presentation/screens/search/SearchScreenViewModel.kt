@@ -95,6 +95,12 @@ class SearchScreenViewModel @Inject constructor(
             is SearchScreenEvent.ResetAddToFavoriteResult -> _searchScreenState.update { currentState ->
                 currentState.copy(addToFavoriteResult = null)
             }
+
+            is SearchScreenEvent.ClearError -> _searchScreenState.update { currentState ->
+                currentState.copy(
+                    error = null
+                )
+            }
         }
     }
 

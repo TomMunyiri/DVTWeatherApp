@@ -10,4 +10,5 @@ package com.tommunyiri.dvtweatherapp.presentation.screens.home
 sealed class HomeScreenEvent {
     data object Refresh : HomeScreenEvent()
     data object GetForecast : HomeScreenEvent()
+    data object ClearError : HomeScreenEvent()
 }

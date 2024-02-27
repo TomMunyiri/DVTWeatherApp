@@ -12,4 +12,5 @@ sealed class FavoritesScreenEvent {
     data object GetFavorites : FavoritesScreenEvent()
     data object ResetWeather : FavoritesScreenEvent()
     data object ResetDeleteFavoriteResult : FavoritesScreenEvent()
+    data object ClearError : FavoritesScreenEvent()
 }

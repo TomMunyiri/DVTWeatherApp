@@ -65,6 +65,12 @@ class FavoritesScreenViewModel @Inject constructor(
             is FavoritesScreenEvent.ResetDeleteFavoriteResult -> _favoritesScreenState.update { currentState ->
                 currentState.copy(deleteFavoriteResult = null)
             }
+
+            is FavoritesScreenEvent.ClearError -> _favoritesScreenState.update { currentState ->
+                currentState.copy(
+                    error = null
+                )
+            }
         }
     }
 
