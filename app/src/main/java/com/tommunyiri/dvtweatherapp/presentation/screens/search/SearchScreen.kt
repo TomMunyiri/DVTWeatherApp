@@ -2,7 +2,6 @@ package com.tommunyiri.dvtweatherapp.presentation.screens.search
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -51,7 +49,6 @@ import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
 import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
-import com.tommunyiri.dvtweatherapp.presentation.screens.favorites.FavoritesScreenEvent
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
 import kotlinx.coroutines.launch
 
@@ -183,7 +180,7 @@ fun SearchScreen(
                             )
                         )
                     )
-                })
+                }, true)
             }
         }
 

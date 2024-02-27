@@ -22,8 +22,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tommunyiri.dvtweatherapp.R
-import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getFormattedTemperature
 
@@ -36,16 +36,17 @@ import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.ge
 
 @Composable
 fun WeatherBottomSheetContent(
-    weather: Weather,
-    prefs: SharedPreferenceHelper,
-    onFavoriteClicked: (weather: Weather) -> Unit
+    weather: Weather, prefs: SharedPreferenceHelper,
+    onFavoriteClicked: (weather: Weather) -> Unit, addToFavorite: Boolean
 ) {
     Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 40.dp)) {
         // Sheet content
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
             Image(
-                painter = painterResource(id = R.drawable.favorite_24),
-                contentDescription = stringResource(id = R.string.add_to_favorites),
+                painter = if (addToFavorite) painterResource(id = R.drawable.favorite_24) else painterResource(
+                    id = R.drawable.favorite_border_24
+                ),
+                contentDescription = stringResource(id = R.string.remove_from_favorites),
                 alignment = Alignment.TopEnd, modifier = Modifier
                     .padding(end = 15.dp)
                     .clickable { onFavoriteClicked(weather) },
