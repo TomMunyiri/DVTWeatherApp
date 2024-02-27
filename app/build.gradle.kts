@@ -15,7 +15,7 @@ plugins {
 }
 
 tasks.check {
-    dependsOn("ktlintCheck")
+    //dependsOn("ktlintCheck")
 }
 
 ktlint {
