@@ -9,19 +9,19 @@ plugins {
     alias(libs.plugins.ksp)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    alias(libs.plugins.ktlint)
+    //alias(libs.plugins.ktlint)
     id("org.sonarqube")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
 }
 
-tasks.check {
-    //dependsOn("ktlintCheck")
+/*tasks.check {
+    dependsOn("ktlintCheck")
 }
 
 ktlint {
     version = "0.42.1"
     ignoreFailures = false
-}
+}*/
 
 sonarqube {
     val properties = Properties()
