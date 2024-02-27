@@ -15,10 +15,10 @@ import androidx.compose.ui.unit.dp
  */
 
 @Composable
-fun ScreenTitle(text: String) {
+fun ScreenTitle(text: String, modifier: Modifier) {
     Text(
         text = text,
         style = MaterialTheme.typography.headlineMedium,
-        modifier = Modifier.padding(top = 50.dp, start = 15.dp, end = 20.dp)
+        modifier = modifier
     )
 }

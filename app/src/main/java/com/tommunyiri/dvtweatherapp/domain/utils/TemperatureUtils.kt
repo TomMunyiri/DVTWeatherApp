@@ -17,6 +17,6 @@ import java.text.DecimalFormat
 fun convertKelvinToCelsius(number: Number): Double {
     return DecimalFormat().run {
         applyPattern(".##")
-        parse(format(number.toDouble().minus(273))).toDouble()
+        parse(format(number.toDouble().minus(273)))?.toDouble() ?: 0.00
     }
 }

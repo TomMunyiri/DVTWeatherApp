@@ -1,7 +1,7 @@
 package com.tommunyiri.dvtweatherapp.domain.model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created by Tom Munyiri on 18/01/2024.

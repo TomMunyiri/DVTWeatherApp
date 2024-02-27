@@ -88,8 +88,13 @@ fun FavoritesScreen(
         if (state.isLoading) {
             LoadingIndicator()
         }
-        Column(modifier = Modifier.fillMaxSize()) {
-            ScreenTitle(text = stringResource(id = R.string.favorite))
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(contentPadding)) {
+            ScreenTitle(
+                text = stringResource(id = R.string.favorite),
+                Modifier.padding(top = 15.dp, start = 15.dp, end = 20.dp)
+            )
             state.favoriteLocationsList?.let { favoriteLocationsList ->
                 if (favoriteLocationsList.isNotEmpty()) {
                     FavoriteLocationsList(
