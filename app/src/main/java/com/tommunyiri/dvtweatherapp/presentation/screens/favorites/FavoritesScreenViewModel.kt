@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
-import com.tommunyiri.dvtweatherapp.domain.usecases.GetSharedPreferencesUseCase
-import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
+import com.tommunyiri.dvtweatherapp.domain.usecases.preferences.GetSharedPreferencesUseCase
+import com.tommunyiri.dvtweatherapp.domain.usecases.weather.WeatherUseCases
 import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.data.repository.LocationRepository
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
-import com.tommunyiri.dvtweatherapp.presentation.screens.home.HomeScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

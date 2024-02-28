@@ -1,4 +1,8 @@
-package com.tommunyiri.dvtweatherapp.domain.usecases
+package com.tommunyiri.dvtweatherapp.domain.usecases.weather
+
+import com.tommunyiri.dvtweatherapp.domain.usecases.favorites.DeleteFavoriteLocationUseCase
+import com.tommunyiri.dvtweatherapp.domain.usecases.favorites.GetFavoriteLocationsUseCase
+import com.tommunyiri.dvtweatherapp.domain.usecases.favorites.SaveFavoriteLocationUseCase
 
 
 /**

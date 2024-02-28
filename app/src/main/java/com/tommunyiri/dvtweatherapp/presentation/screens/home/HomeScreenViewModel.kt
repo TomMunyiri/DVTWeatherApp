@@ -14,8 +14,8 @@ import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPrefere
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
-import com.tommunyiri.dvtweatherapp.domain.usecases.GetSharedPreferencesUseCase
-import com.tommunyiri.dvtweatherapp.domain.usecases.WeatherUseCases
+import com.tommunyiri.dvtweatherapp.domain.usecases.preferences.GetSharedPreferencesUseCase
+import com.tommunyiri.dvtweatherapp.domain.usecases.weather.WeatherUseCases
 import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.core.worker.UpdateWeatherWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch

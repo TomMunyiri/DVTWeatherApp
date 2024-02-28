@@ -192,3 +192,5 @@ s
 Capp/src/main/java/com/tommunyiri/dvtweatherapp/core/utils/Result.kt,8/b/8b348e42c14a35bd6137dac87abfb24f398aa8ec
 …
 Uapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/SweetToast.kt,b/a/ba8348e5f9d47f4753ba142cd1d889c3d7cc188c
+‰
+Yapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/WeatherUseCases.kt,1/9/19ad4ed2104215f06a28f26b84a0e1b3043eafce

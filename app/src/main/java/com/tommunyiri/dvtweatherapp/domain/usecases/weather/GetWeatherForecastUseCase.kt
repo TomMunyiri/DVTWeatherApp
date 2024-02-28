@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.domain.usecases
+package com.tommunyiri.dvtweatherapp.domain.usecases.weather
 
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast

@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.domain.usecases
+package com.tommunyiri.dvtweatherapp.domain.usecases.preferences
 
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 

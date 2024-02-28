@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.domain.usecases
+package com.tommunyiri.dvtweatherapp.domain.usecases.favorites
 
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 import com.tommunyiri.dvtweatherapp.core.utils.Result
