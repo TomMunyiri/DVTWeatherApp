@@ -11,7 +11,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.tommunyiri.dvtweatherapp.presentation.navigation.nav.NavItem
 
 /**
@@ -22,20 +24,21 @@ import com.tommunyiri.dvtweatherapp.presentation.navigation.nav.NavItem
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     val navItems = listOf(NavItem.Home, NavItem.Search, NavItem.Favorites, NavItem.Settings)
-    var selectedItem by rememberSaveable { mutableIntStateOf(0) }
+
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
 
     NavigationBar(containerColor = Color.Transparent) {
-        navItems.forEachIndexed { index, item ->
+        navItems.forEach { item ->
             NavigationBarItem(
                 alwaysShowLabel = true,
                 icon = { Icon(item.icon, contentDescription = item.title) },
                 label = { Text(item.title, fontWeight = FontWeight.SemiBold) },
-                selected = selectedItem == index,
+                selected = currentRoute == item.path,
                 onClick = {
-                    selectedItem = index
                     navController.navigate(item.path) {
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) { saveState = true }
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
                         }
                         launchSingleTop = true
                         restoreState = true
