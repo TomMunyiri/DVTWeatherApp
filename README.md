@@ -4,7 +4,7 @@ An Android weather application implemented using the MVVM pattern and clean arch
 
 ## Architecture
 The architecture of this application relies and complies with the following points below:
-* Pattern [Model-View-ViewModel](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)(MVVM) which facilitates a separation of development of the graphical user interface.
+* Pattern [Model-View-ViewModel](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)(MVVM) which facilitates separation of different layers of the application.
 * [Android architecture components](https://developer.android.com/topic/libraries/architecture/) which help to keep the application robust, testable, and maintainable.
 
 <p align="center"><a><img src="https://github.com/TomMunyiri/DVTWeatherApp/blob/main/media/clean_architecture.png" width="700" alt="clean_architecture_image"></a></p>
