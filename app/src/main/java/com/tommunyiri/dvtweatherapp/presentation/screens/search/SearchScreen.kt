@@ -72,6 +72,7 @@ fun SearchScreen(
 
     var openDialogSuccess by remember { mutableStateOf(false) }
     var openDialogError by remember { mutableStateOf(false) }
+    var openDialogErrorState by remember { mutableStateOf(false) }
 
     DisposableEffect(lifecycleOwner) {
         val lifecycleObserver = LifecycleEventObserver { _, event ->
@@ -80,6 +81,7 @@ fun SearchScreen(
                 viewModel.onEvent(SearchScreenEvent.ClearError)
                 openDialogError = false
                 openDialogSuccess = false
+                openDialogErrorState = false
             }
         }
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
@@ -94,7 +96,7 @@ fun SearchScreen(
     }
 
     if (state.error != null) {
-        openDialogError = true
+        openDialogErrorState = true
         SweetToast(text = state.error.toString(), success = false)
     }
 
