@@ -110,7 +110,7 @@ Check the results on (http://localhost:9000) after the analysis is complete.
 <img src="media/jetpack_home.png"  width="250"/> <img src="media/jetpack_favorites_weather_display_light.png"  width="250"/> <img src="media/jetpack_settings_light.png" width="250"/>
 
 ### Dark Theme
-<img src="media/jetpack_map_dark.png"  width="250"/> <img src="media/jetpack_map_dark.png"  width="250"/> <img src="media/jetpack_search_dark.png" width="250"/>
+<img src="media/jetpack_map_dark.png"  width="250"/> <img src="media/jetpack_map_weather_display_dark.png"  width="250"/> <img src="media/jetpack_search_dark.png" width="250"/>
 
 [//]: # (## Contribution)
 
