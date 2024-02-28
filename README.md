@@ -101,10 +101,6 @@ Check the results on (http://localhost:9000) after the analysis is complete.
 
 * [Icon Kitchen](https://icon.kitchen/) was used to generate the launcher icon.
 
-## TODO
-* Add proguard rules
-* Enable obfuscation and disable debuggable for release builds
-
 ## Screenshots
 ### Light Theme
 <img src="media/jetpack_home.png"  width="250"/> <img src="media/jetpack_favorites_weather_display_light.png"  width="250"/> <img src="media/jetpack_settings_light.png" width="250"/>

@@ -6,12 +6,12 @@ import com.google.gson.reflect.TypeToken
 import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherDescription
 import java.lang.reflect.Type
 
-
 /**
  * Created by Tom Munyiri on 18/01/2024.
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
+
 class ListNetworkWeatherDescriptionConverter {
     val gson = Gson()
 
