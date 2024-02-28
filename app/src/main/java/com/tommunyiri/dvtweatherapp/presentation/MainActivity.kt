@@ -57,8 +57,11 @@ class MainActivity() : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     CheckPermissions(onThemeUpdated = {
-                        darkModeState?.let {
-                            darkModeState = !it
+                        val newSavedTheme = theme?.let { ThemeManager.getTheme(this) }
+                        if (newSavedTheme != darkModeState) {
+                            darkModeState?.let {
+                                darkModeState = !it
+                            }
                         }
                     })
                 }
