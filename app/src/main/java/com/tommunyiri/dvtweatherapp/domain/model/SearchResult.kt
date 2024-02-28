@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
+
 @Serializable
 data class SearchResult(
     val name: String,

@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
  * Email: munyiri.thomas@eclectics.io
  */
 
+
 data class NetworkWeather(
 
     val uId: Int,

@@ -138,12 +138,15 @@ class SearchScreenViewModel @Inject constructor(
                     }
                 }
 
-                is Result.Error -> _searchScreenState.update { currentState ->
-                    currentState.copy(
-                        weather = null,
-                        isLoading = false,
-                        error = result.exception.toString()
-                    )
+                is Result.Error -> {
+                    _searchScreenState.update { currentState ->
+                        currentState.copy(
+                            weather = null,
+                            isLoading = false,
+                            error = result.exception.toString()
+                        )
+                    }
+                    Log.d("TAG", "getSearchWeather: ${result.exception}")
                 }
 
                 else -> _searchScreenState.update { currentState ->

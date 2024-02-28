@@ -194,3 +194,5 @@ Capp/src/main/java/com/tommunyiri/dvtweatherapp/core/utils/Result.kt,8/b/8b348e
 Uapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/SweetToast.kt,b/a/ba8348e5f9d47f4753ba142cd1d889c3d7cc188c
 ‰
 Yapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/WeatherUseCases.kt,1/9/19ad4ed2104215f06a28f26b84a0e1b3043eafce
+´
+ƒapp/src/main/java/com/tommunyiri/dvtweatherapp/data/sources/local/database/typeconverters/ListNetworkWeatherDescriptionConverter.kt,a/7/a76608243d45d2df0c40b184a781078aa8fa3ea0
