@@ -1,14 +1,12 @@
-package com.tommunyiri.dvtweatherapp.presentation.composables
+package com.tommunyiri.dvtweatherapp.presentation.components
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.talhafaki.composablesweettoast.util.SweetToastUtil
 import com.talhafaki.composablesweettoast.util.SweetToastUtil.SweetSuccess
-import com.tommunyiri.dvtweatherapp.R
 
 
 /**

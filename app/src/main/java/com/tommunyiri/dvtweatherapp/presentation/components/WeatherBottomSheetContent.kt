@@ -1,4 +1,4 @@
-package com.tommunyiri.dvtweatherapp.presentation.composables
+package com.tommunyiri.dvtweatherapp.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

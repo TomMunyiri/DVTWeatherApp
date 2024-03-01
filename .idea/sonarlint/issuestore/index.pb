@@ -172,3 +172,11 @@ Uapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/SweetTo
 Yapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/WeatherUseCases.kt,1/9/19ad4ed2104215f06a28f26b84a0e1b3043eafce
 ´
 ƒapp/src/main/java/com/tommunyiri/dvtweatherapp/data/sources/local/database/typeconverters/ListNetworkWeatherDescriptionConverter.kt,a/7/a76608243d45d2df0c40b184a781078aa8fa3ea0
+„
+Tapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/composables/TopAppBar.kt,5/8/5873ddb5ad0401687f5bd3daa1a37a184c2e5550
+ƒ
+Sapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/components/TopAppBar.kt,f/a/fa2f4da60f28225aca554218672bc246917643d7
+…
+Uapp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/components/ScreenTitle.kt,4/0/402d95333fb31407db9628b1204a57d7d03dd7ce
+w
+G.idea/sonarlint/issuestore/1/2/12e41b6538e9b1933ee4280a2fa0aa1b1b23eb5b,a/b/ab651fa8a90bc69251d0de3c967fb0da48b7db54

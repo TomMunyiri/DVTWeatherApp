@@ -40,9 +40,9 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
-import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
-import com.tommunyiri.dvtweatherapp.presentation.composables.SweetToast
-import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherForecastItem
+import com.tommunyiri.dvtweatherapp.presentation.components.LoadingIndicator
+import com.tommunyiri.dvtweatherapp.presentation.components.SweetToast
+import com.tommunyiri.dvtweatherapp.presentation.components.WeatherForecastItem
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundImage
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getFormattedTemperature
@@ -71,7 +71,6 @@ fun HomeScreen(
             lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
         }
     }
-
     if (state.isLoading) {
         LoadingIndicator()
     }
@@ -87,8 +86,8 @@ fun HomeScreen(
             prefs.saveCityId(weather.cityId)
             Column(
                 modifier = Modifier
-                    .background(screenBackgroundColor)
                     .fillMaxSize()
+                    .background(screenBackgroundColor)
             ) {
                 TopHeader(weather, prefs, viewModel)
                 TempSection(weather, prefs)
