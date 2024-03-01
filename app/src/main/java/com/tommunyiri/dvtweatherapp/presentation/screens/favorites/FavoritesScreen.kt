@@ -38,6 +38,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -48,10 +49,10 @@ import com.google.maps.android.compose.rememberMarkerState
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
-import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
-import com.tommunyiri.dvtweatherapp.presentation.composables.ScreenTitle
-import com.tommunyiri.dvtweatherapp.presentation.composables.SweetToast
-import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
+import com.tommunyiri.dvtweatherapp.presentation.components.LoadingIndicator
+import com.tommunyiri.dvtweatherapp.presentation.components.SweetToast
+import com.tommunyiri.dvtweatherapp.presentation.components.TopAppBarComponent
+import com.tommunyiri.dvtweatherapp.presentation.components.WeatherBottomSheetContent
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
 
 /**
@@ -60,6 +61,7 @@ import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.ge
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(
+    navController: NavHostController,
     viewModel: FavoritesScreenViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
@@ -129,6 +131,11 @@ fun FavoritesScreen(
             else
                 Icon(Icons.Default.Map, contentDescription = "Map")
         }
+    }, topBar = {
+        TopAppBarComponent(
+            title = stringResource(id = R.string.favorite),
+            onBackButtonClick = { navController.popBackStack() }
+        )
     }) { contentPadding ->
         if (state.isLoading) {
             LoadingIndicator()
@@ -139,10 +146,6 @@ fun FavoritesScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
         ) {
-            ScreenTitle(
-                text = stringResource(id = R.string.favorite),
-                Modifier.padding(top = 15.dp, start = 15.dp, end = 20.dp)
-            )
             state.favoriteLocationsList?.let { favoriteLocationsList ->
                 when (favoriteLocationsList.isNotEmpty()) {
                     true ->

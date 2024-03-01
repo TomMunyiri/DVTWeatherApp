@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -27,14 +28,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.tommunyiri.dvtweatherapp.R
-import com.tommunyiri.dvtweatherapp.presentation.composables.ScreenTitle
-import com.tommunyiri.dvtweatherapp.presentation.composables.SingleInputDialog
-import com.tommunyiri.dvtweatherapp.presentation.composables.SingleSelectDialog
+import com.tommunyiri.dvtweatherapp.presentation.components.SingleInputDialog
+import com.tommunyiri.dvtweatherapp.presentation.components.SingleSelectDialog
+import com.tommunyiri.dvtweatherapp.presentation.components.TopAppBarComponent
 
 @Composable
 fun SettingsScreen(
     onThemeUpdated: () -> Unit,
+    navController: NavHostController,
     viewModel: SettingsScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.settingsScreenState.collectAsStateWithLifecycle()
@@ -84,24 +87,29 @@ fun SettingsScreen(
             onDismissRequest = { showCacheDurationDialog.value = false }
         )
     }
-    Column(modifier = Modifier.fillMaxSize()) {
-        ScreenTitle(
-            text = stringResource(id = R.string.settings),
-            Modifier.padding(top = 50.dp, start = 15.dp, end = 20.dp)
+    Scaffold(topBar = {
+        TopAppBarComponent(
+            title = stringResource(id = R.string.settings),
+            onBackButtonClick = { navController.popBackStack() }
         )
-        CacheDurationPreference(state, showCacheDurationDialog)
-        HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .width(1.dp)
-        )
-        ThemePreference(state, showThemeDialog)
-        HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .width(1.dp)
-        )
-        TemperatureUnitPreference(state, showTempDialog)
+    }) { contentPadding ->
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(contentPadding)) {
+            CacheDurationPreference(state, showCacheDurationDialog)
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .width(1.dp)
+            )
+            ThemePreference(state, showThemeDialog)
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .width(1.dp)
+            )
+            TemperatureUnitPreference(state, showTempDialog)
+        }
     }
 }
 

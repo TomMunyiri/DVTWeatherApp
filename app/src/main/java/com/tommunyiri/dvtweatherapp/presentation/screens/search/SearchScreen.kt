@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -38,14 +39,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.algolia.instantsearch.android.paging3.flow
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.tommunyiri.dvtweatherapp.R
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
-import com.tommunyiri.dvtweatherapp.presentation.composables.LoadingIndicator
-import com.tommunyiri.dvtweatherapp.presentation.composables.SweetToast
-import com.tommunyiri.dvtweatherapp.presentation.composables.WeatherBottomSheetContent
+import com.tommunyiri.dvtweatherapp.presentation.components.LoadingIndicator
+import com.tommunyiri.dvtweatherapp.presentation.components.SweetToast
+import com.tommunyiri.dvtweatherapp.presentation.components.TopAppBarComponent
+import com.tommunyiri.dvtweatherapp.presentation.components.WeatherBottomSheetContent
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getBackgroundColor
 import kotlinx.coroutines.launch
 
@@ -55,6 +58,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
+    navController: NavHostController,
     viewModel: SearchScreenViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
@@ -90,105 +94,120 @@ fun SearchScreen(
         }
     }
 
-
-    if (state.isLoading || pagingHits.itemCount == 0) {
-        LoadingIndicator()
-    }
-
-    if (state.error != null) {
-        openDialogErrorState = true
-        SweetToast(text = state.error.toString(), success = false)
-    }
-
-    if (openDialogSuccess) {
-        openDialogSuccess = false
-        SweetToast(text = stringResource(id = R.string.added_to_favorites), success = true)
-    }
-    if (openDialogError) {
-        openDialogError = false
-        SweetToast(text = stringResource(id = R.string.error_adding_to_favorites), success = false)
-    }
-
-    Column(modifier = Modifier.padding(top = 45.dp, bottom = 80.dp)) {
-        SearchBox(
-            modifier = Modifier
-                .padding(7.dp)
-                .fillMaxWidth(),
-            searchBoxState = searchBoxState,
-            onValueChange = { scope.launch { listState.scrollToItem(0) } },
+    Scaffold(topBar = {
+        TopAppBarComponent(
+            title = stringResource(id = R.string.search),
+            onBackButtonClick = { navController.popBackStack() }
         )
-        Stats(
-            modifier = Modifier.padding(
-                start = 15.dp,
-                end = 15.dp,
-                top = 5.dp,
-                bottom = 5.dp
-            ),
-            stats = statsText.stats
-        )
+    }) { contentPadding ->
+        if (state.isLoading || pagingHits.itemCount == 0) {
+            LoadingIndicator()
+        }
 
-        LazyColumn(modifier = Modifier.fillMaxSize(), listState) {
-            items(pagingHits.itemCount) { item ->
-                val searchItem = pagingHits[item]
-                searchItem?.let {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .fillMaxWidth()
-                            .padding(14.dp)
-                            .clickable {
-                                viewModel.apply {
-                                    viewModel.onEvent(SearchScreenEvent.ResetWeather)
-                                    onEvent(
-                                        SearchScreenEvent.GetWeather(
-                                            searchItem.name
+        if (state.error != null) {
+            openDialogErrorState = true
+            SweetToast(text = state.error.toString(), success = false)
+        }
+
+        if (openDialogSuccess) {
+            openDialogSuccess = false
+            SweetToast(text = stringResource(id = R.string.added_to_favorites), success = true)
+        }
+        if (openDialogError) {
+            openDialogError = false
+            SweetToast(
+                text = stringResource(id = R.string.error_adding_to_favorites),
+                success = false
+            )
+        }
+        Column(modifier = Modifier.padding(contentPadding)) {
+            SearchBox(
+                modifier = Modifier
+                    .padding(7.dp)
+                    .fillMaxWidth(),
+                searchBoxState = searchBoxState,
+                onValueChange = { scope.launch { listState.scrollToItem(0) } },
+            )
+            Stats(
+                modifier = Modifier.padding(
+                    start = 15.dp,
+                    end = 15.dp,
+                    top = 5.dp,
+                    bottom = 5.dp
+                ),
+                stats = statsText.stats
+            )
+
+            LazyColumn(modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 80.dp), listState) {
+                items(pagingHits.itemCount) { item ->
+                    val searchItem = pagingHits[item]
+                    searchItem?.let {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .fillMaxWidth()
+                                .padding(14.dp)
+                                .clickable {
+                                    viewModel.apply {
+                                        viewModel.onEvent(SearchScreenEvent.ResetWeather)
+                                        onEvent(
+                                            SearchScreenEvent.GetWeather(
+                                                searchItem.name
+                                            )
                                         )
-                                    )
-                                }
-                            },
-                        text = "${searchItem.name}, ${searchItem.country}",
-                        style = MaterialTheme.typography.bodyMedium
+                                    }
+                                },
+                            text = "${searchItem.name}, ${searchItem.country}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .width(1.dp)
                     )
                 }
-                HorizontalDivider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .width(1.dp)
-                )
             }
-        }
 
-        state.weather?.let { weather ->
-            val bottomSheetBackgroundColor = getBackgroundColor(weather)
-            ModalBottomSheet(
-                onDismissRequest = {
-                    showBottomSheet = false
-                    viewModel.onEvent(SearchScreenEvent.ResetWeather)
-                },
-                sheetState = sheetState,
-                containerColor = bottomSheetBackgroundColor
-            ) {
-                WeatherBottomSheetContent(weather = weather, prefs = prefs, onFavoriteClicked = {
-                    viewModel.onEvent(
-                        SearchScreenEvent.AddToFavorite(
-                            FavoriteLocation(
-                                it.name, it.networkWeatherCoordinates.lat,
-                                it.networkWeatherCoordinates.lon, it.networkSys.country
+            state.weather?.let { weather ->
+                val bottomSheetBackgroundColor = getBackgroundColor(weather)
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        showBottomSheet = false
+                        viewModel.onEvent(SearchScreenEvent.ResetWeather)
+                    },
+                    sheetState = sheetState,
+                    containerColor = bottomSheetBackgroundColor
+                ) {
+                    WeatherBottomSheetContent(
+                        weather = weather,
+                        prefs = prefs,
+                        onFavoriteClicked = {
+                            viewModel.onEvent(
+                                SearchScreenEvent.AddToFavorite(
+                                    FavoriteLocation(
+                                        it.name, it.networkWeatherCoordinates.lat,
+                                        it.networkWeatherCoordinates.lon, it.networkSys.country
+                                    )
+                                )
                             )
-                        )
+                        },
+                        true
                     )
-                }, true)
+                }
             }
-        }
 
-        state.addToFavoriteResult?.let {
-            if (it > 0) {
-                showBottomSheet = false
-                openDialogSuccess = true
-                viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
-            } else {
-                openDialogError = true
-                viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
+            state.addToFavoriteResult?.let {
+                if (it > 0) {
+                    showBottomSheet = false
+                    openDialogSuccess = true
+                    viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
+                } else {
+                    openDialogError = true
+                    viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
+                }
             }
         }
     }
