@@ -1,7 +1,5 @@
 package com.tommunyiri.dvtweatherapp.core.di.module
 
-import android.content.Context
-import com.tommunyiri.dvtweatherapp.data.repository.LocationRepository
 import com.tommunyiri.dvtweatherapp.data.repository.WeatherRepositoryImpl
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 import dagger.Binds
