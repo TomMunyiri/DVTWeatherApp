@@ -60,7 +60,7 @@ import kotlinx.coroutines.launch
 fun SearchScreen(
     navController: NavHostController,
     viewModel: SearchScreenViewModel = hiltViewModel(),
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -79,15 +79,16 @@ fun SearchScreen(
     var openDialogErrorState by remember { mutableStateOf(false) }
 
     DisposableEffect(lifecycleOwner) {
-        val lifecycleObserver = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
-                viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
-                viewModel.onEvent(SearchScreenEvent.ClearError)
-                openDialogError = false
-                openDialogSuccess = false
-                openDialogErrorState = false
+        val lifecycleObserver =
+            LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
+                    viewModel.onEvent(SearchScreenEvent.ResetAddToFavoriteResult)
+                    viewModel.onEvent(SearchScreenEvent.ClearError)
+                    openDialogError = false
+                    openDialogSuccess = false
+                    openDialogErrorState = false
+                }
             }
-        }
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
@@ -97,7 +98,7 @@ fun SearchScreen(
     Scaffold(topBar = {
         TopAppBarComponent(
             title = stringResource(id = R.string.search),
-            onBackButtonClick = { navController.popBackStack() }
+            onBackButtonClick = { navController.popBackStack() },
         )
     }) { contentPadding ->
         if (state.isLoading || pagingHits.itemCount == 0) {
@@ -117,56 +118,64 @@ fun SearchScreen(
             openDialogError = false
             SweetToast(
                 text = stringResource(id = R.string.error_adding_to_favorites),
-                success = false
+                success = false,
             )
         }
         Column(modifier = Modifier.padding(contentPadding)) {
             SearchBox(
-                modifier = Modifier
-                    .padding(7.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(7.dp)
+                        .fillMaxWidth(),
                 searchBoxState = searchBoxState,
                 onValueChange = { scope.launch { listState.scrollToItem(0) } },
             )
             Stats(
-                modifier = Modifier.padding(
-                    start = 15.dp,
-                    end = 15.dp,
-                    top = 5.dp,
-                    bottom = 5.dp
-                ),
-                stats = statsText.stats
+                modifier =
+                    Modifier.padding(
+                        start = 15.dp,
+                        end = 15.dp,
+                        top = 5.dp,
+                        bottom = 5.dp,
+                    ),
+                stats = statsText.stats,
             )
 
-            LazyColumn(modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 80.dp), listState) {
+            LazyColumn(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 80.dp),
+                listState,
+            ) {
                 items(pagingHits.itemCount) { item ->
                     val searchItem = pagingHits[item]
                     searchItem?.let {
                         Text(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .fillMaxWidth()
-                                .padding(14.dp)
-                                .clickable {
-                                    viewModel.apply {
-                                        viewModel.onEvent(SearchScreenEvent.ResetWeather)
-                                        onEvent(
-                                            SearchScreenEvent.GetWeather(
-                                                searchItem.name
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .fillMaxWidth()
+                                    .padding(14.dp)
+                                    .clickable {
+                                        viewModel.apply {
+                                            viewModel.onEvent(SearchScreenEvent.ResetWeather)
+                                            onEvent(
+                                                SearchScreenEvent.GetWeather(
+                                                    searchItem.name,
+                                                ),
                                             )
-                                        )
-                                    }
-                                },
+                                        }
+                                    },
                             text = "${searchItem.name}, ${searchItem.country}",
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.bodyMedium,
                         )
                     }
                     HorizontalDivider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .width(1.dp)
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .width(1.dp),
                     )
                 }
             }
@@ -179,7 +188,7 @@ fun SearchScreen(
                         viewModel.onEvent(SearchScreenEvent.ResetWeather)
                     },
                     sheetState = sheetState,
-                    containerColor = bottomSheetBackgroundColor
+                    containerColor = bottomSheetBackgroundColor,
                 ) {
                     WeatherBottomSheetContent(
                         weather = weather,
@@ -188,13 +197,15 @@ fun SearchScreen(
                             viewModel.onEvent(
                                 SearchScreenEvent.AddToFavorite(
                                     FavoriteLocation(
-                                        it.name, it.networkWeatherCoordinates.lat,
-                                        it.networkWeatherCoordinates.lon, it.networkSys.country
-                                    )
-                                )
+                                        it.name,
+                                        it.networkWeatherCoordinates.lat,
+                                        it.networkWeatherCoordinates.lon,
+                                        it.networkSys.country,
+                                    ),
+                                ),
                             )
                         },
-                        true
+                        true,
                     )
                 }
             }
@@ -215,8 +226,9 @@ fun SearchScreen(
 
 @Composable
 fun SearchBox(
-    modifier: Modifier = Modifier, searchBoxState: SearchBoxState = SearchBoxState(),
-    onValueChange: (String) -> Unit = {}
+    modifier: Modifier = Modifier,
+    searchBoxState: SearchBoxState = SearchBoxState(),
+    onValueChange: (String) -> Unit = {},
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -230,9 +242,10 @@ fun SearchBox(
         // set ime action to "search"
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         // set text as query submit on search action
-        keyboardActions = KeyboardActions(
-            onSearch = { searchBoxState.setText(searchBoxState.query, true) }
-        ),
+        keyboardActions =
+            KeyboardActions(
+                onSearch = { searchBoxState.setText(searchBoxState.query, true) },
+            ),
         placeholder = {
             Text(text = stringResource(id = R.string.enter_city_text))
         },
@@ -242,19 +255,22 @@ fun SearchBox(
             Icon(
                 imageVector = Icons.Default.Search,
                 tint = MaterialTheme.colorScheme.onSurface,
-                contentDescription = null
+                contentDescription = null,
             )
-        }
+        },
     )
 }
 
 @Composable
-fun Stats(modifier: Modifier = Modifier, stats: String) {
+fun Stats(
+    modifier: Modifier = Modifier,
+    stats: String,
+) {
     Text(
         fontWeight = FontWeight.SemiBold,
         modifier = modifier,
         text = stats,
         style = MaterialTheme.typography.titleSmall,
-        maxLines = 1
+        maxLines = 1,
     )
 }

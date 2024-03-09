@@ -19,6 +19,7 @@ import javax.inject.Inject
 class DVTWeatherApplication() : Application(), Configuration.Provider {
     @Inject
     lateinit var weatherRepository: WeatherRepository
+
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
@@ -27,8 +28,9 @@ class DVTWeatherApplication() : Application(), Configuration.Provider {
     }
 
     override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setMinimumLoggingLevel(Log.INFO)
-            .setWorkerFactory(MyWorkerFactory(weatherRepository))
-            .build()
+        get() =
+            Configuration.Builder()
+                .setMinimumLoggingLevel(Log.INFO)
+                .setWorkerFactory(MyWorkerFactory(weatherRepository))
+                .build()
 }

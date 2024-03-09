@@ -8,27 +8,18 @@ import com.google.gson.annotations.SerializedName
  * Email: munyiri.thomas@eclectics.io
  */
 
-
 data class NetworkWeather(
-
     val uId: Int,
-
     @SerializedName("id")
     val cityId: Int,
-
     val name: String,
-
     val wind: Wind,
-
     @SerializedName("weather")
     val networkWeatherDescriptions: List<NetworkWeatherDescription>,
-
     @SerializedName("main")
     val networkWeatherCondition: NetworkWeatherCondition,
-
     @SerializedName("coord")
     val networkWeatherCoordinates: NetworkWeatherCoordinates,
-
     @SerializedName("sys")
-    val networkSys: NetworkSys
+    val networkSys: NetworkSys,
 )

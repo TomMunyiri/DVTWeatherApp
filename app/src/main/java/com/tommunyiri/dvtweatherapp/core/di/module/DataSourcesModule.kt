@@ -9,7 +9,6 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-
 /**
  * Created by Tom Munyiri on 19/01/2024.
  * Company: Eclectics International Ltd
@@ -18,11 +17,9 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 @Module
 abstract class DataSourcesModule {
-
     @Binds
     abstract fun bindLocalDataSource(localDataSourceImpl: WeatherLocalDataSourceImpl): WeatherLocalDataSource
 
     @Binds
     abstract fun bindRemoteDataSource(remoteDataSourceImpl: WeatherRemoteDataSourceImpl): WeatherRemoteDataSource
-
 }

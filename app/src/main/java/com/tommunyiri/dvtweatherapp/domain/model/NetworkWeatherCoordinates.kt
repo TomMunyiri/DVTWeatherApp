@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class NetworkWeatherCoordinates(
     val lat: Double,
-    val lon: Double
+    val lon: Double,
 ) : Parcelable

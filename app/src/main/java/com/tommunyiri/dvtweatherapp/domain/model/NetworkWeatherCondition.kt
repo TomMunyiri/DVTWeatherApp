@@ -18,5 +18,5 @@ data class NetworkWeatherCondition(
     @SerializedName("temp_min")
     var tempMin: Double,
     @SerializedName("temp_max")
-    var tempMax: Double
+    var tempMax: Double,
 ) : Parcelable

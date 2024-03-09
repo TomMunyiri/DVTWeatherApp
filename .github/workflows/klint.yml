@@ -1,8 +1,8 @@
-name: Ktlint
+name: Kt Lint
 
 on:
   push:
-    branches: [ develop ] # Just in case develop was not up to date while merging PR
+    branches: [ develop,main ] # Just in case develop was not up to date while merging PR
   pull_request:
     types: [ opened, synchronize ]
     branches: [ develop ]

@@ -9,7 +9,6 @@ import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeatherForecast
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.typeconverters.ListNetworkWeatherDescriptionConverter
 
-
 /**
  * Created by Tom Munyiri on 18/01/2024.
  * Company: Eclectics International Ltd
@@ -18,10 +17,9 @@ import com.tommunyiri.dvtweatherapp.data.sources.local.database.typeconverters.L
 @Database(
     entities = [DBWeather::class, DBWeatherForecast::class, DBFavoriteLocation::class],
     version = 2,
-    exportSchema = true
+    exportSchema = true,
 )
 @TypeConverters(ListNetworkWeatherDescriptionConverter::class)
 abstract class WeatherDatabase : RoomDatabase() {
-
     abstract val weatherDao: WeatherDao
 }

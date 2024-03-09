@@ -18,28 +18,32 @@ import androidx.compose.ui.unit.dp
  */
 
 @Composable
-fun SingleItemDialogRadioButton(text: String, selectedValue: String, onClickListener: (String) -> Unit) {
+fun SingleItemDialogRadioButton(
+    text: String,
+    selectedValue: String,
+    onClickListener: (String) -> Unit,
+) {
     Row(
         Modifier
-        .fillMaxWidth()
-        .selectable(
-            selected = (text == selectedValue),
-            onClick = {
-                onClickListener(text)
-            }
-        )
-        .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .selectable(
+                selected = (text == selectedValue),
+                onClick = {
+                    onClickListener(text)
+                },
+            )
+            .padding(horizontal = 16.dp),
     ) {
         RadioButton(
             selected = (text == selectedValue),
             onClick = {
                 onClickListener(text)
-            }
+            },
         )
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(start = 16.dp, top = 14.dp)
+            modifier = Modifier.padding(start = 16.dp, top = 14.dp),
         )
     }
 }

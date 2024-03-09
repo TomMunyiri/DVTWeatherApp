@@ -15,17 +15,19 @@ import com.tommunyiri.dvtweatherapp.presentation.navigation.MainNavigationScreen
  * @param navController The navigation controller used for handling navigation between screens.
  */
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavHostController,onThemeUpdated: () -> Unit) {
+fun MainScreen(
+    navController: NavHostController,
+    onThemeUpdated: () -> Unit,
+) {
     Scaffold(bottomBar = {
         BottomAppBar(containerColor = Color.Transparent) {
             BottomNavigationBar(
-                navController = navController
+                navController = navController,
             )
         }
     }) {
-        MainNavigationScreens(navController = navController,onThemeUpdated)
+        MainNavigationScreens(navController = navController, onThemeUpdated)
     }
 }

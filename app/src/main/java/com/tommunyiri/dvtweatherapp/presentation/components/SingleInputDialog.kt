@@ -40,27 +40,26 @@ import com.tommunyiri.dvtweatherapp.R
 fun SingleInputDialog(
     defaultValue: String,
     onSubmitButtonClick: (String) -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     var cacheDuration by rememberSaveable { mutableStateOf(defaultValue) }
     Dialog(onDismissRequest = { onDismissRequest.invoke() }) {
         Surface(
             modifier = Modifier.width(300.dp),
-            shape = RoundedCornerShape(10.dp)
+            shape = RoundedCornerShape(10.dp),
         ) {
-
             Column(modifier = Modifier.padding(15.dp)) {
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = stringResource(id = R.string.cache_string)
+                    text = stringResource(id = R.string.cache_string),
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 TextField(
                     value = cacheDuration,
                     onValueChange = { cacheDuration = it },
-                    //label = { Text(text = stringResource(id = R.string.enter_cache_duration)) },
+                    // label = { Text(text = stringResource(id = R.string.enter_cache_duration)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent)
+                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
                 )
 
                 Spacer(modifier = Modifier.width(10.dp))
@@ -69,25 +68,26 @@ fun SingleInputDialog(
                     Row {
                         Text(
                             text = stringResource(id = R.string.cancel),
-                            modifier = Modifier
-                                .clickable(onClick = {
-                                    onDismissRequest.invoke()
-                                })
-                                .padding(10.dp)
+                            modifier =
+                                Modifier
+                                    .clickable(onClick = {
+                                        onDismissRequest.invoke()
+                                    })
+                                    .padding(10.dp),
                         )
                         Text(
                             text = stringResource(id = R.string.ok),
-                            modifier = Modifier
-                                .clickable(onClick = {
-                                    onSubmitButtonClick.invoke(cacheDuration)
-                                    onDismissRequest.invoke()
-                                })
-                                .padding(10.dp)
+                            modifier =
+                                Modifier
+                                    .clickable(onClick = {
+                                        onSubmitButtonClick.invoke(cacheDuration)
+                                        onDismissRequest.invoke()
+                                    })
+                                    .padding(10.dp),
                         )
                     }
                 }
             }
-
         }
     }
 }

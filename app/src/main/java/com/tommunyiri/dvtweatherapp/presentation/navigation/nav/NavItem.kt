@@ -18,5 +18,8 @@ sealed class NavItem {
 
     object Settings :
         Item(
-            path = NavPath.SETTINGS.toString(), title = NavTitle.SETTINGS, icon = Icons.Rounded.Settings)
+            path = NavPath.SETTINGS.toString(),
+            title = NavTitle.SETTINGS,
+            icon = Icons.Rounded.Settings,
+        )
 }

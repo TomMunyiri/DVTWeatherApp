@@ -1,3 +1,4 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.util.Properties
 
 plugins {
@@ -19,8 +20,11 @@ tasks.check {
 }
 
 ktlint {
-    version = "0.42.1"
+    android = true
     ignoreFailures = false
+    reporters {
+        reporter(ReporterType.JSON)
+    }
 }
 
 sonarqube {
@@ -29,7 +33,6 @@ sonarqube {
     val sonarqubeToken = properties.getProperty("SONAR_TOKEN")
     val sonarqubeUrl = properties.getProperty("SONAR_HOST_URL")
     properties {
-        // TODO Read sensitive data from properties file
         property("sonar.projectKey", "DVT-Weather-App")
         property("sonar.projectName", "DVT Weather App")
         property("sonar.host.url", sonarqubeUrl)
@@ -39,7 +42,7 @@ sonarqube {
         property("sonar.token", sonarqubeToken)
         property(
             "sonar.coverage.exclusions",
-            "**/*Test*/**,' +\n" + "                '*.json,' +\n" + "                '**/*test*/**,' +\n" + "                '**/.gradle/**,' +\n" + "                '**/R.class"
+            "**/*Test*/**,' +\n" + "'*.json,' +\n" + "'**/*test*/**,' +\n" + "'**/.gradle/**,' +\n" + "'**/R.class,",
         )
     }
 }
@@ -60,7 +63,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ksp {
-            // arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
             arg("room.schemaLocation", "$projectDir/schemas")
         }
 
@@ -68,7 +70,9 @@ android {
         buildConfigField("String", "ALGOLIA_APP_ID", properties.getProperty("ALGOLIA_APP_ID"))
         buildConfigField("String", "ALGOLIA_API_KEY", properties.getProperty("ALGOLIA_API_KEY"))
         buildConfigField(
-            "String", "ALGOLIA_INDEX_NAME", properties.getProperty("ALGOLIA_INDEX_NAME")
+            "String",
+            "ALGOLIA_INDEX_NAME",
+            properties.getProperty("ALGOLIA_INDEX_NAME"),
         )
         buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
         vectorDrawables {
@@ -81,14 +85,16 @@ android {
             isMinifyEnabled = true
             isDebuggable = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
             )
         }
         debug {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             isDebuggable = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
             )
         }
     }
@@ -217,8 +223,9 @@ dependencies {
 }
 
 class RoomSchemaArgProvider(
-    @get:InputDirectory @get:PathSensitive(PathSensitivity.RELATIVE) val schemaDir: File
-) : CommandLineArgumentProvider {
+    @get:InputDirectory @get:PathSensitive(PathSensitivity.RELATIVE) val schemaDir: File,
+) :
+    CommandLineArgumentProvider {
     override fun asArguments(): Iterable<String> {
         return listOf("room.schemaLocation=${schemaDir.path}")
     }

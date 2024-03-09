@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getFormattedTemperature
 
@@ -32,19 +32,20 @@ import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.ge
 fun WeatherForecastItem(
     weatherForecast: WeatherForecast,
     modifier: Modifier = Modifier,
-    prefs: SharedPreferenceHelper
+    prefs: SharedPreferenceHelper,
 ) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp),
             ) {
                 Text(
                     text = weatherForecast.date,
@@ -61,19 +62,22 @@ fun WeatherForecastItem(
                 ) {
                     Image(
                         painterResource(
-                            id = WeatherUtils.getWeatherIcon(
-                                weatherForecast.networkWeatherDescription.toString().lowercase()
-                            )
+                            id =
+                                WeatherUtils.getWeatherIcon(
+                                    weatherForecast.networkWeatherDescription.toString().lowercase(),
+                                ),
                         ),
                         contentDescription = "contentDescription",
                         modifier = Modifier,
                     )
                 }
                 Text(
-                    text = getFormattedTemperature(
-                        weatherForecast.networkWeatherCondition.temp, prefs,
-                        LocalContext.current
-                    ),
+                    text =
+                        getFormattedTemperature(
+                            weatherForecast.networkWeatherCondition.temp,
+                            prefs,
+                            LocalContext.current,
+                        ),
                     fontSize = 16.sp,
                     color = Color.White,
                     overflow = TextOverflow.Ellipsis,
@@ -85,4 +89,3 @@ fun WeatherForecastItem(
         }
     }
 }
-

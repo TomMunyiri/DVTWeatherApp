@@ -33,7 +33,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 /**
  * Created by Tom Munyiri on 20/02/2024.
  * Company: Eclectics International Ltd
@@ -41,162 +40,170 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class SearchScreenViewModel @Inject constructor(
-    private val weatherUseCases: WeatherUseCases,
-    private val getPrefsUseCase: GetSharedPreferencesUseCase
-) : ViewModel() {
+class SearchScreenViewModel
+    @Inject
+    constructor(
+        private val weatherUseCases: WeatherUseCases,
+        private val getPrefsUseCase: GetSharedPreferencesUseCase,
+    ) : ViewModel() {
+        private val _searchScreenState = MutableStateFlow(SearchScreenState())
+        val searchScreenState: StateFlow<SearchScreenState> = _searchScreenState.asStateFlow()
 
-    private val _searchScreenState = MutableStateFlow(SearchScreenState())
-    val searchScreenState: StateFlow<SearchScreenState> = _searchScreenState.asStateFlow()
+        private val applicationID = BuildConfig.ALGOLIA_APP_ID
+        private val algoliaAPIKey = BuildConfig.ALGOLIA_API_KEY
+        private val algoliaIndexName = BuildConfig.ALGOLIA_INDEX_NAME
 
-    private val applicationID = BuildConfig.ALGOLIA_APP_ID
-    private val algoliaAPIKey = BuildConfig.ALGOLIA_API_KEY
-    private val algoliaIndexName = BuildConfig.ALGOLIA_INDEX_NAME
+        private val searcher =
+            HitsSearcher(
+                applicationID = ApplicationID(applicationID),
+                apiKey = APIKey(algoliaAPIKey),
+                indexName = IndexName(algoliaIndexName),
+            )
 
-    private val searcher = HitsSearcher(
-        applicationID = ApplicationID(applicationID),
-        apiKey = APIKey(algoliaAPIKey),
-        indexName = IndexName(algoliaIndexName)
-    )
+        // Search Box
+        val searchBoxState = SearchBoxState()
+        private val searchBoxConnector = SearchBoxConnector(searcher)
 
-    // Search Box
-    val searchBoxState = SearchBoxState()
-    private val searchBoxConnector = SearchBoxConnector(searcher)
+        val statsText = StatsTextState()
+        private val statsConnector = StatsConnector(searcher)
 
-    val statsText = StatsTextState()
-    private val statsConnector = StatsConnector(searcher)
+        // Hits
+        val hitsPaginator = Paginator(searcher) { it.deserialize(SearchResult.serializer()) }
 
-    // Hits
-    val hitsPaginator = Paginator(searcher) { it.deserialize(SearchResult.serializer()) }
+        private val connections = ConnectionHandler(searchBoxConnector, statsConnector)
 
-    private val connections = ConnectionHandler(searchBoxConnector, statsConnector)
+        init {
+            connections += searchBoxConnector.connectView(searchBoxState)
+            connections += searchBoxConnector.connectPaginator(hitsPaginator)
+            connections += statsConnector.connectView(statsText, DefaultStatsPresenter())
+        }
 
-    init {
-        connections += searchBoxConnector.connectView(searchBoxState)
-        connections += searchBoxConnector.connectPaginator(hitsPaginator)
-        connections += statsConnector.connectView(statsText, DefaultStatsPresenter())
-    }
+        fun onEvent(event: SearchScreenEvent) {
+            when (event) {
+                is SearchScreenEvent.GetWeather -> {
+                    getSearchWeather(event.city)
+                }
 
-    fun onEvent(event: SearchScreenEvent) {
-        when (event) {
-            is SearchScreenEvent.GetWeather -> {
-                getSearchWeather(event.city)
-            }
+                is SearchScreenEvent.AddToFavorite -> {
+                    saveFavoriteLocation(event.favoriteLocation)
+                }
 
-            is SearchScreenEvent.AddToFavorite -> {
-                saveFavoriteLocation(event.favoriteLocation)
-            }
+                // resets previously searched weather when bottom sheet is closed
+                is SearchScreenEvent.ResetWeather ->
+                    _searchScreenState.update { currentState ->
+                        currentState.copy(weather = null)
+                    }
 
-            //resets previously searched weather when bottom sheet is closed
-            is SearchScreenEvent.ResetWeather -> _searchScreenState.update { currentState ->
-                currentState.copy(weather = null)
-            }
+                is SearchScreenEvent.ResetAddToFavoriteResult ->
+                    _searchScreenState.update { currentState ->
+                        currentState.copy(addToFavoriteResult = null)
+                    }
 
-            is SearchScreenEvent.ResetAddToFavoriteResult -> _searchScreenState.update { currentState ->
-                currentState.copy(addToFavoriteResult = null)
-            }
-
-            is SearchScreenEvent.ClearError -> _searchScreenState.update { currentState ->
-                currentState.copy(
-                    error = null
-                )
+                is SearchScreenEvent.ClearError ->
+                    _searchScreenState.update { currentState ->
+                        currentState.copy(
+                            error = null,
+                        )
+                    }
             }
         }
-    }
 
-    fun getSharedPrefs(): SharedPreferenceHelper {
-        return getPrefsUseCase.invoke()
-    }
-
-    /**
-     * Gets the [Weather] information for the user selected location[name]
-     * @param name value of the location whose [Weather] data is to be fetched.
-     */
-    private fun getSearchWeather(name: String) {
-        _searchScreenState.update { currentState ->
-            currentState.copy(isLoading = true)
+        fun getSharedPrefs(): SharedPreferenceHelper {
+            return getPrefsUseCase.invoke()
         }
-        viewModelScope.launch {
-            when (val result = weatherUseCases.getSearchWeather.invoke(name)) {
-                is Result.Success -> {
-                    if (result.data != null) {
-                        _searchScreenState.update { currentState ->
-                            currentState.copy(
-                                weather = result.data,
-                                isLoading = false,
-                                error = null
-                            )
+
+        /**
+         * Gets the [Weather] information for the user selected location[name]
+         * @param name value of the location whose [Weather] data is to be fetched.
+         */
+        private fun getSearchWeather(name: String) {
+            _searchScreenState.update { currentState ->
+                currentState.copy(isLoading = true)
+            }
+            viewModelScope.launch {
+                when (val result = weatherUseCases.getSearchWeather.invoke(name)) {
+                    is Result.Success -> {
+                        if (result.data != null) {
+                            _searchScreenState.update { currentState ->
+                                currentState.copy(
+                                    weather = result.data,
+                                    isLoading = false,
+                                    error = null,
+                                )
+                            }
+                        } else {
+                            _searchScreenState.update { currentState ->
+                                currentState.copy(
+                                    weather = null,
+                                    isLoading = false,
+                                    error = "No weather data at the moment",
+                                )
+                            }
                         }
-                    } else {
+                    }
+
+                    is Result.Error -> {
                         _searchScreenState.update { currentState ->
                             currentState.copy(
                                 weather = null,
                                 isLoading = false,
-                                error = "No weather data at the moment"
+                                error = result.exception.toString(),
                             )
                         }
+                        Log.d("TAG", "getSearchWeather: ${result.exception}")
                     }
-                }
 
-                is Result.Error -> {
-                    _searchScreenState.update { currentState ->
-                        currentState.copy(
-                            weather = null,
-                            isLoading = false,
-                            error = result.exception.toString()
-                        )
-                    }
-                    Log.d("TAG", "getSearchWeather: ${result.exception}")
-                }
-
-                else -> _searchScreenState.update { currentState ->
-                    currentState.copy(isLoading = true, error = null)
+                    else ->
+                        _searchScreenState.update { currentState ->
+                            currentState.copy(isLoading = true, error = null)
+                        }
                 }
             }
         }
-    }
 
-    private fun saveFavoriteLocation(favoriteLocation: FavoriteLocation) {
-        setLoading()
-        viewModelScope.launch {
-            when (val result = weatherUseCases.saveFavoriteLocation.invoke(favoriteLocation)) {
-                is Result.Error -> _searchScreenState.update { currentState ->
-                    currentState.copy(
-                        addToFavoriteResult = 0,
-                        isLoading = false,
-                        error = result.exception.toString()
-                    )
+        private fun saveFavoriteLocation(favoriteLocation: FavoriteLocation) {
+            setLoading()
+            viewModelScope.launch {
+                when (val result = weatherUseCases.saveFavoriteLocation.invoke(favoriteLocation)) {
+                    is Result.Error ->
+                        _searchScreenState.update { currentState ->
+                            currentState.copy(
+                                addToFavoriteResult = 0,
+                                isLoading = false,
+                                error = result.exception.toString(),
+                            )
+                        }
+
+                    is Result.Loading ->
+                        _searchScreenState.update { currentState ->
+                            currentState.copy(isLoading = true, error = null, addToFavoriteResult = null)
+                        }
+
+                    is Result.Success ->
+                        if (result.data != null) {
+                            Log.d("TAG", "saveFavoriteLocation: ${result.data}")
+                            _searchScreenState.update { currentState ->
+                                currentState.copy(
+                                    addToFavoriteResult = result.data[0].toInt(),
+                                    isLoading = false,
+                                    error = null,
+                                )
+                            }
+                        }
+
+                    null -> TODO()
                 }
-
-                is Result.Loading -> _searchScreenState.update { currentState ->
-                    currentState.copy(isLoading = true, error = null, addToFavoriteResult = null)
-                }
-
-                is Result.Success -> if (result.data != null) {
-                    Log.d("TAG", "saveFavoriteLocation: ${result.data}")
-                    _searchScreenState.update { currentState ->
-                        currentState.copy(
-                            addToFavoriteResult = result.data[0].toInt(),
-                            isLoading = false,
-                            error = null
-                        )
-                    }
-                }
-
-                null -> TODO()
             }
         }
-    }
 
-    private fun setLoading() {
-        _searchScreenState.update { currentSate ->
-            currentSate.copy(isLoading = true)
+        private fun setLoading() {
+            _searchScreenState.update { currentSate ->
+                currentSate.copy(isLoading = true)
+            }
+        }
+
+        override fun onCleared() {
+            super.onCleared()
+            searcher.cancel()
         }
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        searcher.cancel()
-    }
-
-}

@@ -2,7 +2,6 @@ package com.tommunyiri.dvtweatherapp.core.di.scope
 
 import javax.inject.Qualifier
 
-
 /**
  * Created by Tom Munyiri on 18/01/2024.
  * Company: Eclectics International Ltd

@@ -1,8 +1,7 @@
 package com.tommunyiri.dvtweatherapp.data.mappers
 
-import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeatherForecast
-
+import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
@@ -17,7 +16,7 @@ class WeatherForecastMapperLocal : BaseMapper<List<DBWeatherForecast>, List<Weat
                 dbWeatherForecast.date,
                 dbWeatherForecast.wind,
                 dbWeatherForecast.networkWeatherDescriptions,
-                dbWeatherForecast.networkWeatherCondition
+                dbWeatherForecast.networkWeatherCondition,
             )
         }
     }
@@ -29,7 +28,7 @@ class WeatherForecastMapperLocal : BaseMapper<List<DBWeatherForecast>, List<Weat
                 weatherForecast.date,
                 weatherForecast.wind,
                 weatherForecast.networkWeatherDescription,
-                weatherForecast.networkWeatherCondition
+                weatherForecast.networkWeatherCondition,
             )
         }
     }

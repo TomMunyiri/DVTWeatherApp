@@ -12,5 +12,5 @@ import kotlinx.serialization.Serializable
 data class SearchResult(
     val name: String,
     val country: String,
-    val subcountry: String
+    val subcountry: String,
 )

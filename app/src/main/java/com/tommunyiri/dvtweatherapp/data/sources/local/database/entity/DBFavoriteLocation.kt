@@ -14,13 +14,10 @@ data class DBFavoriteLocation(
     @PrimaryKey
     @ColumnInfo(name = "name")
     val name: String,
-
     @ColumnInfo(name = "lat")
     val lat: Double,
-
     @ColumnInfo(name = "lon")
     val lon: Double,
-
     @ColumnInfo(name = "country")
-    val country: String
+    val country: String,
 )

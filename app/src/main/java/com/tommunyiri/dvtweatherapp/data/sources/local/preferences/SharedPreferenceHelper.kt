@@ -2,11 +2,11 @@ package com.tommunyiri.dvtweatherapp.data.sources.local.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
-
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
@@ -15,7 +15,6 @@ import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
  */
 class SharedPreferenceHelper {
     companion object {
-
         private const val WEATHER_PREF_TIME = "Weather pref time"
         private const val WEATHER_FORECAST_PREF_TIME = "Forecast pref time"
         private const val CITY_ID = "City ID"
@@ -33,10 +32,10 @@ class SharedPreferenceHelper {
          */
         fun getInstance(context: Context): SharedPreferenceHelper {
             synchronized(this) {
-                val _instance = instance
-                if (_instance == null) {
+                val newInstance = instance
+                if (newInstance == null) {
                     prefs = PreferenceManager.getDefaultSharedPreferences(context)
-                    instance = _instance
+                    instance = newInstance
                 }
                 return SharedPreferenceHelper()
             }
@@ -48,7 +47,7 @@ class SharedPreferenceHelper {
      * at the user's location is accessed.
      * @param time the value of [System.nanoTime] when the weather information is received.
      */
-    fun saveTimeOfInitialWeatherFetch(time: Long) {
+    private fun saveTimeOfInitialWeatherFetch(time: Long) {
         prefs?.edit(commit = true) {
             putLong(WEATHER_PREF_TIME, time)
         }
@@ -66,7 +65,7 @@ class SharedPreferenceHelper {
      * at the user's location is accessed.
      * @param time the value of [System.nanoTime] when the weather forecast is received.
      */
-    fun saveTimeOfInitialWeatherForecastFetch(time: Long) {
+    private fun saveTimeOfInitialWeatherForecastFetch(time: Long) {
         prefs?.edit(commit = true) {
             putLong(WEATHER_FORECAST_PREF_TIME, time)
         }
@@ -150,12 +149,16 @@ class SharedPreferenceHelper {
             val json = gson.toJson(location)
             putString(LOCATION, json)
         }
+        Log.d("TAG", "saveLocation: $location")
+        if (getLocation() != null) {
+            Log.d("TAG", "saveLocation: ${getLocation()}")
+        }
     }
 
     /**
      * This function gets the value of the saved [LocationModel]
      */
-    fun getLocation(): LocationModel {
+    fun getLocation(): LocationModel? {
         val gson = Gson()
         val json = prefs?.getString(LOCATION, null)
         return gson.fromJson(json, LocationModel::class.java)

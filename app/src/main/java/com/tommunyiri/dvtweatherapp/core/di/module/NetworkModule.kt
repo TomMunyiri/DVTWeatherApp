@@ -8,7 +8,6 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
-
 /**
  * Created by Tom Munyiri on 19/01/2024.
  * Company: Eclectics International Ltd

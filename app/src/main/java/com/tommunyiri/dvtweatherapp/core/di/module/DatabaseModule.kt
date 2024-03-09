@@ -10,7 +10,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 /**
  * Created by Tom Munyiri on 18/01/2024.
  * Company: Eclectics International Ltd
@@ -24,7 +23,8 @@ class DatabaseModule {
     fun provideDatabase(context: Context): WeatherDatabase {
         return Room.databaseBuilder(
             context,
-            WeatherDatabase::class.java, "DVTWeather.db"
+            WeatherDatabase::class.java,
+            "DVTWeather.db",
         ).fallbackToDestructiveMigration().build()
     }
 

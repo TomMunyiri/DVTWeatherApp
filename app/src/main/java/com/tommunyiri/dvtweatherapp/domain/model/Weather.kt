@@ -18,5 +18,5 @@ data class Weather(
     val networkWeatherDescription: List<NetworkWeatherDescription>,
     val networkWeatherCondition: NetworkWeatherCondition,
     val networkWeatherCoordinates: NetworkWeatherCoordinates,
-    val networkSys: NetworkSys
+    val networkSys: NetworkSys,
 ) : Parcelable

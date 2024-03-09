@@ -1,10 +1,9 @@
 package com.tommunyiri.dvtweatherapp.domain.usecases.weather
 
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.domain.utils.convertKelvinToCelsius
-
 
 /**
  * Created by Tom Munyiri on 25/02/2024.

@@ -53,19 +53,20 @@ import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.ge
 @Composable
 fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel(),
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
     val prefs = viewModel.getSharedPrefs()
     var openDialogError by remember { mutableStateOf(false) }
 
     DisposableEffect(lifecycleOwner) {
-        val lifecycleObserver = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
-                viewModel.onEvent(HomeScreenEvent.ClearError)
-                openDialogError = false
+        val lifecycleObserver =
+            LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
+                    viewModel.onEvent(HomeScreenEvent.ClearError)
+                    openDialogError = false
+                }
             }
-        }
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
@@ -79,42 +80,47 @@ fun HomeScreen(
         state = swipeRefreshState,
         onRefresh = {
             viewModel.onEvent(HomeScreenEvent.Refresh)
-        }
+        },
     ) {
         state.weather?.let { weather ->
             val screenBackgroundColor = getBackgroundColor(weather)
             prefs.saveCityId(weather.cityId)
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(screenBackgroundColor)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(screenBackgroundColor),
             ) {
                 TopHeader(weather, prefs, viewModel)
                 TempSection(weather, prefs)
                 HorizontalDivider(modifier = Modifier.fillMaxWidth(), color = Color.White)
                 if (state.isLoadingForecast) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(30.dp),
-                        contentAlignment = Alignment.TopCenter
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(30.dp),
+                        contentAlignment = Alignment.TopCenter,
                     ) {
                         CircularProgressIndicator()
                     }
                 }
                 state.weatherForecastList?.let { weatherForecastList ->
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp, 16.dp, 16.dp, 80.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp, 16.dp, 16.dp, 80.dp),
                     ) {
                         items(weatherForecastList.size) { i ->
                             val weatherForecast = weatherForecastList[i]
                             WeatherForecastItem(
                                 weatherForecast = weatherForecast,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp, 0.dp, 10.dp), prefs
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp, 0.dp, 10.dp),
+                                prefs,
                             )
                         }
                     }
@@ -126,53 +132,62 @@ fun HomeScreen(
         openDialogError = true
         SweetToast(text = state.error.toString(), success = false)
     }
-
 }
 
 @Composable
-fun TempSection(weather: Weather?, prefs: SharedPreferenceHelper) {
+fun TempSection(
+    weather: Weather?,
+    prefs: SharedPreferenceHelper,
+) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
     ) {
         Text(
-            text = getFormattedTemperature(
-                prefs,
-                weather,
-                LocalContext.current
-            ) + stringResource(id = R.string.min),
+            text =
+                getFormattedTemperature(
+                    prefs,
+                    weather,
+                    LocalContext.current,
+                ) + stringResource(id = R.string.min),
             color = Color.White,
             fontSize = 20.sp,
-            modifier = Modifier
-                .weight(1f)
-                .padding(5.dp, 0.dp, 0.dp, 0.dp),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .padding(5.dp, 0.dp, 0.dp, 0.dp),
             textAlign = TextAlign.Start,
         )
         Text(
-            text = getFormattedTemperature(
-                prefs,
-                weather,
-                LocalContext.current
-            ) + stringResource(id = R.string.current),
+            text =
+                getFormattedTemperature(
+                    prefs,
+                    weather,
+                    LocalContext.current,
+                ) + stringResource(id = R.string.current),
             color = Color.White,
             fontSize = 20.sp,
-            modifier = Modifier
-                .weight(1f)
-                .padding(5.dp, 0.dp, 0.dp, 0.dp),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .padding(5.dp, 0.dp, 0.dp, 0.dp),
             textAlign = TextAlign.Center,
         )
         Text(
-            text = getFormattedTemperature(
-                prefs,
-                weather,
-                LocalContext.current
-            ) + stringResource(id = R.string.max),
+            text =
+                getFormattedTemperature(
+                    prefs,
+                    weather,
+                    LocalContext.current,
+                ) + stringResource(id = R.string.max),
             color = Color.White,
             fontSize = 20.sp,
-            modifier = Modifier
-                .weight(1f)
-                .padding(5.dp, 0.dp, 0.dp, 0.dp),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .padding(5.dp, 0.dp, 0.dp, 0.dp),
             textAlign = TextAlign.Right,
         )
     }
@@ -182,30 +197,33 @@ fun TempSection(weather: Weather?, prefs: SharedPreferenceHelper) {
 fun TopHeader(
     weather: Weather?,
     prefs: SharedPreferenceHelper,
-    viewModel: HomeScreenViewModel
+    viewModel: HomeScreenViewModel,
 ) {
     val painterResource = getBackgroundImage(weather)
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .paint(
-                painter = painterResource(id = painterResource),
-                contentScale = ContentScale.FillWidth
-            )
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .paint(
+                    painter = painterResource(id = painterResource),
+                    contentScale = ContentScale.FillWidth,
+                ),
     ) {
         Column(
-            modifier = Modifier
-                .padding(16.dp)
+            modifier =
+                Modifier
+                    .padding(16.dp),
         ) {
             Text(
                 text = weather?.name.toString(),
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 50.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 50.dp),
                 textAlign = TextAlign.Center,
             )
             Text(
@@ -213,9 +231,10 @@ fun TopHeader(
                 color = Color.White,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 8.dp, 0.dp, 0.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 8.dp, 0.dp, 0.dp),
                 textAlign = TextAlign.Center,
             )
             Text(
@@ -223,9 +242,10 @@ fun TopHeader(
                 color = Color.White,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 16.dp, 0.dp, 0.dp),
                 textAlign = TextAlign.Center,
             )
             Text(
@@ -233,9 +253,10 @@ fun TopHeader(
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 16.dp, 0.dp, 0.dp),
                 textAlign = TextAlign.Center,
             )
         }

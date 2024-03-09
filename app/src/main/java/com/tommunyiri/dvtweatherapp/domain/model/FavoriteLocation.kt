@@ -14,5 +14,5 @@ data class FavoriteLocation(
     val name: String,
     val lat: Double,
     val lon: Double,
-    val country: String
+    val country: String,
 ) : Parcelable

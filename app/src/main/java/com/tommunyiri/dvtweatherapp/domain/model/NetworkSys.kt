@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class NetworkSys(
     val country: String,
     val sunrise: Int,
-    val sunset: Int
+    val sunset: Int,
 ) : Parcelable

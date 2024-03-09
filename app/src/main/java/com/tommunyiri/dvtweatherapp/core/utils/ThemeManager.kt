@@ -16,7 +16,7 @@ object ThemeManager {
      * of the application.
      */
 
-    fun getTheme( context: Context): Boolean {
+    fun getTheme(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val savedTheme = prefs.getString("theme_key", "Light")
         return savedTheme != LIGHT_MODE

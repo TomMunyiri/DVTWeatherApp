@@ -1,12 +1,11 @@
 package com.tommunyiri.dvtweatherapp.domain.usecases.weather
 
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.domain.utils.convertKelvinToCelsius
 import com.tommunyiri.dvtweatherapp.domain.utils.formatDate
-
 
 /**
  * Created by Tom Munyiri on 25/02/2024.
@@ -16,7 +15,7 @@ import com.tommunyiri.dvtweatherapp.domain.utils.formatDate
 class GetWeatherForecastUseCase(private val weatherRepository: WeatherRepository) {
     suspend operator fun invoke(
         location: LocationModel,
-        refresh: Boolean
+        refresh: Boolean,
     ): Result<List<WeatherForecast>?> {
         val result = weatherRepository.getForecastWeather(location, refresh)
         if (refresh) {

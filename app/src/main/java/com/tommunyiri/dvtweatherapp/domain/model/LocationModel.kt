@@ -8,5 +8,5 @@ package com.tommunyiri.dvtweatherapp.domain.model
 
 data class LocationModel(
     val longitude: Double,
-    val latitude: Double
+    val latitude: Double,
 )

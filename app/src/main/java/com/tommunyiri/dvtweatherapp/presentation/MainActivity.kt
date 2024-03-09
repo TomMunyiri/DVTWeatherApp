@@ -54,7 +54,7 @@ class MainActivity() : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     CheckPermissions(onThemeUpdated = {
                         val newSavedTheme = theme?.let { ThemeManager.getTheme(this) }
@@ -73,38 +73,42 @@ class MainActivity() : ComponentActivity() {
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CheckPermissions(onThemeUpdated: () -> Unit) {
-    val permissionsState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        rememberMultiplePermissionsState(
-            permissions = listOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.POST_NOTIFICATIONS,
+    val permissionsState =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            rememberMultiplePermissionsState(
+                permissions =
+                    listOf(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.POST_NOTIFICATIONS,
+                    ),
             )
-        )
-    } else {
-        rememberMultiplePermissionsState(
-            permissions = listOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
+        } else {
+            rememberMultiplePermissionsState(
+                permissions =
+                    listOf(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                    ),
             )
-        )
-    }
+        }
     if (!checkAllPermissions(permissionsState, LocalContext.current)) {
         val lifecycleOwner = LocalLifecycleOwner.current
         DisposableEffect(
             key1 = lifecycleOwner,
             effect = {
-                val observer = LifecycleEventObserver { _, event ->
-                    if (event == Lifecycle.Event.ON_START) {
-                        permissionsState.launchMultiplePermissionRequest()
+                val observer =
+                    LifecycleEventObserver { _, event ->
+                        if (event == Lifecycle.Event.ON_START) {
+                            permissionsState.launchMultiplePermissionRequest()
+                        }
                     }
-                }
                 lifecycleOwner.lifecycle.addObserver(observer)
 
                 onDispose {
                     lifecycleOwner.lifecycle.removeObserver(observer)
                 }
-            }
+            },
         )
         permissionsState.permissions.forEach { perm ->
             when {
@@ -115,28 +119,30 @@ fun CheckPermissions(onThemeUpdated: () -> Unit) {
 
                 perm.shouldShowRationale -> {
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(25.dp),
-                        contentAlignment = Alignment.Center
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(25.dp),
+                        contentAlignment = Alignment.Center,
                     ) {
                         Text(
                             textAlign = TextAlign.Center,
-                            text = stringResource(id = R.string.location_permission_desc)
+                            text = stringResource(id = R.string.location_permission_desc),
                         )
                     }
                 }
 
                 perm.isPermanentlyDenied() -> {
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(25.dp),
-                        contentAlignment = Alignment.Center
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(25.dp),
+                        contentAlignment = Alignment.Center,
                     ) {
                         Text(
                             textAlign = TextAlign.Center,
-                            text = stringResource(id = R.string.permissions_permanently_denied)
+                            text = stringResource(id = R.string.permissions_permanently_denied),
                         )
                     }
                 }
@@ -154,7 +160,7 @@ fun MainScreenPreview() {
     val navController = rememberNavController()
     DVTWeatherAppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            //MainScreen(navController = navController)
+            // MainScreen(navController = navController)
         }
     }
 }
@@ -163,7 +169,7 @@ fun MainScreenPreview() {
 @OptIn(ExperimentalPermissionsApi::class)
 private fun checkAllPermissions(
     permissionState: MultiplePermissionsState,
-    context: Context
+    context: Context,
 ): Boolean {
     val permissions = permissionState.permissions
     var hasPermissions = true
@@ -173,6 +179,8 @@ private fun checkAllPermissions(
     return hasPermissions
 }
 
-private fun isPermissionGranted(permission: String, context: Context) =
-    ActivityCompat.checkSelfPermission(context, permission) ==
-            PackageManager.PERMISSION_GRANTED
+private fun isPermissionGranted(
+    permission: String,
+    context: Context,
+) = ActivityCompat.checkSelfPermission(context, permission) ==
+    PackageManager.PERMISSION_GRANTED

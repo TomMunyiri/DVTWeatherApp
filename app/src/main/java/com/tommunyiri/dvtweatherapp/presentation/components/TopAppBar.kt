@@ -9,7 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 
-
 /**
  * Created by Tom Munyiri on 01/03/2024.
  * Company: Eclectics International Ltd
@@ -20,7 +19,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun TopAppBarComponent(
     title: String,
-    onBackButtonClick: () -> Unit
+    onBackButtonClick: () -> Unit,
 ) {
     TopAppBar(
         title = { Text(title) },
@@ -28,6 +27,6 @@ fun TopAppBarComponent(
             IconButton(onClick = { onBackButtonClick.invoke() }) { // Handle back press
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
-        }
+        },
     )
 }

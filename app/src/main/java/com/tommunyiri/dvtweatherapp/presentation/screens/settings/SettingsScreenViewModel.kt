@@ -16,50 +16,51 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class SettingsScreenViewModel @Inject constructor(private val prefs: SharedPreferenceHelper) :
+class SettingsScreenViewModel
+    @Inject
+    constructor(private val prefs: SharedPreferenceHelper) :
     ViewModel() {
-    private val _settingsScreenState = MutableStateFlow(SettingsScreenState())
-    val settingsScreenState: StateFlow<SettingsScreenState> = _settingsScreenState.asStateFlow()
+        private val _settingsScreenState = MutableStateFlow(SettingsScreenState())
+        val settingsScreenState: StateFlow<SettingsScreenState> = _settingsScreenState.asStateFlow()
 
-    init {
-        getSettings()
-    }
+        init {
+            getSettings()
+        }
 
-    private fun getSettings() {
-        _settingsScreenState.update { currentState ->
-            currentState.copy(
-                temperatureUnit = prefs.getSelectedTemperatureUnit(),
-                cacheDuration = prefs.getUserSetCacheDuration(),
-                theme = prefs.getSelectedThemePref()
-            )
+        private fun getSettings() {
+            _settingsScreenState.update { currentState ->
+                currentState.copy(
+                    temperatureUnit = prefs.getSelectedTemperatureUnit(),
+                    cacheDuration = prefs.getUserSetCacheDuration(),
+                    theme = prefs.getSelectedThemePref(),
+                )
+            }
+        }
+
+        fun saveTemperatureUnit(temperatureUnit: String) {
+            _settingsScreenState.update { currentState ->
+                currentState.copy(
+                    temperatureUnit = temperatureUnit,
+                )
+            }
+            prefs.saveTemperatureUnit(temperatureUnit)
+        }
+
+        fun saveCacheDurationPref(cacheDuration: String) {
+            _settingsScreenState.update { currentState ->
+                currentState.copy(
+                    cacheDuration = cacheDuration,
+                )
+            }
+            prefs.saveCacheDuration(cacheDuration)
+        }
+
+        fun saveTheme(theme: String) {
+            _settingsScreenState.update { currentState ->
+                currentState.copy(
+                    theme = theme,
+                )
+            }
+            prefs.saveThemePref(theme)
         }
     }
-
-    fun saveTemperatureUnit(temperatureUnit: String) {
-        _settingsScreenState.update { currentState ->
-            currentState.copy(
-                temperatureUnit = temperatureUnit
-            )
-        }
-        prefs.saveTemperatureUnit(temperatureUnit)
-    }
-
-    fun saveCacheDurationPref(cacheDuration: String) {
-        _settingsScreenState.update { currentState ->
-            currentState.copy(
-                cacheDuration = cacheDuration
-            )
-        }
-        prefs.saveCacheDuration(cacheDuration)
-    }
-
-    fun saveTheme(theme: String) {
-        _settingsScreenState.update { currentState ->
-            currentState.copy(
-                theme = theme
-            )
-        }
-        prefs.saveThemePref(theme)
-    }
-
-}

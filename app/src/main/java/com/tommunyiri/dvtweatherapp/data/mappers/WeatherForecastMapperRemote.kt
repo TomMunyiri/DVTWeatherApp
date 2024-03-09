@@ -3,7 +3,6 @@ package com.tommunyiri.dvtweatherapp.data.mappers
 import com.tommunyiri.dvtweatherapp.domain.model.NetworkWeatherForecast
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 
-
 /**
  * Created by Tom Munyiri on 19/01/2024.
  * Company: Eclectics International Ltd
@@ -18,7 +17,7 @@ class WeatherForecastMapperRemote :
                 networkWeatherForecast.date,
                 networkWeatherForecast.wind,
                 networkWeatherForecast.networkWeatherDescription,
-                networkWeatherForecast.networkWeatherCondition
+                networkWeatherForecast.networkWeatherCondition,
             )
         }
     }
@@ -30,7 +29,7 @@ class WeatherForecastMapperRemote :
                 weatherForecast.date,
                 weatherForecast.wind,
                 weatherForecast.networkWeatherDescription,
-                weatherForecast.networkWeatherCondition
+                weatherForecast.networkWeatherCondition,
             )
         }
     }

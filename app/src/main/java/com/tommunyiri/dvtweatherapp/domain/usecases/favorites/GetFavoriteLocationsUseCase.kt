@@ -1,9 +1,8 @@
 package com.tommunyiri.dvtweatherapp.domain.usecases.favorites
 
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.core.utils.Result
-
 
 /**
  * Created by Tom Munyiri on 25/02/2024.

@@ -55,11 +55,12 @@ class AppModule {
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
-            level = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BODY
-            } else {
-                HttpLoggingInterceptor.Level.NONE
-            }
+            level =
+                if (BuildConfig.DEBUG) {
+                    HttpLoggingInterceptor.Level.BODY
+                } else {
+                    HttpLoggingInterceptor.Level.NONE
+                }
         }
     }
 
@@ -77,37 +78,41 @@ class AppModule {
     @Singleton
     fun provideRetrofitBuilder(
         client: Lazy<OkHttpClient>,
-        converterFactory: GsonConverterFactory
+        converterFactory: GsonConverterFactory,
     ): Retrofit {
-        val retrofitBuilder = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .client(client.get())
-            .addConverterFactory(converterFactory)
+        val retrofitBuilder =
+            Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_URL)
+                .client(client.get())
+                .addConverterFactory(converterFactory)
 
-        val okHttpClientBuilder = OkHttpClient.Builder()
-            .addInterceptor { chain ->
+        val okHttpClientBuilder =
+            OkHttpClient.Builder()
+                .addInterceptor { chain ->
 
-                val original = chain.request()
-                val originalHttpUrl = original.url
+                    val original = chain.request()
+                    val originalHttpUrl = original.url
 
-                val url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("appid", BuildConfig.API_KEY)
-                    .build()
+                    val url =
+                        originalHttpUrl.newBuilder()
+                            .addQueryParameter("appid", BuildConfig.API_KEY)
+                            .build()
 
-                Timber.d("Started making network call")
+                    Timber.d("Started making network call")
 
-                val requestBuilder = original.newBuilder()
-                    .url(url)
+                    val requestBuilder =
+                        original.newBuilder()
+                            .url(url)
 
-                val request = requestBuilder.build()
-                return@addInterceptor chain.proceed(request)
-            }
-            .readTimeout(60, TimeUnit.SECONDS)
+                    val request = requestBuilder.build()
+                    return@addInterceptor chain.proceed(request)
+                }
+                .readTimeout(60, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
             // set your desired log level
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            //okHttpClientBuilder.addInterceptor(ChuckInterceptor(context))
+            // okHttpClientBuilder.addInterceptor(ChuckInterceptor(context))
             okHttpClientBuilder.addInterceptor(loggingInterceptor)
         }
         return retrofitBuilder.client(okHttpClientBuilder.build()).build()

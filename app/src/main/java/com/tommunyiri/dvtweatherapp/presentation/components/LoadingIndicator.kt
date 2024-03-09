@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
-
 /**
  * Created by Tom Munyiri on 25/02/2024.
  * Company: Eclectics International Ltd

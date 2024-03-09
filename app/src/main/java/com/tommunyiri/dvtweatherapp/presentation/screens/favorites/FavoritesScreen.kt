@@ -63,7 +63,7 @@ import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.ge
 fun FavoritesScreen(
     navController: NavHostController,
     viewModel: FavoritesScreenViewModel = hiltViewModel(),
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     val state by viewModel.favoritesScreenState.collectAsStateWithLifecycle()
     val currentLocation by viewModel.location.collectAsStateWithLifecycle()
@@ -80,18 +80,19 @@ fun FavoritesScreen(
     var showMap by remember { mutableStateOf(false) }
 
     DisposableEffect(lifecycleOwner) {
-        val lifecycleObserver = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_START) {
-                lifecycleEvent = event
-                viewModel.onEvent(FavoritesScreenEvent.GetFavorites)
-            } else if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
-                viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
-                viewModel.onEvent(FavoritesScreenEvent.ClearError)
-                openDialogError = false
-                openDialogSuccess = false
-                openDialogErrorState = false
+        val lifecycleObserver =
+            LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_START) {
+                    lifecycleEvent = event
+                    viewModel.onEvent(FavoritesScreenEvent.GetFavorites)
+                } else if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_DESTROY) {
+                    viewModel.onEvent(FavoritesScreenEvent.ResetDeleteFavoriteResult)
+                    viewModel.onEvent(FavoritesScreenEvent.ClearError)
+                    openDialogError = false
+                    openDialogSuccess = false
+                    openDialogErrorState = false
+                }
             }
-        }
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
@@ -112,7 +113,7 @@ fun FavoritesScreen(
         openDialogError = false
         SweetToast(
             text = stringResource(id = R.string.error_removing_from_favorites),
-            success = false
+            success = false,
         )
     }
 
@@ -124,17 +125,18 @@ fun FavoritesScreen(
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = { showMap = !showMap },
-            modifier = Modifier.padding(bottom = 80.dp)
+            modifier = Modifier.padding(bottom = 80.dp),
         ) {
-            if (showMap)
+            if (showMap) {
                 Icon(Icons.AutoMirrored.Filled.ViewList, contentDescription = "List")
-            else
+            } else {
                 Icon(Icons.Default.Map, contentDescription = "Map")
+            }
         }
     }, topBar = {
         TopAppBarComponent(
             title = stringResource(id = R.string.favorite),
-            onBackButtonClick = { navController.popBackStack() }
+            onBackButtonClick = { navController.popBackStack() },
         )
     }) { contentPadding ->
         if (state.isLoading) {
@@ -142,9 +144,10 @@ fun FavoritesScreen(
         }
 
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(contentPadding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
         ) {
             state.favoriteLocationsList?.let { favoriteLocationsList ->
                 when (favoriteLocationsList.isNotEmpty()) {
@@ -154,21 +157,22 @@ fun FavoritesScreen(
                         } else {
                             FavoriteLocationsList(
                                 favoriteLocationsList = favoriteLocationsList,
-                                viewModel = viewModel
+                                viewModel = viewModel,
                             )
                         }
 
                     else ->
                         Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(bottom = 80.dp),
-                            contentAlignment = Alignment.Center
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(bottom = 80.dp),
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
                                 text = stringResource(id = R.string.zero_favorites_text),
                                 style = typography.titleMedium,
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
                             )
                         }
                 }
@@ -182,7 +186,7 @@ fun FavoritesScreen(
                     viewModel.onEvent(FavoritesScreenEvent.ResetWeather)
                 },
                 sheetState = sheetState,
-                containerColor = bottomSheetBackgroundColor
+                containerColor = bottomSheetBackgroundColor,
             ) {
                 WeatherBottomSheetContent(weather = weather, prefs = prefs, onFavoriteClicked = {
                     viewModel.onEvent(FavoritesScreenEvent.RemoveFromFavorite(it.name))
@@ -210,33 +214,36 @@ fun FavoritesScreen(
 @Composable
 fun FavoriteLocationsList(
     favoriteLocationsList: List<FavoriteLocation>,
-    viewModel: FavoritesScreenViewModel
+    viewModel: FavoritesScreenViewModel,
 ) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 80.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 80.dp),
     ) {
         items(favoriteLocationsList.size) { i ->
             val favoriteLocation = favoriteLocationsList[i]
             Text(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .fillMaxWidth()
-                    .padding(14.dp)
-                    .clickable {
-                        viewModel.apply {
-                            onEvent(FavoritesScreenEvent.ResetWeather)
-                            onEvent(FavoritesScreenEvent.GetWeather(favoriteLocation.name))
-                        }
-                    },
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .padding(14.dp)
+                        .clickable {
+                            viewModel.apply {
+                                onEvent(FavoritesScreenEvent.ResetWeather)
+                                onEvent(FavoritesScreenEvent.GetWeather(favoriteLocation.name))
+                            }
+                        },
                 text = "${favoriteLocation.name}, ${favoriteLocation.country}",
-                style = typography.bodyMedium
+                style = typography.bodyMedium,
             )
             HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .width(1.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .width(1.dp),
             )
         }
     }
@@ -245,23 +252,28 @@ fun FavoriteLocationsList(
 @Composable
 fun FavoriteLocationsMap(
     favoriteLocationsList: List<FavoriteLocation>,
-    viewModel: FavoritesScreenViewModel, currentLocation: LocationModel
+    viewModel: FavoritesScreenViewModel,
+    currentLocation: LocationModel,
 ) {
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(
-            LatLng(currentLocation.latitude, currentLocation.longitude), 3f
-        )
-    }
+    val cameraPositionState =
+        rememberCameraPositionState {
+            position =
+                CameraPosition.fromLatLngZoom(
+                    LatLng(currentLocation.latitude, currentLocation.longitude), 3f,
+                )
+        }
     GoogleMap(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 0.dp, end = 0.dp, top = 10.dp, bottom = 80.dp),
-        cameraPositionState = cameraPositionState
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 0.dp, end = 0.dp, top = 10.dp, bottom = 80.dp),
+        cameraPositionState = cameraPositionState,
     ) {
         favoriteLocationsList.forEach { favoriteLocation ->
-            val markerState = rememberMarkerState(
-                position = LatLng(favoriteLocation.lat, favoriteLocation.lon)
-            )
+            val markerState =
+                rememberMarkerState(
+                    position = LatLng(favoriteLocation.lat, favoriteLocation.lon),
+                )
             Marker(
                 state = markerState,
                 title = "${favoriteLocation.name}, ${favoriteLocation.country}",
@@ -271,7 +283,7 @@ fun FavoriteLocationsMap(
                         onEvent(FavoritesScreenEvent.ResetWeather)
                         onEvent(FavoritesScreenEvent.GetWeather(favoriteLocation.name))
                     }
-                }
+                },
             )
         }
     }

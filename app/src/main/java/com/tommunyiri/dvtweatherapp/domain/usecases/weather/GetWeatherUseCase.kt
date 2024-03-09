@@ -1,9 +1,9 @@
 package com.tommunyiri.dvtweatherapp.domain.usecases.weather
 
+import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
-import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.domain.utils.convertKelvinToCelsius
 
 /**
@@ -12,7 +12,10 @@ import com.tommunyiri.dvtweatherapp.domain.utils.convertKelvinToCelsius
  * Email: munyiri.thomas@eclectics.io
  */
 class GetWeatherUseCase(private val weatherRepository: WeatherRepository) {
-    suspend operator fun invoke(location: LocationModel, refresh: Boolean): Result<Weather?> {
+    suspend operator fun invoke(
+        location: LocationModel,
+        refresh: Boolean,
+    ): Result<Weather?> {
         val result = weatherRepository.getWeather(location, refresh)
         if (refresh) {
             when (result) {

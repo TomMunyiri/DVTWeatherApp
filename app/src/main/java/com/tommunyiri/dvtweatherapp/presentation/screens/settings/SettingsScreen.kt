@@ -38,7 +38,7 @@ import com.tommunyiri.dvtweatherapp.presentation.components.TopAppBarComponent
 fun SettingsScreen(
     onThemeUpdated: () -> Unit,
     navController: NavHostController,
-    viewModel: SettingsScreenViewModel = hiltViewModel()
+    viewModel: SettingsScreenViewModel = hiltViewModel(),
 ) {
     val state by viewModel.settingsScreenState.collectAsStateWithLifecycle()
     val showTempDialog = remember { mutableStateOf(false) }
@@ -56,7 +56,7 @@ fun SettingsScreen(
             onDismissRequest = { showTempDialog.value = false },
             onItemSelected = {
                 viewModel.saveTemperatureUnit(it)
-            }
+            },
         )
     }
     if (showThemeDialog.value) {
@@ -75,7 +75,7 @@ fun SettingsScreen(
             onItemSelected = {
                 viewModel.saveTheme(it)
                 onThemeUpdated.invoke()
-            }
+            },
         )
     }
     if (showCacheDurationDialog.value) {
@@ -84,29 +84,34 @@ fun SettingsScreen(
             onSubmitButtonClick = {
                 viewModel.saveCacheDurationPref(it)
             },
-            onDismissRequest = { showCacheDurationDialog.value = false }
+            onDismissRequest = { showCacheDurationDialog.value = false },
         )
     }
     Scaffold(topBar = {
         TopAppBarComponent(
             title = stringResource(id = R.string.settings),
-            onBackButtonClick = { navController.popBackStack() }
+            onBackButtonClick = { navController.popBackStack() },
         )
     }) { contentPadding ->
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(contentPadding)) {
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
+        ) {
             CacheDurationPreference(state, showCacheDurationDialog)
             HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .width(1.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .width(1.dp),
             )
             ThemePreference(state, showThemeDialog)
             HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .width(1.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .width(1.dp),
             )
             TemperatureUnitPreference(state, showTempDialog)
         }
@@ -114,37 +119,41 @@ fun SettingsScreen(
 }
 
 @Composable
-fun CacheDurationPreference(state: SettingsScreenState, showDialog: MutableState<Boolean>) {
+fun CacheDurationPreference(
+    state: SettingsScreenState,
+    showDialog: MutableState<Boolean>,
+) {
     // Cache category
     Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .clickable(
-                onClick = { showDialog.value = true }
-            )
+        modifier =
+            Modifier
+                .padding(16.dp)
+                .clickable(
+                    onClick = { showDialog.value = true },
+                ),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painterResource(id = R.drawable.ic_cached),
                 contentDescription = "Cache Icon",
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             )
             Spacer(modifier = Modifier.width(25.dp))
             Column {
                 Text(
                     text = "Cache",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 state.cacheDuration?.let { cacheDuration ->
                     Text(
                         modifier = Modifier.padding(top = 7.dp),
                         text = "$cacheDuration ${stringResource(id = R.string.seconds)}",
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Normal,
                     )
                 }
             }
@@ -153,37 +162,41 @@ fun CacheDurationPreference(state: SettingsScreenState, showDialog: MutableState
 }
 
 @Composable
-fun ThemePreference(state: SettingsScreenState, showDialog: MutableState<Boolean>) {
+fun ThemePreference(
+    state: SettingsScreenState,
+    showDialog: MutableState<Boolean>,
+) {
     // Theme category
     Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .clickable(
-                onClick = { showDialog.value = true }
-            )
+        modifier =
+            Modifier
+                .padding(16.dp)
+                .clickable(
+                    onClick = { showDialog.value = true },
+                ),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painterResource(id = R.drawable.ic_palette),
                 contentDescription = "Theme Icon",
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             )
             Spacer(modifier = Modifier.width(25.dp))
             Column {
                 Text(
                     text = "Theme",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 state.theme?.let { theme ->
                     Text(
                         modifier = Modifier.padding(top = 7.dp),
                         text = theme,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Normal,
                     )
                 }
             }
@@ -192,37 +205,41 @@ fun ThemePreference(state: SettingsScreenState, showDialog: MutableState<Boolean
 }
 
 @Composable
-fun TemperatureUnitPreference(state: SettingsScreenState, showDialog: MutableState<Boolean>) {
+fun TemperatureUnitPreference(
+    state: SettingsScreenState,
+    showDialog: MutableState<Boolean>,
+) {
     // Unit category
     Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .clickable(
-                onClick = { showDialog.value = true }
-            )
+        modifier =
+            Modifier
+                .padding(16.dp)
+                .clickable(
+                    onClick = { showDialog.value = true },
+                ),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painterResource(id = R.drawable.ic_baseline_title_24),
                 contentDescription = "Unit Icon",
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             )
             Spacer(modifier = Modifier.width(25.dp))
             Column {
                 Text(
                     text = "Temperature Unit",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 state.temperatureUnit?.let { temperatureUnit ->
                     Text(
                         modifier = Modifier.padding(top = 7.dp),
                         text = temperatureUnit,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Normal,
                     )
                 }
             }

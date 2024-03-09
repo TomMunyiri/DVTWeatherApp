@@ -2,7 +2,6 @@ package com.tommunyiri.dvtweatherapp.domain.usecases.preferences
 
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 
-
 /**
  * Created by Tom Munyiri on 25/02/2024.
  * Company: Eclectics International Ltd

@@ -27,7 +27,6 @@ import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils
 import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.getFormattedTemperature
 
-
 /**
  * Created by Tom Munyiri on 20/02/2024.
  * Company: Eclectics International Ltd
@@ -36,62 +35,76 @@ import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.ge
 
 @Composable
 fun WeatherBottomSheetContent(
-    weather: Weather, prefs: SharedPreferenceHelper,
-    onFavoriteClicked: (weather: Weather) -> Unit, addToFavorite: Boolean
+    weather: Weather,
+    prefs: SharedPreferenceHelper,
+    onFavoriteClicked: (weather: Weather) -> Unit,
+    addToFavorite: Boolean,
 ) {
     Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 40.dp)) {
         // Sheet content
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
             Image(
-                painter = if (addToFavorite) painterResource(id = R.drawable.favorite_24) else painterResource(
-                    id = R.drawable.favorite_border_24
-                ),
+                painter =
+                    if (addToFavorite) {
+                        painterResource(id = R.drawable.favorite_24)
+                    } else {
+                        painterResource(
+                            id = R.drawable.favorite_border_24,
+                        )
+                    },
                 contentDescription = stringResource(id = R.string.remove_from_favorites),
-                alignment = Alignment.TopEnd, modifier = Modifier
-                    .padding(end = 15.dp)
-                    .clickable { onFavoriteClicked(weather) },
-                colorFilter = ColorFilter.tint(Color.White)
+                alignment = Alignment.TopEnd,
+                modifier =
+                    Modifier
+                        .padding(end = 15.dp)
+                        .clickable { onFavoriteClicked(weather) },
+                colorFilter = ColorFilter.tint(Color.White),
             )
         }
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Image(
                 painterResource(id = R.drawable.ic_cloud),
                 contentDescription = stringResource(id = R.string.small_cloud),
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 70.dp)
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .padding(top = 70.dp),
             )
             Image(
                 painterResource(id = R.drawable.ic_big_cloud),
                 contentDescription = stringResource(id = R.string.big_cloud),
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 30.dp),
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .padding(top = 30.dp),
             )
         }
         Column {
             Image(
                 painterResource(
-                    id = WeatherUtils.getWeatherIcon(
-                        weather.networkWeatherDescription.toString().lowercase()
-                    )
+                    id =
+                        WeatherUtils.getWeatherIcon(
+                            weather.networkWeatherDescription.toString().lowercase(),
+                        ),
                 ),
                 contentDescription = stringResource(id = R.string.weather_bottom_sheet_bg_image),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(50.dp)
-                    .padding(top = 20.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .size(50.dp)
+                        .padding(top = 20.dp),
             )
             Text(
                 text = weather.name,
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 16.dp, 0.dp, 0.dp),
                 textAlign = TextAlign.Center,
             )
             Text(
@@ -99,9 +112,10 @@ fun WeatherBottomSheetContent(
                 color = Color.White,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 16.dp, 0.dp, 0.dp),
                 textAlign = TextAlign.Center,
             )
             Text(
@@ -109,22 +123,25 @@ fun WeatherBottomSheetContent(
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 16.dp, 0.dp, 0.dp),
                 textAlign = TextAlign.Center,
             )
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 40.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 40.dp),
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Image(
                         painterResource(id = R.drawable.ic_humidity),
                         contentDescription = stringResource(id = R.string.humidity_icon),
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth(),
                     )
                     Text(
                         text = "${stringResource(id = R.string.humidity)}\n${weather.networkWeatherCondition.humidity}${
@@ -132,9 +149,10 @@ fun WeatherBottomSheetContent(
                         }",
                         color = Color.White,
                         fontSize = 15.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 16.dp, 0.dp, 0.dp),
                         textAlign = TextAlign.Center,
                     )
                 }
@@ -142,8 +160,9 @@ fun WeatherBottomSheetContent(
                     Image(
                         painterResource(id = R.drawable.ic_pressure),
                         contentDescription = stringResource(id = R.string.pressure_icon),
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth(),
                     )
                     Text(
                         text = "${stringResource(id = R.string.pressure)}\n${weather.networkWeatherCondition.pressure}${
@@ -151,9 +170,10 @@ fun WeatherBottomSheetContent(
                         }",
                         color = Color.White,
                         fontSize = 15.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 16.dp, 0.dp, 0.dp),
                         textAlign = TextAlign.Center,
                     )
                 }
@@ -161,8 +181,9 @@ fun WeatherBottomSheetContent(
                     Image(
                         painterResource(id = R.drawable.ic_wind),
                         contentDescription = stringResource(id = R.string.wind_speed_icon),
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth(),
                     )
                     Text(
                         text = "${stringResource(id = R.string.wind_speed)}\n${weather.wind.speed}${
@@ -170,9 +191,10 @@ fun WeatherBottomSheetContent(
                         }",
                         color = Color.White,
                         fontSize = 15.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(0.dp, 16.dp, 0.dp, 0.dp),
                         textAlign = TextAlign.Center,
                     )
                 }
