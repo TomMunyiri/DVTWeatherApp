@@ -35,6 +35,7 @@ import org.mockito.junit.MockitoJUnitRunner
  * Email: munyiri.thomas@eclectics.io
  */
 
+@Suppress("DEPRECATION")
 @RunWith(MockitoJUnitRunner::class)
 @ExperimentalCoroutinesApi
 class WeatherRepositoryTest {
