@@ -44,7 +44,7 @@ sonar {
             "sonar.coverage.exclusions",
             "**/*Test*/**,' +\n" + "'*.json,' +\n" + "'**/*test*/**,' +\n" + "'**/.gradle/**,' +\n" + "'**/R.class,",
         )
-        property ("sonar.androidLint.reportPaths", "lint-results-debug.xml")
+        property("sonar.androidLint.reportPaths", "lint-results-debug.xml")
     }
 }
 
