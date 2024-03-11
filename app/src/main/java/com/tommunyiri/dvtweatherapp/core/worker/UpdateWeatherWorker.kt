@@ -1,13 +1,11 @@
 package com.tommunyiri.dvtweatherapp.core.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.tommunyiri.dvtweatherapp.core.utils.NotificationHelper
 import com.tommunyiri.dvtweatherapp.core.utils.Result.Success
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
-import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 
 /**
