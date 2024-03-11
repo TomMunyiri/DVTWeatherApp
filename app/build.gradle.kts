@@ -27,7 +27,7 @@ ktlint {
     }
 }
 
-sonarqube {
+sonar {
     val properties = Properties()
     properties.load(rootProject.file("local.properties").inputStream())
     val sonarqubeToken = properties.getProperty("SONAR_TOKEN")
@@ -39,12 +39,12 @@ sonarqube {
         property("sonar.language", "kotlin")
         property("sonar.sources", "src/main/java")
         property("sonar.sourceEncoding", "UTF-8")
-        //property("sonar.token", sonarqubeToken)
-        property("sonar.token", "sqp_561ac0547ace5df4c1604290dfff556343cb88f8")
+        property("sonar.token", sonarqubeToken)
         property(
             "sonar.coverage.exclusions",
             "**/*Test*/**,' +\n" + "'*.json,' +\n" + "'**/*test*/**,' +\n" + "'**/.gradle/**,' +\n" + "'**/R.class,",
         )
+        property ("sonar.androidLint.reportPaths", "lint-results-debug.xml")
     }
 }
 
