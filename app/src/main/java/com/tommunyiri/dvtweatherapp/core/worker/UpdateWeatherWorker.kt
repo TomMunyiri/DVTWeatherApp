@@ -25,9 +25,7 @@ class UpdateWeatherWorker(
     private val sharedPrefs = SharedPreferenceHelper.getInstance(context)
 
     override suspend fun doWork(): Result {
-        // val location = sharedPrefs.getLocation()
-        val location = LocationModel(36.821945, -1.292065)
-        Log.d("TAG", "doWork: $location")
+        val location = sharedPrefs.getLocation()
 
         return when (val result = location?.let { repository.getWeather(it, true) }) {
             is Success -> {
