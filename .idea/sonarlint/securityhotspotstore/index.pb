@@ -180,3 +180,7 @@ Oapp/src/main/java/com/tommunyiri/dvtweatherapp/core/di/module/UseCasesModule.kt
 capp/src/main/java/com/tommunyiri/dvtweatherapp/presentation/components/WeatherBottomSheetContent.kt,3/4/34ee913e87b5dbd1ef477cec61a143caaf77bbc5
 =
 .editorconfig,6/2/626a747c8694eaae66f2afb3d1a745b045782c70
+@
+local.properties,0/7/0712df971a99ac4d2fccb8e0fb19f377f3374cca
+X
+(gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
