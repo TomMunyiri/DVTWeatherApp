@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.tommunyiri.dvtweatherapp.presentation.components
 
 import androidx.compose.foundation.clickable

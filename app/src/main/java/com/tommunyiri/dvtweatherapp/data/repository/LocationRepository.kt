@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.tommunyiri.dvtweatherapp.data.repository
 
 import android.annotation.SuppressLint
