@@ -45,7 +45,7 @@ class NotificationHelper(private val message: String, private val context: Conte
                             intent,
                             PendingIntent.FLAG_IMMUTABLE,
                         ),
-                    )
+                    ).setAutoCancel(true)
                     .build()
             NotificationManagerCompat.from(context).notify(notificationID, notification)
         }.onFailure {
