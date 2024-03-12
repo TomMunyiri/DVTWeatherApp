@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -85,43 +86,46 @@ fun HomeScreen(
         state.weather?.let { weather ->
             val screenBackgroundColor = getBackgroundColor(weather)
             prefs.saveCityId(weather.cityId)
-            Column(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .background(screenBackgroundColor),
-            ) {
-                TopHeader(weather, prefs, viewModel)
-                TempSection(weather, prefs)
-                HorizontalDivider(modifier = Modifier.fillMaxWidth(), color = Color.White)
-                if (state.isLoadingForecast) {
-                    Box(
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .padding(30.dp),
-                        contentAlignment = Alignment.TopCenter,
-                    ) {
-                        CircularProgressIndicator()
+            Scaffold { innerPadding ->
+                Column(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(screenBackgroundColor)
+                            .padding(innerPadding),
+                ) {
+                    TopHeader(weather, prefs, viewModel)
+                    TempSection(weather, prefs)
+                    HorizontalDivider(modifier = Modifier.fillMaxWidth(), color = Color.White)
+                    if (state.isLoadingForecast) {
+                        Box(
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(30.dp),
+                            contentAlignment = Alignment.TopCenter,
+                        ) {
+                            CircularProgressIndicator()
+                        }
                     }
-                }
-                state.weatherForecastList?.let { weatherForecastList ->
-                    LazyColumn(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp, 16.dp, 16.dp, 80.dp),
-                    ) {
-                        items(weatherForecastList.size) { i ->
-                            val weatherForecast = weatherForecastList[i]
-                            WeatherForecastItem(
-                                weatherForecast = weatherForecast,
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(0.dp, 10.dp, 0.dp, 10.dp),
-                                prefs,
-                            )
+                    state.weatherForecastList?.let { weatherForecastList ->
+                        LazyColumn(
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp, 16.dp, 16.dp, 80.dp),
+                        ) {
+                            items(weatherForecastList.size) { i ->
+                                val weatherForecast = weatherForecastList[i]
+                                WeatherForecastItem(
+                                    weatherForecast = weatherForecast,
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .padding(0.dp, 10.dp, 0.dp, 10.dp),
+                                    prefs,
+                                )
+                            }
                         }
                     }
                 }
@@ -223,7 +227,7 @@ fun TopHeader(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(top = 50.dp),
+                        .padding(top = 30.dp),
                 textAlign = TextAlign.Center,
             )
             Text(
