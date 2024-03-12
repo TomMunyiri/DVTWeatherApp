@@ -2,6 +2,7 @@ package com.tommunyiri.dvtweatherapp.presentation.screens.settings
 
 import androidx.lifecycle.ViewModel
 import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
+import com.tommunyiri.dvtweatherapp.domain.usecases.preferences.GetSharedPreferencesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,10 +19,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsScreenViewModel
     @Inject
-    constructor(private val prefs: SharedPreferenceHelper) :
+    constructor(private val getPrefsUseCase: GetSharedPreferencesUseCase) :
     ViewModel() {
         private val _settingsScreenState = MutableStateFlow(SettingsScreenState())
         val settingsScreenState: StateFlow<SettingsScreenState> = _settingsScreenState.asStateFlow()
+        val prefs = getSharedPrefs()
 
         init {
             getSettings()
@@ -62,5 +64,9 @@ class SettingsScreenViewModel
                 )
             }
             prefs.saveThemePref(theme)
+        }
+
+        private fun getSharedPrefs(): SharedPreferenceHelper {
+            return getPrefsUseCase.invoke()
         }
     }

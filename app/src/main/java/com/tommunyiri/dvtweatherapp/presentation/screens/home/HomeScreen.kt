@@ -57,7 +57,7 @@ fun HomeScreen(
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
-    val prefs = viewModel.getSharedPrefs()
+    val prefs = viewModel.prefs
     var openDialogError by remember { mutableStateOf(false) }
 
     DisposableEffect(lifecycleOwner) {

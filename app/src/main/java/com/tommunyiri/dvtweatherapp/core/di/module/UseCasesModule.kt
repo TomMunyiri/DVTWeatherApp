@@ -1,5 +1,6 @@
 package com.tommunyiri.dvtweatherapp.core.di.module
 
+import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPreferenceHelper
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 import com.tommunyiri.dvtweatherapp.domain.usecases.favorites.DeleteFavoriteLocationUseCase
 import com.tommunyiri.dvtweatherapp.domain.usecases.favorites.GetFavoriteLocationsUseCase
@@ -30,7 +31,8 @@ import javax.inject.Singleton
 class UseCasesModule {
     @Provides
     @Singleton
-    fun provideSharedPreferencesUseCase(): GetSharedPreferencesUseCase = GetSharedPreferencesUseCase()
+    fun provideSharedPreferencesUseCase(sharedPreferenceHelper: SharedPreferenceHelper): GetSharedPreferencesUseCase =
+        GetSharedPreferencesUseCase(sharedPreferenceHelper)
 
     @Provides
     @Singleton

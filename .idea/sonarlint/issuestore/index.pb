@@ -186,3 +186,5 @@ X
 (gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 J
 app/lint-results-debug.xml,9/5/95bb9c19c51f05fd88aa677e440120dd604aa4ac
+™
+iapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/favorites/DeleteFavoriteLocationUseCase.kt,5/6/56d6096513d81d34185b958855b0ccdc60624b2b

@@ -2,7 +2,6 @@ package com.tommunyiri.dvtweatherapp.data.sources.local.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
@@ -97,9 +96,9 @@ class SharedPreferenceHelper {
 
     /**
      * This function gets the value of the cache duration the user set in the
-     * Settings Fragment.
+     * Settings.
      */
-    fun getUserSetCacheDuration() = prefs?.getString("cache_key", "1000")
+    fun getUserSetCacheDuration() = prefs?.getString("cache_key", "60")
 
     /**
      * This function saves a [Temp Unit]
@@ -148,10 +147,6 @@ class SharedPreferenceHelper {
             val gson = Gson()
             val json = gson.toJson(location)
             putString(LOCATION, json)
-        }
-        Log.d("TAG", "saveLocation: $location")
-        if (getLocation() != null) {
-            Log.d("TAG", "saveLocation: ${getLocation()}")
         }
     }
 

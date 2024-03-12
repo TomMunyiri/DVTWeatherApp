@@ -7,8 +7,8 @@ import com.tommunyiri.dvtweatherapp.data.sources.local.preferences.SharedPrefere
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-class GetSharedPreferencesUseCase {
+class GetSharedPreferencesUseCase(private val sharedPreferenceHelper: SharedPreferenceHelper) {
     operator fun invoke(): SharedPreferenceHelper {
-        return SharedPreferenceHelper()
+        return sharedPreferenceHelper
     }
 }

@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 /**
  * Created by Tom Munyiri on 19/02/2024.
@@ -45,17 +46,19 @@ class HomeScreenViewModel
         private val getPrefsUseCase: GetSharedPreferencesUseCase,
         private val weatherUseCases: WeatherUseCases,
         private val context: Application,
+        private val prefs1: SharedPreferenceHelper,
     ) : ViewModel() {
         private val _homeScreenState = MutableStateFlow(HomeScreenState())
         val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
         lateinit var location: LocationModel
 
         val time = currentSystemTime()
+        val prefs = getSharedPrefs()
 
         init {
+            locationRepository.startLocationUpdates()
             currentSystemTime()
             setIsWeatherLoading()
-            locationRepository.startLocationUpdates()
             locationRepository.locationStateFlow.take(2)
                 .onEach { locationValue ->
                     if (locationValue != null) {
@@ -273,7 +276,7 @@ class HomeScreenViewModel
             }
         }
 
-        fun getSharedPrefs(): SharedPreferenceHelper {
+        private fun getSharedPrefs(): SharedPreferenceHelper {
             return getPrefsUseCase.invoke()
         }
 
@@ -291,7 +294,11 @@ class HomeScreenViewModel
         }
 
         private fun setupWorkManager() {
-            getSharedPrefs().saveLocation(location)
+            var cacheDuration by Delegates.notNull<Long>()
+            prefs.apply {
+                saveLocation(location)
+                cacheDuration = this.getUserSetCacheDuration().toString().toLong()
+            }
 
             val constraint =
                 Constraints.Builder()
@@ -299,7 +306,7 @@ class HomeScreenViewModel
                     .build()
 
             val weatherUpdateRequest =
-                PeriodicWorkRequestBuilder<UpdateWeatherWorker>(2, TimeUnit.MINUTES)
+                PeriodicWorkRequestBuilder<UpdateWeatherWorker>(cacheDuration, TimeUnit.MINUTES)
                     .setConstraints(constraint)
                     .setInitialDelay(1, TimeUnit.MINUTES)
                     .build()
