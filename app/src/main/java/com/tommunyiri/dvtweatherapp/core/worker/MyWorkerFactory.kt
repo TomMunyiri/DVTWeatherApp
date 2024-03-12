@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.domain.usecases.weather.WeatherUseCases
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
  * Company: Eclectics International Ltd
  * Email: munyiri.thomas@eclectics.io
  */
-class MyWorkerFactory(private val repository: WeatherRepository) : WorkerFactory() {
+class MyWorkerFactory(private val weatherUseCases: WeatherUseCases) : WorkerFactory() {
     override fun createWorker(
         appContext: Context,
         workerClassName: String,
@@ -19,7 +19,7 @@ class MyWorkerFactory(private val repository: WeatherRepository) : WorkerFactory
     ): ListenableWorker? {
         return when (workerClassName) {
             UpdateWeatherWorker::class.java.name -> {
-                UpdateWeatherWorker(appContext, workerParameters, repository)
+                UpdateWeatherWorker(appContext, workerParameters, weatherUseCases)
             }
 
             else -> {

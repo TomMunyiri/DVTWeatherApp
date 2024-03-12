@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.work.Configuration
 import com.tommunyiri.dvtweatherapp.BuildConfig
 import com.tommunyiri.dvtweatherapp.core.worker.MyWorkerFactory
-import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
+import com.tommunyiri.dvtweatherapp.domain.usecases.weather.WeatherUseCases
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltAndroidApp
 class DVTWeatherApplication() : Application(), Configuration.Provider {
     @Inject
-    lateinit var weatherRepository: WeatherRepository
+    lateinit var weatherUsesCases: WeatherUseCases
 
     override fun onCreate() {
         super.onCreate()
@@ -31,6 +31,6 @@ class DVTWeatherApplication() : Application(), Configuration.Provider {
         get() =
             Configuration.Builder()
                 .setMinimumLoggingLevel(Log.INFO)
-                .setWorkerFactory(MyWorkerFactory(weatherRepository))
+                .setWorkerFactory(MyWorkerFactory(weatherUsesCases))
                 .build()
 }
