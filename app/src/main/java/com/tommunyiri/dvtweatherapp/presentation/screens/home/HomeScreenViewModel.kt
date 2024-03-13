@@ -311,7 +311,7 @@ class HomeScreenViewModel
                 PeriodicWorkRequestBuilder<UpdateWeatherWorker>(cacheDuration, TimeUnit.HOURS)
                     .setConstraints(constraint)
                     .setInitialDelay(1, TimeUnit.MINUTES)
-                    /** retry work if it fails after 10 seconds
+                    /** retry work if it fails after 10 seconds [WorkRequest.MIN_BACKOFF_MILLIS]
                      * Since the policy is LINEAR the retry interval will increase by approximately 10 seconds with each new attempt
                      * For instance, the first run finishing with Result.retry() will be attempted again after 10 seconds,
                      * followed by 20, 30, 40, and so on
