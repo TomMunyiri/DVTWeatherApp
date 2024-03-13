@@ -151,7 +151,7 @@ fun CacheDurationPreference(
                 state.cacheDuration?.let { cacheDuration ->
                     Text(
                         modifier = Modifier.padding(top = 7.dp),
-                        text = "$cacheDuration ${stringResource(id = R.string.minutes)}",
+                        text = "$cacheDuration ${stringResource(id = R.string.hours)}",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Normal,
                     )

@@ -46,7 +46,6 @@ class HomeScreenViewModel
         private val getPrefsUseCase: GetSharedPreferencesUseCase,
         private val weatherUseCases: WeatherUseCases,
         private val context: Application,
-        private val prefs1: SharedPreferenceHelper,
     ) : ViewModel() {
         private val _homeScreenState = MutableStateFlow(HomeScreenState())
         val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
@@ -306,7 +305,7 @@ class HomeScreenViewModel
                     .build()
 
             val weatherUpdateRequest =
-                PeriodicWorkRequestBuilder<UpdateWeatherWorker>(cacheDuration, TimeUnit.MINUTES)
+                PeriodicWorkRequestBuilder<UpdateWeatherWorker>(cacheDuration, TimeUnit.HOURS)
                     .setConstraints(constraint)
                     .setInitialDelay(1, TimeUnit.MINUTES)
                     .build()
