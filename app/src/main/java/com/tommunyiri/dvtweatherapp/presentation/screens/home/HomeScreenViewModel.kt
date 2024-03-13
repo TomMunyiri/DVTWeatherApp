@@ -10,6 +10,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.tommunyiri.dvtweatherapp.core.utils.Result
 import com.tommunyiri.dvtweatherapp.core.worker.UpdateWeatherWorker
 import com.tommunyiri.dvtweatherapp.data.repository.LocationRepository
@@ -315,7 +316,11 @@ class HomeScreenViewModel
                      * For instance, the first run finishing with Result.retry() will be attempted again after 10 seconds,
                      * followed by 20, 30, 40, and so on
                      **/
-                    .setBackoffCriteria(BackoffPolicy.LINEAR, 10L, TimeUnit.SECONDS)
+                    .setBackoffCriteria(
+                        BackoffPolicy.LINEAR,
+                        WorkRequest.MIN_BACKOFF_MILLIS,
+                        TimeUnit.SECONDS,
+                    )
                     .build()
 
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
