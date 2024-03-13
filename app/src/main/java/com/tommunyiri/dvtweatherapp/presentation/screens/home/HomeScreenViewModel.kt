@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -304,10 +305,17 @@ class HomeScreenViewModel
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
 
+            // Note: The minimum repeat interval that can be defined is 15 minutes (same as the JobScheduler API).
             val weatherUpdateRequest =
                 PeriodicWorkRequestBuilder<UpdateWeatherWorker>(cacheDuration, TimeUnit.HOURS)
                     .setConstraints(constraint)
                     .setInitialDelay(1, TimeUnit.MINUTES)
+                    /** retry work if it fails after 10 seconds
+                     * Since the policy is LINEAR the retry interval will increase by approximately 10 seconds with each new attempt
+                     * For instance, the first run finishing with Result.retry() will be attempted again after 10 seconds,
+                     * followed by 20, 30, 40, and so on
+                     **/
+                    .setBackoffCriteria(BackoffPolicy.LINEAR, 10L, TimeUnit.SECONDS)
                     .build()
 
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
