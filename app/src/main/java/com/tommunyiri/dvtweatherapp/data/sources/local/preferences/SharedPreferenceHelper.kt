@@ -98,7 +98,7 @@ class SharedPreferenceHelper {
      * This function gets the value of the cache duration the user set in the
      * Settings.
      */
-    fun getUserSetCacheDuration() = prefs?.getString("cache_key", "60")
+    fun getUserSetCacheDuration() = prefs?.getString("cache_key", "5")
 
     /**
      * This function saves a [Temp Unit]
