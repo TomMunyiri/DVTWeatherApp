@@ -38,11 +38,12 @@ The architecture of this application relies and complies with the following poin
 - [ ] Display current city 
 - [ ] Display current time
 - [ ] Get and display weather forecast for the next 5 days
-- [ ] Change app theme
+- [ ] Change app theme - Dark and Light Theme
 - [ ] Set preferred unit of temperature
 - [ ] Search location and display the current weather. Algolia used for searching
 - [ ] Save locations, display saved locations, remove from saved locations, get weather for saved locations
 - [ ] Show saved locations on a Google Map
+- [ ] Fetch current weather and weather forecast periodically (period defined by user) in the background using Work Manager, caches it in local storage; Ensures that weather info is up to date
 
 ## Installation
 DVT Weather requires a minimum API level of 24. Clone the repository. You will need an API key i.e. `API_KEY` from [Open Weather](https://openweathermap.org/) to request data. If you don’t already have an account, you will need to create one in order to request an API Key. Also, you will need to create an app on [Algolia](https://www.algolia.com/doc/).
