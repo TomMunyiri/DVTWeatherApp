@@ -204,3 +204,5 @@ fapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/DeleteWe
 aapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/StoreWeatherDataUseCase.kt,5/d/5dd38f13bfd552e47e4497758a566e298c2da9a2
 —
 gapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/favorites/SaveFavoriteLocationUseCase.kt,c/3/c3d4a578442e49fe0dbf9a19d241acb0edd50508
+‘
+aapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/GetSearchWeatherUseCase.kt,c/1/c1ec653b84ab8536d27e098ca695e94e39f95851
