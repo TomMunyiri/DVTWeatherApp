@@ -192,3 +192,15 @@ iapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/favorites/Delete
 Napp/src/main/java/com/tommunyiri/dvtweatherapp/core/di/module/NetworkModule.kt,2/f/2fdde30a9ca3de0230056f2d08d250dd19b8cc42
 ê
 `app/src/main/java/com/tommunyiri/dvtweatherapp/data/sources/remote/retrofit/WeatherApiService.kt,f/2/f29c1fee96614ca0c034d45121fa864775f96aa1
+ç
+]app/src/main/java/com/tommunyiri/dvtweatherapp/data/sources/remote/WeatherRemoteDataSource.kt,2/b/2bb140bedaa755499da4ac0fe68e2aff411daad7
+ë
+aapp/src/main/java/com/tommunyiri/dvtweatherapp/data/sources/remote/WeatherRemoteDataSourceImpl.kt,0/7/07720eb92353b2fc5e7bf283298de04108eeeb49
+í
+bapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/DeleteWeatherDataUseCase.kt,5/6/56d0f1d87a33442a4635d5909dc296d7f79669d3
+ñ
+fapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/DeleteWeatherForecastUseCase.kt,f/1/f14af10ada5b81f14180be10f185b997b8028089
+ë
+aapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/StoreWeatherDataUseCase.kt,5/d/5dd38f13bfd552e47e4497758a566e298c2da9a2
+ó
+gapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/favorites/SaveFavoriteLocationUseCase.kt,c/3/c3d4a578442e49fe0dbf9a19d241acb0edd50508

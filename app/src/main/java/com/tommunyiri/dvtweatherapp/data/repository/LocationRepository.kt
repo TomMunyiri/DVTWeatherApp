@@ -12,6 +12,7 @@ import com.google.android.gms.location.LocationServices
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * Created by Tom Munyiri on 26/02/2024.
@@ -22,7 +23,7 @@ class LocationRepository(context: Context) {
     private var fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     private val _locationStateFlow = MutableStateFlow<LocationModel?>(null)
-    val locationStateFlow: Flow<LocationModel?> = _locationStateFlow
+    val locationStateFlow: StateFlow<LocationModel?> = _locationStateFlow
 
     @SuppressLint("MissingPermission")
     fun startLocationUpdates() {
