@@ -206,3 +206,5 @@ aapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/StoreWea
 gapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/favorites/SaveFavoriteLocationUseCase.kt,c/3/c3d4a578442e49fe0dbf9a19d241acb0edd50508
 ë
 aapp/src/main/java/com/tommunyiri/dvtweatherapp/domain/usecases/weather/GetSearchWeatherUseCase.kt,c/1/c1ec653b84ab8536d27e098ca695e94e39f95851
+Å
+Qapp/src/main/java/com/tommunyiri/dvtweatherapp/core/di/module/DispatcherModule.kt,c/1/c1c4f738cd22f510ef3b272689a016025f2e5cb5

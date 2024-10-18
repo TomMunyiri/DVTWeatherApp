@@ -16,58 +16,54 @@ import javax.inject.Inject
  * Email: munyiri.thomas@eclectics.io
  */
 class WeatherRemoteDataSourceImpl
-    @Inject
-    constructor(
-        @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-        private val apiService: WeatherApiService,
-    ) : WeatherRemoteDataSource {
-        override suspend fun getWeather(location: LocationModel): Result<NetworkWeather> =
-            withContext(ioDispatcher) {
-                return@withContext try {
-                    val result =
-                        apiService.getCurrentWeather(
-                            location.latitude,
-                            location.longitude,
-                        )
-                    if (result.isSuccessful) {
-                        val networkWeather = result.body()
-                        Result.Success(networkWeather)
-                    } else {
-                        Result.Success(null)
-                    }
-                } catch (exception: Exception) {
-                    Result.Error(exception)
+@Inject
+constructor(
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val apiService: WeatherApiService,
+) : WeatherRemoteDataSource {
+    override suspend fun getWeather(location: LocationModel): Result<NetworkWeather> =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                val result = apiService.getCurrentWeather(location.latitude, location.longitude)
+                if (result.isSuccessful) {
+                    val networkWeather = result.body()
+                    Result.Success(networkWeather)
+                } else {
+                    Result.Success(null)
                 }
+            } catch (exception: Exception) {
+                Result.Error(exception)
             }
+        }
 
-        // override suspend fun getWeatherForecast(cityId: Int): Result<List<NetworkWeatherForecast>> =
-        override suspend fun getWeatherForecast(location: LocationModel): Result<List<NetworkWeatherForecast>> =
-            withContext(ioDispatcher) {
-                return@withContext try {
-                    val result = apiService.getWeatherForecast(location.latitude, location.longitude)
-                    if (result.isSuccessful) {
-                        val networkWeatherForecast = result.body()?.weathers
-                        Result.Success(networkWeatherForecast)
-                    } else {
-                        Result.Success(null)
-                    }
-                } catch (exception: Exception) {
-                    Result.Error(exception)
+    // override suspend fun getWeatherForecast(cityId: Int): Result<List<NetworkWeatherForecast>> =
+    override suspend fun getWeatherForecast(location: LocationModel): Result<List<NetworkWeatherForecast>> =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                val result = apiService.getWeatherForecast(location.latitude, location.longitude)
+                if (result.isSuccessful) {
+                    val networkWeatherForecast = result.body()?.weathers
+                    Result.Success(networkWeatherForecast)
+                } else {
+                    Result.Success(null)
                 }
+            } catch (exception: Exception) {
+                Result.Error(exception)
             }
+        }
 
-        override suspend fun getSearchWeather(query: String): Result<NetworkWeather> =
-            withContext(ioDispatcher) {
-                return@withContext try {
-                    val result = apiService.getSpecificWeather(query)
-                    if (result.isSuccessful) {
-                        val networkWeather = result.body()
-                        Result.Success(networkWeather)
-                    } else {
-                        Result.Success(null)
-                    }
-                } catch (exception: Exception) {
-                    Result.Error(exception)
+    override suspend fun getSearchWeather(query: String): Result<NetworkWeather> =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                val result = apiService.getSpecificWeather(query)
+                if (result.isSuccessful) {
+                    val networkWeather = result.body()
+                    Result.Success(networkWeather)
+                } else {
+                    Result.Success(null)
                 }
+            } catch (exception: Exception) {
+                Result.Error(exception)
             }
-    }
+        }
+}
