@@ -76,19 +76,19 @@ fun CheckPermissions(onThemeUpdated: () -> Unit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             rememberMultiplePermissionsState(
                 permissions =
-                    listOf(
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.POST_NOTIFICATIONS,
-                    ),
+                listOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ),
             )
         } else {
             rememberMultiplePermissionsState(
                 permissions =
-                    listOf(
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                    ),
+                listOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                ),
             )
         }
     if (!checkAllPermissions(permissionsState, LocalContext.current)) {
@@ -119,9 +119,9 @@ fun CheckPermissions(onThemeUpdated: () -> Unit) {
                 perm.shouldShowRationale -> {
                     Box(
                         modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .padding(25.dp),
+                        Modifier
+                            .fillMaxSize()
+                            .padding(25.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
@@ -134,9 +134,9 @@ fun CheckPermissions(onThemeUpdated: () -> Unit) {
                 perm.isPermanentlyDenied() -> {
                     Box(
                         modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .padding(25.dp),
+                        Modifier
+                            .fillMaxSize()
+                            .padding(25.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
@@ -171,4 +171,4 @@ private fun isPermissionGranted(
     permission: String,
     context: Context,
 ) = ActivityCompat.checkSelfPermission(context, permission) ==
-    PackageManager.PERMISSION_GRANTED
+        PackageManager.PERMISSION_GRANTED
