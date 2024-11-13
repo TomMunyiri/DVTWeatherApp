@@ -1,7 +1,8 @@
 [versions]
-agp = "8.3.0"
-kotlin = "1.9.0"
-coreKtx = "1.12.0"
+agp = "8.7.2"
+#kotlin = "1.9.0"
+kotlin = "2.0.21"
+coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -9,14 +10,14 @@ appcompat = "1.6.1"
 material = "1.11.0"
 activity = "1.8.2"
 constraintlayout = "2.1.4"
-hilt-android = "2.50"
-ksp = "1.9.0-1.0.13"
-hilt-compiler = "1.1.0"
+hilt-android = "2.52"
+ksp = "2.0.20-1.0.25"
+hilt-compiler = "1.2.0"
 sonarqubeGradlePlugin = "3.5.0.2730"
 # Firebase Services
 firebaseCrashlytics = "18.6.2"
 firebaseAnalytics = "21.5.1"
-gradle = "8.3.0"
+gradle = "8.7.2"
 googleServices = "4.4.1"
 firebaseCrashlyticsGradle = "2.9.9"
 #work manager
@@ -28,7 +29,7 @@ chuck = "1.1.0"
 gson = "2.10.1"
 #room
 room = "2.6.1"
-coroutines = "1.7.3"
+coroutines = "1.9.0"
 #preferences
 preferences = "1.2.1"
 #google play gms location services
@@ -59,7 +60,7 @@ roboelectric = "4.6"
 hilt-navigation-compose = "1.2.0"
 navigation-compose = "2.7.7"
 activity-compose = "1.7.2"
-compose-bom = "2023.09.00"
+compose-bom = "2024.10.01"
 paging-compose = "3.2.1"
 material-icons-extended = "1.6.1"
 material3-window-size = "1.2.0"
@@ -171,7 +172,10 @@ maps-compose = { group = "com.google.maps.android",name = "maps-compose", versio
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+#kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "agp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

@@ -11,10 +11,13 @@ plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
     alias(libs.plugins.kotlinParcelize) apply false
-    alias(libs.plugins.kotlinKapt) apply false
+    //alias(libs.plugins.kotlinKapt) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.ktlint) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.dynamic.feature) apply false
+    alias(libs.plugins.kotlin.compose) apply false
 }
 
 tasks.register("clean").configure {

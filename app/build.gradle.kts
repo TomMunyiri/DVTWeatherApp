@@ -5,14 +5,15 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.kotlinParcelize)
-    alias(libs.plugins.kotlinKapt)
+    //alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     alias(libs.plugins.ktlint)
     id("org.sonarqube")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
+    alias(libs.plugins.kotlin.compose)
 }
 
 tasks.check {
@@ -52,12 +53,12 @@ android {
     val properties = Properties()
     properties.load(rootProject.file("local.properties").inputStream())
     namespace = "com.tommunyiri.dvtweatherapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.tommunyiri.dvtweatherapp"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -116,9 +117,11 @@ android {
         baseline = file("lint-baseline.xml")
     }
 
-    composeOptions {
+    //Commented this after upgrading to kotlin 2.0.0+ coz it's no longer needed
+    /*composeOptions {
         kotlinCompilerExtensionVersion = "1.5.0"
-    }
+    }*/
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"

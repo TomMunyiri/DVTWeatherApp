@@ -31,4 +31,3 @@ buildCache {
 
 rootProject.name = "DVT Weather App"
 include(":app")
- 

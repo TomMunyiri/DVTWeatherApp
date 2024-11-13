@@ -17,6 +17,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,16 +53,17 @@ fun SingleInputDialog(
         ) {
             Column(modifier = Modifier.padding(15.dp)) {
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = stringResource(id = R.string.cache_string),
-                )
+                Text(text = stringResource(id = R.string.cache_string))
                 Spacer(modifier = Modifier.width(15.dp))
                 TextField(
                     value = cacheDuration,
                     onValueChange = { cacheDuration = it },
                     // label = { Text(text = stringResource(id = R.string.enter_cache_duration)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent
+                    )
                 )
 
                 Spacer(modifier = Modifier.width(10.dp))

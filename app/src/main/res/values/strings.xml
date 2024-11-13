@@ -96,4 +96,6 @@
     <string name="nav_icon_content_desc">Navigate back</string>
     <string name="get_started">Get Started</string>
     <string name="permissions_permanently_denied">Permissions were permanently denied. You can enable them in the app settings.</string>
+    <string name="title_mytestinstantdynamicfeature">My Test Instant Dynamic Feature</string>
+    <string name="title_mytestdynamicfeature">My Dynamic Feature</string>
 </resources>
