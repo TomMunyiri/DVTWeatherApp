@@ -17,9 +17,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -29,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -60,7 +65,7 @@ import kotlinx.coroutines.launch
 fun SearchScreen(
     navController: NavHostController,
     viewModel: SearchScreenViewModel = hiltViewModel(),
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    lifecycleOwner: LifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current,
 ) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -95,12 +100,17 @@ fun SearchScreen(
         }
     }
 
-    Scaffold(topBar = {
-        TopAppBarComponent(
-            title = stringResource(id = R.string.search),
-            onBackButtonClick = { navController.popBackStack() },
-        )
-    }) { contentPadding ->
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBarComponent(
+                title = stringResource(id = R.string.search),
+                onBackButtonClick = { navController.popBackStack() },
+                scrollBehavior
+            )
+        }) { contentPadding ->
         if (state.isLoading || pagingHits.itemCount == 0) {
             LoadingIndicator()
         }
@@ -230,7 +240,11 @@ fun SearchBox(
     searchBoxState: SearchBoxState = SearchBoxState(),
     onValueChange: (String) -> Unit = {},
 ) {
-    OutlinedTextField(
+    TextField(
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent
+        ),
         modifier = modifier,
         // set query as text value
         value = searchBoxState.query,

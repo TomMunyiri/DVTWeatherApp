@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -20,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,6 +37,7 @@ import com.tommunyiri.dvtweatherapp.presentation.components.SingleInputDialog
 import com.tommunyiri.dvtweatherapp.presentation.components.SingleSelectDialog
 import com.tommunyiri.dvtweatherapp.presentation.components.TopAppBarComponent
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     onThemeUpdated: () -> Unit,
@@ -87,12 +91,16 @@ fun SettingsScreen(
             onDismissRequest = { showCacheDurationDialog.value = false },
         )
     }
-    Scaffold(topBar = {
-        TopAppBarComponent(
-            title = stringResource(id = R.string.settings),
-            onBackButtonClick = { navController.popBackStack() },
-        )
-    }) { contentPadding ->
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBarComponent(
+                title = stringResource(id = R.string.settings),
+                onBackButtonClick = { navController.popBackStack() },
+                scrollBehavior
+            )
+        }) { contentPadding ->
         Column(
             modifier =
                 Modifier

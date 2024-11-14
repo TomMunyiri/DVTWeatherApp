@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -63,7 +66,7 @@ import com.tommunyiri.dvtweatherapp.presentation.utils.WeatherUtils.Companion.ge
 fun FavoritesScreen(
     navController: NavHostController,
     viewModel: FavoritesScreenViewModel = hiltViewModel(),
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    lifecycleOwner: LifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current,
 ) {
     val state by viewModel.favoritesScreenState.collectAsStateWithLifecycle()
     val currentLocation by viewModel.location.collectAsStateWithLifecycle()
@@ -122,23 +125,28 @@ fun FavoritesScreen(
         SweetToast(text = state.error.toString(), success = false)
     }
 
-    Scaffold(floatingActionButton = {
-        FloatingActionButton(
-            onClick = { showMap = !showMap },
-            modifier = Modifier.padding(bottom = 80.dp),
-        ) {
-            if (showMap) {
-                Icon(Icons.AutoMirrored.Filled.ViewList, contentDescription = "List")
-            } else {
-                Icon(Icons.Default.Map, contentDescription = "Map")
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { showMap = !showMap },
+                modifier = Modifier.padding(bottom = 80.dp),
+            ) {
+                if (showMap) {
+                    Icon(Icons.AutoMirrored.Filled.ViewList, contentDescription = "List")
+                } else {
+                    Icon(Icons.Default.Map, contentDescription = "Map")
+                }
             }
-        }
-    }, topBar = {
-        TopAppBarComponent(
-            title = stringResource(id = R.string.favorite),
-            onBackButtonClick = { navController.popBackStack() },
-        )
-    }) { contentPadding ->
+        }, modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBarComponent(
+                title = stringResource(id = R.string.favorite),
+                onBackButtonClick = { navController.popBackStack() },
+                scrollBehavior
+            )
+        }) { contentPadding ->
         if (state.isLoading) {
             LoadingIndicator()
         }
