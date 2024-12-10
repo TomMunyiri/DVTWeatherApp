@@ -32,18 +32,18 @@ The architecture of this application relies and complies with the following poin
 * [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) for realtime crash reporting and tracking stability issues that erode app quality.
 
 ## Features
-- X Offline first approach for current weather and weather forecast 
-- X Get and display current weather
+- [X] Offline first approach for current weather and weather forecast 
+- [X] Get and display current weather
 - [X] Change home screen background image depending on the current weather
-- [ ] Display current city 
-- [ ] Display current time
-- [ ] Get and display weather forecast for the next 5 days
-- [ ] Change app theme - Dark and Light Theme
-- [ ] Set preferred unit of temperature
-- [ ] Search location and display the current weather. Algolia used for searching
-- [ ] Save locations, display saved locations, remove from saved locations, get weather for saved locations
-- [ ] Show saved locations on a Google Map
-- [ ] Fetch current weather and weather forecast periodically (period defined by user) in the background using Work Manager, caches it in local storage; Ensures that weather info is up to date
+- [X] Display current city 
+- [X] Display current time
+- [X] Get and display weather forecast for the next 5 days
+- [X] Change app theme - Dark and Light Theme
+- [X] Set preferred unit of temperature
+- [X] Search location and display the current weather. Algolia used for searching
+- [X] Save locations, display saved locations, remove from saved locations, get weather for saved locations
+- [X] Show saved locations on a Google Map
+- [X] Fetch current weather and weather forecast periodically (period defined by user) in the background using Work Manager, caches it in local storage; Ensures that weather info is up to date
 
 ## Installation
 DVT Weather requires a minimum API level of 24. Clone the repository. You will need an API key i.e. `API_KEY` from [Open Weather](https://openweathermap.org/) to request data. If you don’t already have an account, you will need to create one in order to request an API Key. Also, you will need to create an app on [Algolia](https://www.algolia.com/doc/).
