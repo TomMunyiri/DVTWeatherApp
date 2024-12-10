@@ -34,7 +34,7 @@ The architecture of this application relies and complies with the following poin
 ## Features
 - X Offline first approach for current weather and weather forecast 
 - X Get and display current weather
-- [ ] Change home screen background image depending on the current weather
+- [X] Change home screen background image depending on the current weather
 - [ ] Display current city 
 - [ ] Display current time
 - [ ] Get and display weather forecast for the next 5 days
