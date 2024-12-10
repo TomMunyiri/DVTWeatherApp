@@ -111,7 +111,7 @@ android {
         viewBinding = true
         dataBinding = true
         buildConfig = true
-        compose = true
+        //compose = true
     }
     lint {
         baseline = file("lint-baseline.xml")

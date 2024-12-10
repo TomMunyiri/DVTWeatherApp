@@ -1,6 +1,6 @@
 # DVT Weather :partly_sunny:
 
-An Android weather application implemented using the MVVM pattern and clean architecture, Retrofit2, Dagger Hilt, Kotlin Flows, ViewModel, Coroutines, Room, Jetpack Compose, Kotlin DSL and some other libraries from the [Android Jetpack](https://developer.android.com/jetpack) . DVT Weather fetches data from the [OpenWeatherMap API](https://openweathermap.org/api) to provide real time weather information. It also makes use of the [Algolia Instant Search](https://www.algolia.com/products/instantsearch/) service which enables you search for weather conditions of various locations.
+An Android weather application implemented using the MVI pattern and clean architecture, Retrofit2, Dagger Hilt, Kotlin Flows, ViewModel, Coroutines, Room, Jetpack Compose, Kotlin DSL and some other libraries from the [Android Jetpack](https://developer.android.com/jetpack) . DVT Weather fetches data from the [OpenWeatherMap API](https://openweathermap.org/api) to provide real time weather information. It also makes use of the [Algolia Instant Search](https://www.algolia.com/products/instantsearch/) service which enables you search for weather conditions of various locations.
 
 ## Architecture
 The architecture of this application relies and complies with the following points below:
@@ -32,8 +32,8 @@ The architecture of this application relies and complies with the following poin
 * [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) for realtime crash reporting and tracking stability issues that erode app quality.
 
 ## Features
-- [ ] Offline first approach for current weather and weather forecast 
-- [ ] Get and display current weather
+- X Offline first approach for current weather and weather forecast 
+- X Get and display current weather
 - [ ] Change home screen background image depending on the current weather
 - [ ] Display current city 
 - [ ] Display current time
