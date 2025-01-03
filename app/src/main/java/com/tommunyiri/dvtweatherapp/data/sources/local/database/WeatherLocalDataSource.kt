@@ -3,6 +3,7 @@ package com.tommunyiri.dvtweatherapp.data.sources.local.database
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBFavoriteLocation
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeather
 import com.tommunyiri.dvtweatherapp.data.sources.local.database.entity.DBWeatherForecast
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
@@ -24,7 +25,7 @@ interface WeatherLocalDataSource {
 
     suspend fun saveFavoriteLocation(favoriteLocation: DBFavoriteLocation): List<Long>
 
-    suspend fun getFavoriteLocations(): List<DBFavoriteLocation>?
+    fun getFavoriteLocations(): Flow<List<DBFavoriteLocation>?>
 
     suspend fun deleteFavoriteLocation(name: String): Int
 }

@@ -5,6 +5,7 @@ import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
 import com.tommunyiri.dvtweatherapp.domain.model.LocationModel
 import com.tommunyiri.dvtweatherapp.domain.model.Weather
 import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by Tom Munyiri on 19/01/2024.
@@ -35,7 +36,7 @@ interface WeatherRepository {
 
     suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation): Result<List<Long>>?
 
-    suspend fun getFavoriteLocations(): Result<List<FavoriteLocation>?>
+    fun getFavoriteLocations(): Flow<Result<List<FavoriteLocation>?>>
 
     suspend fun deleteFavoriteLocation(name: String): Result<Int>?
 }

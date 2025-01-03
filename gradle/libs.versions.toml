@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.2"
+agp = "8.7.3"
 #kotlin = "1.9.0"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
@@ -12,12 +12,13 @@ activity = "1.8.2"
 constraintlayout = "2.1.4"
 hilt-android = "2.52"
 ksp = "2.0.20-1.0.25"
+#ksp = "2.1.0-1.0.29"
 hilt-compiler = "1.2.0"
 sonarqubeGradlePlugin = "3.5.0.2730"
 # Firebase Services
 firebaseCrashlytics = "18.6.2"
 firebaseAnalytics = "21.5.1"
-gradle = "8.7.2"
+gradle = "8.7.3"
 googleServices = "4.4.1"
 firebaseCrashlyticsGradle = "2.9.9"
 #work manager
