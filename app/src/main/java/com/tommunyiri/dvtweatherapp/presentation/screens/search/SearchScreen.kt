@@ -166,7 +166,6 @@ fun SearchScreen(
                                 Modifier
                                     .fillMaxSize()
                                     .fillMaxWidth()
-                                    .padding(14.dp)
                                     .clickable {
                                         viewModel.apply {
                                             viewModel.onEvent(SearchScreenEvent.ResetWeather)
@@ -176,7 +175,8 @@ fun SearchScreen(
                                                 ),
                                             )
                                         }
-                                    },
+                                    }
+                                    .padding(14.dp),
                             text = "${searchItem.name}, ${searchItem.country}",
                             style = MaterialTheme.typography.bodyMedium,
                         )

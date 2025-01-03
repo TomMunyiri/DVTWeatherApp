@@ -135,10 +135,11 @@ fun CacheDurationPreference(
     Column(
         modifier =
             Modifier
-                .padding(16.dp)
+                .fillMaxWidth()
                 .clickable(
                     onClick = { showDialog.value = true },
-                ),
+                )
+                .padding(16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -178,10 +179,10 @@ fun ThemePreference(
     Column(
         modifier =
             Modifier
-                .padding(16.dp)
                 .clickable(
                     onClick = { showDialog.value = true },
-                ),
+                )
+                .padding(16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -221,10 +222,10 @@ fun TemperatureUnitPreference(
     Column(
         modifier =
             Modifier
-                .padding(16.dp)
                 .clickable(
                     onClick = { showDialog.value = true },
-                ),
+                )
+                .padding(16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

@@ -235,13 +235,13 @@ fun FavoriteLocationsList(
                     Modifier
                         .fillMaxSize()
                         .fillMaxWidth()
-                        .padding(14.dp)
                         .clickable {
                             viewModel.apply {
                                 onEvent(FavoritesScreenEvent.ResetWeather)
                                 onEvent(FavoritesScreenEvent.GetWeather(favoriteLocation.name))
                             }
-                        },
+                        }
+                        .padding(14.dp),
                 text = "${favoriteLocation.name}, ${favoriteLocation.country}",
                 style = typography.bodyMedium,
             )
