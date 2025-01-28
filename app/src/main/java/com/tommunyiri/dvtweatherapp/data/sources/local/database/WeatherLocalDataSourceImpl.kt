@@ -58,7 +58,7 @@ constructor(
         }
 
     override fun getFavoriteLocations(): Flow<List<DBFavoriteLocation>> =
-         weatherDao.getAllFavoriteLocations().flowOn(ioDispatcher)
+        weatherDao.getAllFavoriteLocations()
 
     override suspend fun deleteFavoriteLocation(name: String): Int =
         withContext(ioDispatcher) {

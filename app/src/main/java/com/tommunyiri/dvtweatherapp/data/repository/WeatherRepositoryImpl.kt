@@ -17,8 +17,7 @@ import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -156,17 +155,17 @@ constructor(
             Result.Success(storeFavoriteLocationResult)
         }
 
-    override fun getFavoriteLocations(): Flow<Result<List<FavoriteLocation>?>> = flow {
-        val mapper = FavoriteLocationListMapperLocal()
-        val favoriteLocationsFlow = localDataSource.getFavoriteLocations()
-        favoriteLocationsFlow.collect { favoriteLocations ->
-            if (favoriteLocations != null) {
-                emit(Result.Success(mapper.transformToDomain(favoriteLocations)))
-            } else {
-                emit(Result.Success(null))
+    override suspend fun getFavoriteLocations(): Flow<Result<List<FavoriteLocation>?>> =
+        withContext(ioDispatcher) {
+            val mapper = FavoriteLocationListMapperLocal()
+            localDataSource.getFavoriteLocations().map { favoriteLocations ->
+                if (favoriteLocations != null) {
+                    Result.Success(mapper.transformToDomain(favoriteLocations))
+                } else {
+                    Result.Success(null)
+                }
             }
         }
-    }.flowOn(ioDispatcher)
 
     override suspend fun deleteFavoriteLocation(name: String): Result<Int> =
         withContext(ioDispatcher) {
