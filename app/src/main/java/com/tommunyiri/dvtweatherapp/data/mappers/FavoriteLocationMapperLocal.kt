@@ -9,8 +9,11 @@ import com.tommunyiri.dvtweatherapp.domain.model.FavoriteLocation
  * Email: munyiri.thomas@eclectics.io
  */
 class FavoriteLocationMapperLocal : BaseMapper<DBFavoriteLocation, FavoriteLocation> {
-    override fun transformToDomain(type: DBFavoriteLocation): FavoriteLocation =
-        FavoriteLocation(type.name, type.lat, type.lon, type.country)
+    override fun transformToDomain(type: DBFavoriteLocation): FavoriteLocation {
+        return FavoriteLocation(type.name, type.lat, type.lon, type.country)
+    }
+
+
 
     override fun transformToDto(type: FavoriteLocation): DBFavoriteLocation =
         DBFavoriteLocation(type.name, type.lat, type.lon, type.country)
