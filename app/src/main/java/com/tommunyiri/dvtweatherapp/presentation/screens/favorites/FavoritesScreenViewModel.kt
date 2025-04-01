@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -116,7 +117,16 @@ constructor(
                                 )
                             }
                     }
-                }.launchIn(this)
+                }
+                .catch { error ->
+                    _favoritesScreenState.update { currentState ->
+                        currentState.copy(
+                            isLoading = false,
+                            error = error.message
+                        )
+                    }
+                }
+                .launchIn(this)
         }
     }
 
@@ -127,81 +137,103 @@ constructor(
     private fun getSearchWeather(name: String) {
         setLoading()
         viewModelScope.launch {
-            when (val result = weatherUseCases.getSearchWeather.invoke(name)) {
-                is Result.Success -> {
-                    if (result.data != null) {
-                        _favoritesScreenState.update { currentState ->
-                            currentState.copy(
-                                weather = result.data,
-                                isLoading = false,
-                                error = null,
-                            )
+            weatherUseCases.getSearchWeather.invoke(name)
+                .onEach { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            if (result.data != null) {
+                                _favoritesScreenState.update { currentState ->
+                                    currentState.copy(
+                                        weather = result.data,
+                                        isLoading = false,
+                                        error = null,
+                                    )
+                                }
+                            } else {
+                                _favoritesScreenState.update { currentState ->
+                                    currentState.copy(
+                                        weather = null,
+                                        isLoading = false,
+                                        error = "No weather data at the moment",
+                                    )
+                                }
+                            }
                         }
-                    } else {
-                        _favoritesScreenState.update { currentState ->
-                            currentState.copy(
-                                weather = null,
-                                isLoading = false,
-                                error = "No weather data at the moment",
-                            )
-                        }
+
+                        is Result.Error ->
+                            _favoritesScreenState.update { currentState ->
+                                currentState.copy(
+                                    weather = null,
+                                    isLoading = false,
+                                    error = result.exception.toString(),
+                                )
+                            }
+
+                        is Result.Loading ->
+                            _favoritesScreenState.update { currentState ->
+                                currentState.copy(isLoading = true, error = null)
+                            }
                     }
                 }
-
-                is Result.Error ->
+                .catch { error ->
                     _favoritesScreenState.update { currentState ->
                         currentState.copy(
-                            weather = null,
                             isLoading = false,
-                            error = result.exception.toString(),
+                            error = error.message
                         )
                     }
-
-                is Result.Loading ->
-                    _favoritesScreenState.update { currentState ->
-                        currentState.copy(isLoading = true, error = null)
-                    }
-            }
+                }
+                .launchIn(this)
         }
     }
 
     private fun deleteFavoriteLocation(name: String) {
         setLoading()
         viewModelScope.launch {
-            when (val result = weatherUseCases.deleteFavoriteLocation.invoke(name)) {
-                is Result.Success -> {
-                    if (result.data != null) {
-                        _favoritesScreenState.update { currentState ->
-                            currentState.copy(
-                                deleteFavoriteResult = result.data,
-                                isLoading = false,
-                                error = null,
-                            )
+            weatherUseCases.deleteFavoriteLocation.invoke(name)
+                .onEach { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            if (result.data != null) {
+                                _favoritesScreenState.update { currentState ->
+                                    currentState.copy(
+                                        deleteFavoriteResult = result.data,
+                                        isLoading = false,
+                                        error = null,
+                                    )
+                                }
+                            }
                         }
+
+                        is Result.Loading ->
+                            _favoritesScreenState.update { currentState ->
+                                currentState.copy(
+                                    isLoading = true,
+                                    error = null,
+                                    deleteFavoriteResult = null
+                                )
+                            }
+
+                        is Result.Error ->
+                            _favoritesScreenState.update { currentState ->
+                                currentState.copy(
+                                    deleteFavoriteResult = 0,
+                                    weather = null,
+                                    isLoading = false,
+                                    error = result.exception.toString(),
+                                )
+                            }
                     }
                 }
-
-                is Result.Loading ->
+                .catch { error ->
                     _favoritesScreenState.update { currentState ->
                         currentState.copy(
-                            isLoading = true,
-                            error = null,
-                            deleteFavoriteResult = null
-                        )
-                    }
-
-                is Result.Error ->
-                    _favoritesScreenState.update { currentState ->
-                        currentState.copy(
-                            deleteFavoriteResult = 0,
-                            weather = null,
                             isLoading = false,
-                            error = result.exception.toString(),
+                            error = error.message
                         )
                     }
-
-                null -> {}
-            }
+                }
+                .launchIn(this)
         }
     }
 
@@ -220,7 +252,7 @@ constructor(
     }
 
     fun getSharedPrefs(): SharedPreferenceHelper {
-        return getPrefsUseCase.invoke()
+        return getPrefsUseCase()
     }
 
     private fun getCurrentLocation() {
@@ -230,6 +262,9 @@ constructor(
                 if (locationValue != null) {
                     _location.update { locationValue }
                 }
+            }
+            .catch { error ->
+                // Handle location error if needed
             }
             .launchIn(viewModelScope)
     }

@@ -11,5 +11,5 @@ data class SearchScreenState(
     val weather: Weather? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
-    val addToFavoriteResult: Int? = null,
+    val addToFavoriteResult: Long? = null,
 )

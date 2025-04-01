@@ -16,15 +16,15 @@ interface WeatherRepository {
     suspend fun getWeather(
         location: LocationModel,
         refresh: Boolean,
-    ): Result<Weather?>
+    ): Flow<Result<Weather?>>
 
     // suspend fun getForecastWeather(cityId: Int, refresh: Boolean): Result<List<WeatherForecast>?>
     suspend fun getForecastWeather(
         location: LocationModel,
         refresh: Boolean,
-    ): Result<List<WeatherForecast>?>
+    ): Flow<Result<List<WeatherForecast>?>>
 
-    suspend fun getSearchWeather(location: String): Result<Weather?>
+    suspend fun getSearchWeather(location: String): Flow<Result<Weather?>>
 
     suspend fun storeWeatherData(weather: Weather)
 
@@ -34,9 +34,9 @@ interface WeatherRepository {
 
     suspend fun deleteForecastData()
 
-    suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation): Result<List<Long>>?
+    suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation): Flow<Result<List<Long>>>
 
     suspend fun getFavoriteLocations(): Flow<Result<List<FavoriteLocation>?>>
 
-    suspend fun deleteFavoriteLocation(name: String): Result<Int>?
+    suspend fun deleteFavoriteLocation(name: String): Flow<Result<Int>>
 }

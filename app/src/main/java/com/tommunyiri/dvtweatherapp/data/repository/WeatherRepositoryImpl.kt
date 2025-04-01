@@ -17,6 +17,8 @@ import com.tommunyiri.dvtweatherapp.domain.model.WeatherForecast
 import com.tommunyiri.dvtweatherapp.domain.repository.WeatherRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -36,69 +38,65 @@ constructor(
     override suspend fun getWeather(
         location: LocationModel,
         refresh: Boolean,
-    ): Result<Weather> =
-        withContext(ioDispatcher) {
-            if (refresh) {
-                val mapper = WeatherMapperRemote()
-                when (val response = remoteDataSource.getWeather(location)) {
-                    is Result.Success -> {
-                        if (response.data != null) {
-                            Result.Success(mapper.transformToDomain(response.data))
-                        } else {
-                            Result.Success(null)
-                        }
+    ): Flow<Result<Weather?>> = flow {
+        emit(Result.Loading)
+        if (refresh) {
+            val mapper = WeatherMapperRemote()
+            when (val response = remoteDataSource.getWeather(location)) {
+                is Result.Success -> {
+                    if (response.data != null) {
+                        emit(Result.Success(mapper.transformToDomain(response.data)))
+                    } else {
+                        emit(Result.Success(null))
                     }
-
-                    is Result.Error -> {
-                        Result.Error(response.exception)
-                    }
-
-                    else -> Result.Loading
                 }
+                is Result.Error -> {
+                    emit(Result.Error(response.exception))
+                }
+                else -> emit(Result.Loading)
+            }
+        } else {
+            val mapper = WeatherMapperLocal()
+            val forecast = localDataSource.getWeather()
+            if (forecast != null) {
+                emit(Result.Success(mapper.transformToDomain(forecast)))
             } else {
-                val mapper = WeatherMapperLocal()
-                val forecast = localDataSource.getWeather()
-                if (forecast != null) {
-                    Result.Success(mapper.transformToDomain(forecast))
-                } else {
-                    Result.Success(null)
-                }
+                emit(Result.Success(null))
             }
         }
+    }.flowOn(ioDispatcher)
 
     // override suspend fun getForecastWeather(cityId: Int, refresh: Boolean): Result<List<WeatherForecast>?> = withContext(ioDispatcher) {
     override suspend fun getForecastWeather(
         location: LocationModel,
         refresh: Boolean,
-    ): Result<List<WeatherForecast>?> =
-        withContext(ioDispatcher) {
-            if (refresh) {
-                val mapper = WeatherForecastMapperRemote()
-                when (val response = remoteDataSource.getWeatherForecast(location)) {
-                    is Result.Success -> {
-                        if (response.data != null) {
-                            Result.Success(mapper.transformToDomain(response.data))
-                        } else {
-                            Result.Success(null)
-                        }
+    ): Flow<Result<List<WeatherForecast>?>> = flow {
+        emit(Result.Loading)
+        if (refresh) {
+            val mapper = WeatherForecastMapperRemote()
+            when (val response = remoteDataSource.getWeatherForecast(location)) {
+                is Result.Success -> {
+                    if (response.data != null) {
+                        emit(Result.Success(mapper.transformToDomain(response.data)))
+                    } else {
+                        emit(Result.Success(null))
                     }
-
-                    is Result.Error -> {
-                        Result.Error(response.exception)
-                    }
-
-                    else -> Result.Loading
                 }
+                is Result.Error -> {
+                    emit(Result.Error(response.exception))
+                }
+                else -> emit(Result.Loading)
+            }
+        } else {
+            val mapper = WeatherForecastMapperLocal()
+            val forecast = localDataSource.getForecastWeather()
+            if (forecast != null) {
+                emit(Result.Success(mapper.transformToDomain(forecast)))
             } else {
-                val mapper = WeatherForecastMapperLocal()
-                val forecast = localDataSource.getForecastWeather()
-                if (forecast != null) {
-                    Result.Success(mapper.transformToDomain(forecast))
-                } else {
-                    Result.Success(null)
-                }
+                emit(Result.Success(null))
             }
         }
+    }.flowOn(ioDispatcher)
 
     override suspend fun storeWeatherData(weather: Weather) =
         withContext(ioDispatcher) {
@@ -116,60 +114,53 @@ constructor(
             }
         }
 
-    override suspend fun getSearchWeather(location: String): Result<Weather?> =
-        withContext(ioDispatcher) {
-            val mapper = WeatherMapperRemote()
-            return@withContext when (val response = remoteDataSource.getSearchWeather(location)) {
-                is Result.Success -> {
-                    if (response.data != null) {
-                        Result.Success(mapper.transformToDomain(response.data))
-                    } else {
-                        Result.Success(null)
-                    }
-                }
-
-                is Result.Error -> {
-                    Result.Error(response.exception)
-                }
-
-                else -> {
-                    Result.Loading
+    override suspend fun getSearchWeather(location: String): Flow<Result<Weather?>> = flow {
+        emit(Result.Loading)
+        val mapper = WeatherMapperRemote()
+        when (val response = remoteDataSource.getSearchWeather(location)) {
+            is Result.Success -> {
+                if (response.data != null) {
+                    emit(Result.Success(mapper.transformToDomain(response.data)))
+                } else {
+                    emit(Result.Success(null))
                 }
             }
+            is Result.Error -> {
+                emit(Result.Error(response.exception))
+            }
+            else -> emit(Result.Loading)
         }
+    }.flowOn(ioDispatcher)
 
     override suspend fun deleteWeatherData() =
         withContext(ioDispatcher) {
             localDataSource.deleteWeather()
         }
 
-    override suspend fun deleteForecastData() {
-        localDataSource.deleteForecastWeather()
-    }
-
-    override suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation): Result<List<Long>> =
+    override suspend fun deleteForecastData() =
         withContext(ioDispatcher) {
-            val mapper = FavoriteLocationMapperLocal()
-            val storeFavoriteLocationResult =
-                localDataSource.saveFavoriteLocation(mapper.transformToDto(favoriteLocation))
-            Result.Success(storeFavoriteLocationResult)
+            localDataSource.deleteForecastWeather()
         }
+
+    override suspend fun storeFavoriteLocationData(favoriteLocation: FavoriteLocation): Flow<Result<List<Long>>> = flow {
+        emit(Result.Loading)
+        val mapper = FavoriteLocationMapperLocal()
+        val storeFavoriteLocationResult = localDataSource.saveFavoriteLocation(mapper.transformToDto(favoriteLocation))
+        emit(Result.Success(storeFavoriteLocationResult))
+    }.flowOn(ioDispatcher)
 
     override suspend fun getFavoriteLocations(): Flow<Result<List<FavoriteLocation>?>> =
-        withContext(ioDispatcher) {
-            val mapper = FavoriteLocationListMapperLocal()
-            localDataSource.getFavoriteLocations().map { favoriteLocations ->
-                if (favoriteLocations != null) {
-                    Result.Success(mapper.transformToDomain(favoriteLocations))
-                } else {
-                    Result.Success(null)
-                }
+        localDataSource.getFavoriteLocations().map { favoriteLocations ->
+            if (favoriteLocations != null) {
+                Result.Success(FavoriteLocationListMapperLocal().transformToDomain(favoriteLocations))
+            } else {
+                Result.Success(null)
             }
-        }
+        }.flowOn(ioDispatcher)
 
-    override suspend fun deleteFavoriteLocation(name: String): Result<Int> =
-        withContext(ioDispatcher) {
-            val deleteFavoriteLocationResult = localDataSource.deleteFavoriteLocation(name)
-            Result.Success(deleteFavoriteLocationResult)
-        }
+    override suspend fun deleteFavoriteLocation(name: String): Flow<Result<Int>> = flow {
+        emit(Result.Loading)
+        val deleteFavoriteLocationResult = localDataSource.deleteFavoriteLocation(name)
+        emit(Result.Success(deleteFavoriteLocationResult))
+    }.flowOn(ioDispatcher)
 }

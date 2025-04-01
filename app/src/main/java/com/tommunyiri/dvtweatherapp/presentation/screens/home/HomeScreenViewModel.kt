@@ -24,6 +24,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
@@ -68,6 +69,11 @@ constructor(
                     setupWorkManager()
                 }
             }
+            .catch { error ->
+                _homeScreenState.update { currentState ->
+                    currentState.copy(error = error.message)
+                }
+            }
             .launchIn(viewModelScope)
     }
 
@@ -79,6 +85,11 @@ constructor(
                         if (locationValue != null) {
                             location = locationValue
                             refreshWeather(location)
+                        }
+                    }
+                    .catch { error ->
+                        _homeScreenState.update { currentState ->
+                            currentState.copy(error = error.message)
                         }
                     }
                     .launchIn(viewModelScope)
@@ -93,14 +104,17 @@ constructor(
                             getWeatherForecast(location)
                         }
                     }
+                    .catch { error ->
+                        _homeScreenState.update { currentState ->
+                            currentState.copy(error = error.message)
+                        }
+                    }
                     .launchIn(viewModelScope)
             }
 
             is HomeScreenEvent.ClearError ->
                 _homeScreenState.update { currentState ->
-                    currentState.copy(
-                        error = null,
-                    )
+                    currentState.copy(error = null)
                 }
         }
     }
@@ -113,70 +127,92 @@ constructor(
     private fun getWeatherForecast(locationModel: LocationModel) {
         setIsWeatherForecastLoading()
         viewModelScope.launch {
-            when (val result = weatherUseCases.getWeatherForecast(locationModel, false)) {
-                is Result.Success -> {
-                    if (!result.data.isNullOrEmpty()) {
-                        _homeScreenState.update { currentState ->
-                            currentState.copy(
-                                isLoadingForecast = false,
-                                weatherForecastList = result.data,
-                                error = null,
-                            )
+            weatherUseCases.getWeatherForecast(locationModel, false)
+                .onEach { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            if (!result.data.isNullOrEmpty()) {
+                                _homeScreenState.update { currentState ->
+                                    currentState.copy(
+                                        isLoadingForecast = false,
+                                        weatherForecastList = result.data,
+                                        error = null,
+                                    )
+                                }
+                            } else {
+                                refreshForecastData(location)
+                            }
                         }
-                    } else {
-                        refreshForecastData(location)
+
+                        is Result.Loading -> {
+                            _homeScreenState.update { currentState ->
+                                currentState.copy(isLoadingForecast = true, error = null)
+                            }
+                        }
+
+                        is Result.Error -> {
+                            _homeScreenState.update { currentState ->
+                                currentState.copy(
+                                    isRefreshing = false,
+                                    isLoadingForecast = false,
+                                    error = result.exception.toString(),
+                                )
+                            }
+                        }
                     }
                 }
-
-                is Result.Loading ->
+                .catch { error ->
                     _homeScreenState.update { currentState ->
-                        currentState.copy(isLoadingForecast = true, error = null)
+                        currentState.copy(error = error.message)
                     }
-
-                is Result.Error ->
-                    _homeScreenState.update { currentState ->
-                        currentState.copy(
-                            isRefreshing = false,
-                            isLoadingForecast = false,
-                            error = result.exception.toString(),
-                        )
-                    }
-            }
+                }
+                .launchIn(viewModelScope)
         }
     }
 
     private fun refreshForecastData(locationModel: LocationModel) {
         setIsWeatherForecastLoading()
         viewModelScope.launch {
-            when (val result = weatherUseCases.getWeatherForecast(locationModel, true)) {
-                is Result.Success -> {
-                    if (result.data != null) {
-                        _homeScreenState.update { currentState ->
-                            currentState.copy(
-                                isLoadingForecast = false,
-                                weatherForecastList = result.data,
-                                error = null,
-                            )
+            weatherUseCases.getWeatherForecast(locationModel, true)
+                .onEach { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            if (result.data != null) {
+                                _homeScreenState.update { currentState ->
+                                    currentState.copy(
+                                        isLoadingForecast = false,
+                                        weatherForecastList = result.data,
+                                        error = null,
+                                    )
+                                }
+                            } else {
+                                refreshForecastData(locationModel)
+                            }
                         }
-                    } else {
-                        refreshForecastData(locationModel)
+
+                        is Result.Error -> {
+                            _homeScreenState.update { currentState ->
+                                currentState.copy(
+                                    isRefreshing = false,
+                                    isLoadingForecast = false,
+                                    error = result.exception.toString(),
+                                )
+                            }
+                        }
+
+                        is Result.Loading -> {
+                            _homeScreenState.update { currentState ->
+                                currentState.copy(isLoadingForecast = true, error = null)
+                            }
+                        }
                     }
                 }
-
-                is Result.Error ->
+                .catch { error ->
                     _homeScreenState.update { currentState ->
-                        currentState.copy(
-                            isRefreshing = false,
-                            isLoadingForecast = false,
-                            error = result.exception.toString(),
-                        )
+                        currentState.copy(error = error.message)
                     }
-
-                is Result.Loading ->
-                    _homeScreenState.update { currentState ->
-                        currentState.copy(isLoadingForecast = true, error = null)
-                    }
-            }
+                }
+                .launchIn(viewModelScope)
         }
     }
 
@@ -187,33 +223,48 @@ constructor(
      */
     private fun getWeather(locationModel: LocationModel) {
         viewModelScope.launch {
-            when (val result = weatherUseCases.getWeather(locationModel, false)) {
-                is Result.Success -> {
-                    if (result.data != null) {
-                        val weather = result.data
-                        _homeScreenState.update { currentState ->
-                            currentState.copy(isLoading = false, weather = weather, error = null)
+            weatherUseCases.getWeather(locationModel, false)
+                .onEach { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            if (result.data != null) {
+                                val weather = result.data
+                                _homeScreenState.update { currentState ->
+                                    currentState.copy(
+                                        isLoading = false,
+                                        weather = weather,
+                                        error = null
+                                    )
+                                }
+                                getWeatherForecast(locationModel)
+                            } else {
+                                refreshWeather(locationModel)
+                            }
                         }
-                        getWeatherForecast(locationModel)
-                    } else {
-                        refreshWeather(locationModel)
+
+                        is Result.Error -> {
+                            _homeScreenState.update { currentState ->
+                                currentState.copy(
+                                    isRefreshing = false,
+                                    isLoading = false,
+                                    error = result.exception.toString(),
+                                )
+                            }
+                        }
+
+                        is Result.Loading -> {
+                            _homeScreenState.update { currentState ->
+                                currentState.copy(isLoading = true, error = null)
+                            }
+                        }
                     }
                 }
-
-                is Result.Error ->
+                .catch { error ->
                     _homeScreenState.update { currentState ->
-                        currentState.copy(
-                            isRefreshing = false,
-                            isLoading = false,
-                            error = result.exception.toString(),
-                        )
+                        currentState.copy(error = error.message)
                     }
-
-                is Result.Loading ->
-                    _homeScreenState.update { currentState ->
-                        currentState.copy(isLoading = true, error = null)
-                    }
-            }
+                }
+                .launchIn(viewModelScope)
         }
     }
 
@@ -224,69 +275,73 @@ constructor(
     private fun refreshWeather(locationModel: LocationModel = location) {
         setIsWeatherLoading()
         viewModelScope.launch {
-            when (val result = weatherUseCases.getWeather(locationModel, true)) {
-                is Result.Success -> {
-                    if (result.data != null) {
-                        _homeScreenState.update { currentState ->
-                            currentState.copy(
-                                isLoading = false,
-                                weather = result.data,
-                                error = null,
-                            )
+            weatherUseCases.getWeather(locationModel, true)
+                .onEach { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            if (result.data != null) {
+                                _homeScreenState.update { currentState ->
+                                    currentState.copy(
+                                        isLoading = false,
+                                        weather = result.data,
+                                        error = null,
+                                    )
+                                }
+                                refreshForecastData(locationModel)
+                            } else {
+                                _homeScreenState.update { currentState ->
+                                    currentState.copy(isLoading = false, error = "No weather data")
+                                }
+                            }
                         }
-                        refreshForecastData(locationModel)
-                    } else {
-                        _homeScreenState.update { currentState ->
-                            currentState.copy(isLoading = false, error = "No weather data")
+
+                        is Result.Error -> {
+                            _homeScreenState.update { currentState ->
+                                currentState.copy(
+                                    isRefreshing = false,
+                                    isLoading = false,
+                                    error = result.exception.toString(),
+                                )
+                            }
+                        }
+
+                        is Result.Loading -> {
+                            _homeScreenState.update { currentState ->
+                                currentState.copy(isLoading = true, error = null)
+                            }
                         }
                     }
                 }
-
-                is Result.Error ->
+                .catch { error ->
                     _homeScreenState.update { currentState ->
-                        currentState.copy(
-                            isRefreshing = false,
-                            isLoading = false,
-                            error = result.exception.toString(),
-                        )
+                        currentState.copy(error = error.message)
                     }
-
-                is Result.Loading ->
-                    _homeScreenState.update { currentState ->
-                        currentState.copy(isLoading = true)
-                    }
-            }
+                }
+                .launchIn(viewModelScope)
         }
     }
 
     private fun setIsWeatherLoading() {
         _homeScreenState.update { currentState ->
-            currentState.copy(
-                isLoading = true,
-                isRefreshing = true,
-            )
+            currentState.copy(isLoading = true, error = null)
         }
     }
 
     private fun setIsWeatherForecastLoading() {
         _homeScreenState.update { currentState ->
-            currentState.copy(
-                isLoadingForecast = true,
-                isRefreshing = false,
-            )
+            currentState.copy(isLoadingForecast = true, error = null)
         }
     }
 
     private fun getSharedPrefs(): SharedPreferenceHelper {
-        return getPrefsUseCase.invoke()
+        return getPrefsUseCase()
     }
 
     @SuppressLint("SimpleDateFormat")
     fun currentSystemTime(): String {
-        val currentTime = System.currentTimeMillis()
-        val date = Date(currentTime)
-        val dateFormat = SimpleDateFormat("EEEE MMM d, hh:mm aaa")
-        return dateFormat.format(date)
+        val date = Date()
+        val formatter = SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
+        return formatter.format(date)
     }
 
     override fun onCleared() {
